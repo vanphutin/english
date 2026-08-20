@@ -115,12 +115,15 @@ export class LessonGenerator {
       }),
     });
 
-    const record = this.asRecord(
-      this.asRecord(raw).bundle && typeof this.asRecord(raw).bundle === 'object'
-        ? this.asRecord(raw).bundle
-        : raw,
-    );
-    const provenance = this.asRecord(record.provenance);
+    const rawRecord = this.asRecord(raw);
+    const record =
+      rawRecord.bundle && typeof rawRecord.bundle === 'object'
+        ? this.asRecord(rawRecord.bundle)
+        : rawRecord;
+    const provenance =
+      record.provenance && typeof record.provenance === 'object' && !Array.isArray(record.provenance)
+        ? this.asRecord(record.provenance)
+        : {};
     const sourceNotes = Array.isArray(provenance.sourceNotes)
       ? provenance.sourceNotes.filter((note): note is string => typeof note === 'string')
       : [];
@@ -163,6 +166,12 @@ export class LessonGenerator {
           .join(',')}`,
       );
     }
+
+    const commonErrorCodes = new Set(candidate.commonErrors.map((error) => error.code));
+    if (candidate.commonErrors.length < 3 || commonErrorCodes.size < 3) {
+      throw new Error(`CF3_COMMON_ERRORS_INSUFFICIENT:${target.code}`);
+    }
+
     return candidate;
   }
 
