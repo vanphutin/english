@@ -310,11 +310,7 @@ export class ContentFactoryOrchestratorService {
         }
 
         if (outputContent && outputFilename) {
-          const outputRef = this.storageRepo.saveArtifact(
-            job.runId,
-            outputFilename,
-            outputContent,
-          );
+          const outputRef = this.storageRepo.saveArtifact(job.runId, outputFilename, outputContent);
           createdOutputFile = outputRef.created;
           await tx.contentFactoryArtifact.create({
             data: {
