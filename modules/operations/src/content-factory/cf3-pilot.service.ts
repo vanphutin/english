@@ -22,6 +22,8 @@ import type { ContentFactoryOrchestratorService } from './content-factory-orches
 const GRAMMAR_VALIDATOR_VERSION = 'CF3-GRAMMAR-v1';
 const EXERCISE_VALIDATOR_VERSION = 'CF3-EXERCISE-v1';
 const REVIEW_PROMPT_VERSION = 'cf3-independent-review-v1';
+const FACTORY_POLICY_VERSION = 'content-factory-v1';
+const SCHEMA_VERSION = '1.0';
 
 export type Cf3PointStatus = 'READY_FOR_APPROVAL' | 'CHANGES_REQUESTED' | 'QUARANTINED';
 
@@ -57,6 +59,16 @@ export interface Cf3PilotReadinessReport {
 interface ActiveJob {
   id: string;
   workerId: string;
+}
+
+interface OutputArtifactOwner {
+  runId: string;
+  outputHash: string | null;
+  artifacts: Array<{
+    artifactPath: string;
+    artifactType: string;
+    contentHash: string;
+  }>;
 }
 
 /**
@@ -101,18 +113,52 @@ export class Cf3PilotService {
 
     const targetVersion = params.targetVersion ?? 1;
     const workerPrefix = params.workerPrefix ?? 'cf3-pilot';
-    const points: Cf3PilotPointResult[] = [];
-
-    for (const target of params.targets) {
-      points.push(
-        await this.runPoint({
+    const resumedPoints = await Promise.all(
+      params.targets.map((target) =>
+        this.tryLoadCompletedPoint({
           runId: params.runId,
           target,
           pilotTargets: params.targets,
           targetVersion,
           exerciseCount,
-          workerPrefix,
         }),
+      ),
+    );
+    const completedPoints = resumedPoints.filter(
+      (point): point is Cf3PilotPointResult => point !== null,
+    );
+
+    if (completedPoints.length === params.targets.length) {
+      const readinessArtifact = await this.prisma.contentFactoryArtifact.findFirst({
+        where: { runId: params.runId, artifactType: 'CF3_READINESS_REPORT' },
+        orderBy: { createdAt: 'desc' },
+      });
+      return {
+        schemaVersion: '1.0',
+        phase: 'CF3',
+        runId: params.runId,
+        manifestRunId: params.manifestRunId,
+        status: 'READY_FOR_APPROVAL',
+        targetCount: params.targets.length,
+        readyCount: completedPoints.length,
+        points: completedPoints,
+        generatedAt: (readinessArtifact?.createdAt ?? run.updatedAt).toISOString(),
+      };
+    }
+
+    const points: Cf3PilotPointResult[] = [];
+    for (const [index, target] of params.targets.entries()) {
+      const resumedPoint = resumedPoints[index];
+      points.push(
+        resumedPoint ??
+          (await this.runPoint({
+            runId: params.runId,
+            target,
+            pilotTargets: params.targets,
+            targetVersion,
+            exerciseCount,
+            workerPrefix,
+          })),
       );
     }
 
@@ -164,11 +210,7 @@ export class Cf3PilotService {
     const activeJobs: ActiveJob[] = [];
 
     try {
-      const grammarInput = JSON.stringify({
-        phase: 'CF3',
-        pilotCodes: params.pilotTargets.map((target) => target.code),
-        manifestItem: params.target,
-      });
+      const grammarInput = this.buildGrammarInput(params.target, params.pilotTargets);
       const grammarJob = await this.orchestrator.enqueueJob({
         runId: params.runId,
         purpose: 'AUTHOR_GRAMMAR',
@@ -176,8 +218,8 @@ export class Cf3PilotService {
         targetVersion: params.targetVersion,
         inputContent: grammarInput,
         policyVersions: {
-          factory: 'content-factory-v1',
-          schema: '1.0',
+          factory: FACTORY_POLICY_VERSION,
+          schema: SCHEMA_VERSION,
           prompt: CF3_GRAMMAR_AUTHOR_PROMPT_VERSION,
         },
       });
@@ -238,8 +280,8 @@ export class Cf3PilotService {
         targetVersion: params.targetVersion,
         inputContent: grammarJson,
         policyVersions: {
-          factory: 'content-factory-v1',
-          schema: '1.0',
+          factory: FACTORY_POLICY_VERSION,
+          schema: SCHEMA_VERSION,
           prompt: REVIEW_PROMPT_VERSION,
         },
       });
@@ -299,15 +341,21 @@ export class Cf3PilotService {
         'READY_FOR_APPROVAL',
       );
 
+      const exerciseSeed = `${params.runId}:${params.target.code}:v${params.targetVersion}`;
+      const exerciseInput = this.buildExerciseJobInput(
+        grammarJson,
+        params.exerciseCount,
+        exerciseSeed,
+      );
       const exerciseJob = await this.orchestrator.enqueueJob({
         runId: params.runId,
         purpose: 'AUTHOR_EXERCISES',
         targetCode: params.target.code,
         targetVersion: params.targetVersion,
-        inputContent: grammarJson,
+        inputContent: exerciseInput,
         policyVersions: {
-          factory: 'content-factory-v1',
-          schema: '1.0',
+          factory: FACTORY_POLICY_VERSION,
+          schema: SCHEMA_VERSION,
           prompt: CF3_EXERCISE_AUTHOR_PROMPT_VERSION,
         },
       });
@@ -320,7 +368,7 @@ export class Cf3PilotService {
       const exercises = await this.exerciseFactory.generateMinimumBankWithEvidence({
         grammarPoint: grammar,
         count: params.exerciseCount,
-        seed: `${params.runId}:${params.target.code}:v${params.targetVersion}`,
+        seed: exerciseSeed,
       });
       const exerciseJson = JSON.stringify(exercises.batch);
       result.exerciseHash = computeSha256(exerciseJson);
@@ -383,6 +431,121 @@ export class Cf3PilotService {
     }
   }
 
+  private async tryLoadCompletedPoint(params: {
+    runId: string;
+    target: PilotGrammarTarget;
+    pilotTargets: PilotGrammarTarget[];
+    targetVersion: number;
+    exerciseCount: number;
+  }): Promise<Cf3PilotPointResult | null> {
+    const grammarInputHash = computeSha256(this.buildGrammarInput(params.target, params.pilotTargets));
+    const jobs = await this.prisma.contentFactoryJob.findMany({
+      where: {
+        runId: params.runId,
+        targetCode: params.target.code,
+        targetVersion: params.targetVersion,
+      },
+      include: { artifacts: true, validations: true, reviews: true },
+    });
+    const grammarJob = jobs.find(
+      (job) =>
+        job.purpose === 'AUTHOR_GRAMMAR' &&
+        job.state === 'READY_FOR_APPROVAL' &&
+        job.inputHash === grammarInputHash &&
+        this.hasPinnedPolicy(job.policyVersionsJson, CF3_GRAMMAR_AUTHOR_PROMPT_VERSION),
+    );
+    if (!grammarJob?.outputHash) return null;
+
+    const grammarJson = this.readVerifiedOutput(grammarJob);
+    if (!grammarJson) return null;
+    const grammarHash = computeSha256(grammarJson);
+    if (grammarHash !== grammarJob.outputHash) return null;
+
+    const reviewJob = jobs.find(
+      (job) =>
+        job.purpose === 'REVIEW' &&
+        job.state === 'READY_FOR_APPROVAL' &&
+        job.inputHash === grammarHash &&
+        this.hasPinnedPolicy(job.policyVersionsJson, REVIEW_PROMPT_VERSION),
+    );
+    if (!reviewJob) return null;
+
+    const grammarValidationJob = jobs.find(
+      (job) =>
+        job.purpose === 'VALIDATE' &&
+        job.state === 'READY_FOR_APPROVAL' &&
+        job.inputHash === grammarHash &&
+        this.hasPinnedPolicy(job.policyVersionsJson, GRAMMAR_VALIDATOR_VERSION),
+    );
+    const grammarValidationRun = grammarValidationJob?.validations.find(
+      (validation) =>
+        validation.artifactHash === grammarHash &&
+        validation.validatorVersion === GRAMMAR_VALIDATOR_VERSION &&
+        validation.passed,
+    );
+    if (!grammarValidationJob || !grammarValidationRun) return null;
+
+    const reviewRun = reviewJob.reviews.find(
+      (review) =>
+        review.artifactHash === grammarHash &&
+        review.promptVersion === REVIEW_PROMPT_VERSION &&
+        review.decision === 'PASS',
+    );
+    if (!reviewRun) return null;
+
+    const exerciseSeed = `${params.runId}:${params.target.code}:v${params.targetVersion}`;
+    const exerciseInputHash = computeSha256(
+      this.buildExerciseJobInput(grammarJson, params.exerciseCount, exerciseSeed),
+    );
+    const exerciseJob = jobs.find(
+      (job) =>
+        job.purpose === 'AUTHOR_EXERCISES' &&
+        job.state === 'READY_FOR_APPROVAL' &&
+        job.inputHash === exerciseInputHash &&
+        this.hasPinnedPolicy(job.policyVersionsJson, CF3_EXERCISE_AUTHOR_PROMPT_VERSION),
+    );
+    if (!exerciseJob?.outputHash) return null;
+
+    const exerciseJson = this.readVerifiedOutput(exerciseJob);
+    if (!exerciseJson) return null;
+    const exerciseHash = computeSha256(exerciseJson);
+    if (exerciseHash !== exerciseJob.outputHash) return null;
+    const exerciseCount = this.readExerciseCount(exerciseJson);
+    if (exerciseCount !== params.exerciseCount) return null;
+
+    const exerciseValidationJob = jobs.find(
+      (job) =>
+        job.purpose === 'VALIDATE' &&
+        job.state === 'READY_FOR_APPROVAL' &&
+        job.inputHash === exerciseHash &&
+        this.hasPinnedPolicy(job.policyVersionsJson, EXERCISE_VALIDATOR_VERSION),
+    );
+    const exerciseValidationRun = exerciseValidationJob?.validations.find(
+      (validation) =>
+        validation.artifactHash === exerciseHash &&
+        validation.validatorVersion === EXERCISE_VALIDATOR_VERSION &&
+        validation.passed,
+    );
+    if (!exerciseValidationJob || !exerciseValidationRun) return null;
+
+    return {
+      code: params.target.code,
+      version: params.targetVersion,
+      status: 'READY_FOR_APPROVAL',
+      grammarJobId: grammarJob.id,
+      grammarHash,
+      grammarValidationRunId: grammarValidationRun.id,
+      reviewJobId: reviewJob.id,
+      reviewRunId: reviewRun.id,
+      reviewReportHash: reviewRun.reportHash,
+      exerciseJobId: exerciseJob.id,
+      exerciseHash,
+      exerciseValidationRunId: exerciseValidationRun.id,
+      exerciseCount,
+      errorCode: null,
+    };
+  }
+
   private async runValidationJob(params: {
     runId: string;
     targetCode: string;
@@ -401,8 +564,8 @@ export class Cf3PilotService {
       targetVersion: params.targetVersion,
       inputContent: params.inputContent,
       policyVersions: {
-        factory: 'content-factory-v1',
-        schema: '1.0',
+        factory: FACTORY_POLICY_VERSION,
+        schema: SCHEMA_VERSION,
         prompt: params.promptVersion,
       },
     });
@@ -424,6 +587,55 @@ export class Cf3PilotService {
       params.passed ? undefined : `${params.validatorVersion}_FAILED`,
     );
     return { validationRunId: validationRun.id };
+  }
+
+  private buildGrammarInput(
+    target: PilotGrammarTarget,
+    pilotTargets: PilotGrammarTarget[],
+  ): string {
+    return JSON.stringify({
+      phase: 'CF3',
+      pilotCodes: pilotTargets.map((item) => item.code).sort(),
+      manifestItem: target,
+    });
+  }
+
+  private buildExerciseJobInput(grammarJson: string, exerciseCount: number, seed: string): string {
+    const grammarPoint: unknown = JSON.parse(grammarJson);
+    return JSON.stringify({ grammarPoint, exerciseCount, seed });
+  }
+
+  private hasPinnedPolicy(value: unknown, promptVersion: string): boolean {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+    const policy = value as Record<string, unknown>;
+    return (
+      policy.factory === FACTORY_POLICY_VERSION &&
+      policy.schema === SCHEMA_VERSION &&
+      policy.prompt === promptVersion
+    );
+  }
+
+  private readVerifiedOutput(job: OutputArtifactOwner): string | null {
+    if (!job.outputHash) return null;
+    const artifact = job.artifacts.find(
+      (item) => item.artifactType === 'OUTPUT_SNAPSHOT' && item.contentHash === job.outputHash,
+    );
+    const filename = artifact?.artifactPath.split('/').at(-1);
+    if (!filename) return null;
+    const content = this.storage.readArtifact(job.runId, filename);
+    if (!content || computeSha256(content) !== job.outputHash) return null;
+    return content;
+  }
+
+  private readExerciseCount(exerciseJson: string): number {
+    try {
+      const value: unknown = JSON.parse(exerciseJson);
+      if (!value || typeof value !== 'object' || Array.isArray(value)) return 0;
+      const exercises = (value as Record<string, unknown>).exercises;
+      return Array.isArray(exercises) ? exercises.length : 0;
+    } catch {
+      return 0;
+    }
   }
 
   private async requireClaim(jobId: string, workerId: string): Promise<void> {
