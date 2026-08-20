@@ -21,7 +21,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
-    "test": "pnpm -r --if-present test",
+    "test": "pnpm --filter @english/contracts build && pnpm -r --if-present test",
     "typecheck": "pnpm exec tsc --noEmit && pnpm -r --if-present typecheck",
     "contracts:validate": "tsx scripts/validate-contracts.ts",
     "guidelines:verify": "tsx scripts/verify-guidelines.ts",
