@@ -1,7 +1,7 @@
 import type { PrismaClient } from '@prisma/client';
 import type { AutonomousManifest, CurriculumPointSpec } from './manifest-planner.js';
 import type { PilotGrammarTarget } from './lesson-generator.js';
-import { ContentFactoryStorageRepository } from './storage-repository.js';
+import type { ContentFactoryStorageRepository } from './storage-repository.js';
 
 export interface Cf3ManifestApprovalGate {
   assertApprovedTargets(params: {
@@ -87,6 +87,8 @@ export class PrismaCf3ManifestApprovalGate implements Cf3ManifestApprovalGate {
       'rationale',
       'sortOrder',
     ];
-    return fields.every((field) => JSON.stringify(target[field]) === JSON.stringify(approved[field]));
+    return fields.every(
+      (field) => JSON.stringify(target[field]) === JSON.stringify(approved[field]),
+    );
   }
 }
