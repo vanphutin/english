@@ -1,7 +1,11 @@
 import { createHash } from 'node:crypto';
 import { describe, expect, it } from 'vitest';
 import type { ContentFactoryJsonProvider } from './ai-content-provider.js';
-import { ExerciseFactory } from './exercise-factory.js';
+import {
+  ExerciseFactory,
+  type ExercisePreflightPort,
+  type ExercisePreflightResult,
+} from './exercise-factory.js';
 import type { GrammarPointBundleSpec } from './lesson-generator.js';
 
 const grammarPoint: GrammarPointBundleSpec = {
@@ -18,7 +22,13 @@ const grammarPoint: GrammarPointBundleSpec = {
   meaning: { uses: ['Identify a person.', 'Describe a simple present state.'] },
   usageConstraints: ['Choose the be form from the grammatical subject.'],
   relationships: { prerequisites: [], buildsOn: [], contrastsWith: [], oftenConfusedWith: [] },
-  rules: [{ code: 'A1_EXERCISE_FORM', type: 'FORM', description: 'Use am with I and are with you.' }],
+  rules: [
+    {
+      code: 'A1_EXERCISE_FORM',
+      type: 'FORM',
+      description: 'Use am with I and are with you.',
+    },
+  ],
   examples: [
     {
       type: 'AFFIRMATIVE',
@@ -76,7 +86,8 @@ class FakeExerciseProvider implements ContentFactoryJsonProvider {
   async generateJson() {
     return {
       exercises: Array.from({ length: 12 }, (_, index) => {
-        const semanticSource = this.duplicateSemanticHash && index === 11 ? 'exercise-10' : `exercise-${index}`;
+        const semanticSource =
+          this.duplicateSemanticHash && index === 11 ? 'exercise-10' : `exercise-${index}`;
         return {
           contentKey: `exercise-content-${index}`,
           activityType: activityTypes[index % activityTypes.length],
@@ -91,11 +102,7 @@ class FakeExerciseProvider implements ContentFactoryJsonProvider {
           variationGroup: `variation-${index % 3}`,
           semanticHash: createHash('sha256').update(semanticSource).digest('hex'),
           difficulty: (index % 3) + 1,
-          validationNotes: [
-            'TARGET_NECESSITY_VERIFIED',
-            'AMBIGUITY_CHECKED',
-            'EVALUATOR_PREFLIGHT_PASSED',
-          ],
+          validationNotes: ['AI_SELF_REPORTED_PREFLIGHT_IS_NOT_AUTHORITY'],
         };
       }),
       provenance: {
@@ -109,14 +116,35 @@ class FakeExerciseProvider implements ContentFactoryJsonProvider {
   }
 }
 
+class FakePreflight implements ExercisePreflightPort {
+  constructor(private readonly fail: Partial<ExercisePreflightResult> = {}) {}
+
+  async evaluate(): Promise<ExercisePreflightResult> {
+    return {
+      targetNecessityPassed: this.fail.targetNecessityPassed ?? true,
+      ambiguityPassed: this.fail.ambiguityPassed ?? true,
+      evaluatorPassed: this.fail.evaluatorPassed ?? true,
+      findingCodes: this.fail.findingCodes ?? [],
+    };
+  }
+}
+
 describe('ExerciseFactory', () => {
-  it('creates a 12-item minimum bank with diversity and trusted provenance', async () => {
-    const factory = new ExerciseFactory(new FakeExerciseProvider());
-    const batch = await factory.generateMinimumBank({ grammarPoint, count: 12, seed: 'seed-123456' });
+  it('creates a 12-item bank only after independent preflight passes', async () => {
+    const factory = new ExerciseFactory(new FakeExerciseProvider(), new FakePreflight());
+    const batch = await factory.generateMinimumBank({
+      grammarPoint,
+      count: 12,
+      seed: 'seed-123456',
+    });
 
     expect(batch.exercises).toHaveLength(12);
-    expect(new Set(batch.exercises.map((exercise) => exercise.activityType)).size).toBeGreaterThanOrEqual(4);
-    expect(new Set(batch.exercises.map((exercise) => exercise.topicCode)).size).toBeGreaterThanOrEqual(6);
+    expect(
+      new Set(batch.exercises.map((exercise) => exercise.activityType)).size,
+    ).toBeGreaterThanOrEqual(4);
+    expect(
+      new Set(batch.exercises.map((exercise) => exercise.topicCode)).size,
+    ).toBeGreaterThanOrEqual(6);
     expect(batch.provenance.provider).toBe('OPENAI');
     expect(batch.provenance.model).toBe('exercise-author-model');
     expect(batch.provenance.promptVersion).toBe('cf3-exercise-author-v1');
@@ -124,7 +152,7 @@ describe('ExerciseFactory', () => {
   });
 
   it('quarantines semantic duplicates instead of counting them toward readiness', async () => {
-    const factory = new ExerciseFactory(new FakeExerciseProvider(true));
+    const factory = new ExerciseFactory(new FakeExerciseProvider(true), new FakePreflight());
 
     await expect(factory.generateMinimumBank({ grammarPoint, count: 12 })).rejects.toThrow(
       'EXERCISE_SEMANTIC_DUPLICATE',
@@ -132,9 +160,20 @@ describe('ExerciseFactory', () => {
   });
 
   it('refuses banks below the contract readiness floor', async () => {
-    const factory = new ExerciseFactory(new FakeExerciseProvider());
+    const factory = new ExerciseFactory(new FakeExerciseProvider(), new FakePreflight());
     await expect(factory.generateMinimumBank({ grammarPoint, count: 11 })).rejects.toThrow(
       'EXERCISE_COUNT_MUST_BE_12_TO_30',
+    );
+  });
+
+  it('does not trust AI-authored validationNotes as evaluator evidence', async () => {
+    const factory = new ExerciseFactory(
+      new FakeExerciseProvider(),
+      new FakePreflight({ evaluatorPassed: false, findingCodes: ['FIXTURE_EVALUATION_FAILED'] }),
+    );
+
+    await expect(factory.generateMinimumBank({ grammarPoint, count: 12 })).rejects.toThrow(
+      'EXERCISE_PREFLIGHT_FAILED:EVALUATOR:exercise-content-0:FIXTURE_EVALUATION_FAILED',
     );
   });
 });
