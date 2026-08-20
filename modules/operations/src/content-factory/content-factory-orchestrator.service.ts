@@ -103,6 +103,7 @@ export class ContentFactoryOrchestratorService {
     };
 
     const idempotencyKey = computeIdempotencyKey({
+      runId: params.runId,
       purpose: params.purpose,
       inputHash,
       targetCode: params.targetCode,
