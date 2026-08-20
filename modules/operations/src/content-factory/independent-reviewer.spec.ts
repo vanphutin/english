@@ -57,6 +57,7 @@ const artifact: GrammarPointBundleSpec = {
   evaluationPolicy: { referenceAnswersAreNonExhaustive: true },
   provenance: {
     origin: 'AI_GENERATED',
+    provider: 'OPENAI',
     model: 'author-model',
     promptVersion: 'cf3-grammar-author-v1',
     generatedAt: '2026-08-20T00:00:00.000Z',
