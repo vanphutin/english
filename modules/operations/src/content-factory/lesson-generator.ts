@@ -143,7 +143,9 @@ export class LessonGenerator {
         ? this.asRecord(rawRecord.bundle)
         : rawRecord;
     const provenance =
-      record.provenance && typeof record.provenance === 'object' && !Array.isArray(record.provenance)
+      record.provenance &&
+      typeof record.provenance === 'object' &&
+      !Array.isArray(record.provenance)
         ? this.asRecord(record.provenance)
         : {};
     const sourceNotes = Array.isArray(provenance.sourceNotes)
