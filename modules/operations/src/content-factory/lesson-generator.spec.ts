@@ -96,6 +96,7 @@ class FakeAuthorProvider implements ContentFactoryJsonProvider {
       },
       provenance: {
         origin: 'AI_GENERATED',
+        provider: 'dishonest-provider-label',
         model: 'dishonest-model-label',
         promptVersion: 'dishonest-prompt-label',
         generatedAt: '2020-01-01T00:00:00.000Z',
@@ -123,9 +124,9 @@ describe('LessonGenerator CF3 pilot', () => {
     expect(bundles.every((bundle) => bundle.cefr === 'A1' && bundle.status === 'DRAFT')).toBe(true);
     expect(bundles.every((bundle) => bundle.commonErrors.length >= 3)).toBe(true);
     expect(bundles[0]?.code).toBe('A1_PILOT_ONE');
+    expect(bundles[0]?.provenance.provider).toBe('OPENAI');
     expect(bundles[0]?.provenance.model).toBe('fake-author-model');
     expect(bundles[0]?.provenance.promptVersion).toBe('cf3-grammar-author-v1');
-    expect(bundles[0]?.provenance.sourceNotes).toContain('Provider: OPENAI');
   });
 
   it('refuses to expand CF3 below or above the contract pilot scope', async () => {
