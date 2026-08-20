@@ -62,19 +62,21 @@ export function validateContentReviewReport(input: unknown): ContentReviewValida
 
 /**
  * Applies the non-bypassable quality thresholds from CF review contract.
- * Scores explain readiness; they never override open ERROR/BLOCKING findings.
+ * Scores explain readiness; they never override unresolved warnings or severe findings.
  */
 export function isReviewReadyForOwnerApproval(report: ContentReviewReport): boolean {
-  const hasOpenSevereFinding = report.findings.some(
+  const hasOpenActionableFinding = report.findings.some(
     (finding) =>
       finding.resolutionStatus === 'OPEN' &&
-      (finding.severity === 'ERROR' || finding.severity === 'BLOCKING'),
+      (finding.severity === 'WARNING' ||
+        finding.severity === 'ERROR' ||
+        finding.severity === 'BLOCKING'),
   );
   return (
     report.decision === 'PASS' &&
     report.scores.total >= 88 &&
     report.scores.correctness >= 27 &&
     report.scores.evaluatorReadiness >= 9 &&
-    !hasOpenSevereFinding
+    !hasOpenActionableFinding
   );
 }
