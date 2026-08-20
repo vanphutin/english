@@ -1,5 +1,5 @@
+import type { OpenAiCompatibleClient } from '../openai-compatible-client.js';
 import type { AiProviderName, ProviderProtocol } from '../types.js';
-import { OpenAiCompatibleClient } from '../openai-compatible-client.js';
 
 export type ContentFactoryAiPurpose = 'AUTHOR_GRAMMAR' | 'AUTHOR_EXERCISES' | 'REVIEW';
 
