@@ -7,6 +7,22 @@ on:
 jobs:
   quality:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://english:english@localhost:5432/english?schema=public
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: english
+          POSTGRES_PASSWORD: english
+          POSTGRES_DB: english
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U english -d english"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -17,10 +33,11 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm guidelines:verify
       - run: pnpm contracts:validate
       - run: pnpm db:validate
-        env:
-          DATABASE_URL: postgresql://english:english@localhost:5432/english?schema=public
+      - run: pnpm db:generate
+      - run: pnpm db:migrate
       - run: pnpm format:check
       - run: pnpm lint
       - run: pnpm typecheck
