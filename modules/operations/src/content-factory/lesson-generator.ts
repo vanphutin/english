@@ -48,6 +48,7 @@ export interface GrammarPointBundleSpec {
   evaluationPolicy: Record<string, unknown>;
   provenance: {
     origin: 'AI_GENERATED';
+    provider: string;
     model: string;
     promptVersion: string;
     generatedAt: string;
@@ -144,13 +145,11 @@ export class LessonGenerator {
       },
       provenance: {
         origin: 'AI_GENERATED',
+        provider: this.authorProvider.provider,
         model: this.authorProvider.model,
         promptVersion: AUTHOR_PROMPT_VERSION,
         generatedAt: new Date().toISOString(),
-        sourceNotes: [
-          ...sourceNotes.filter((note) => !note.toLowerCase().startsWith('provider:')),
-          `Provider: ${this.authorProvider.provider}`,
-        ],
+        sourceNotes: sourceNotes.filter((note) => !note.toLowerCase().startsWith('provider:')),
       },
       license: 'PUBLIC_CONTENT',
     } as unknown as GrammarPointBundleSpec;
