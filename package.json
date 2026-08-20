@@ -23,7 +23,7 @@
     "lint": "eslint .",
     "test": "pnpm -r --if-present test",
     "typecheck": "pnpm exec tsc --noEmit && pnpm -r --if-present typecheck",
-    "contracts:validate": "tsx scripts/validate-contracts.ts",
+    "contracts:validate": "tsx scripts/validate-contracts.ts && redocly lint openapi/openapi.yaml",
     "db:generate": "prisma generate",
     "db:validate": "prisma validate",
     "db:migrate": "prisma migrate deploy",
