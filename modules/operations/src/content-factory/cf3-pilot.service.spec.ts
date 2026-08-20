@@ -247,12 +247,13 @@ describe('Cf3PilotService', () => {
     if (fs.existsSync(storageDir)) fs.rmSync(storageDir, { recursive: true, force: true });
   });
 
-  it('runs 3 A1 points through author, validation, review, exercises and readiness audit', async () => {
-    const report = await service.runPilot({
-      runId,
-      manifestRunId,
-      targets: [target('A1_CF3_ONE', 1), target('A1_CF3_TWO', 2), target('A1_CF3_THREE', 3)],
-    });
+  it('runs 3 A1 points end to end and reuses completed evidence on exact redelivery', async () => {
+    const targets = [
+      target('A1_CF3_ONE', 1),
+      target('A1_CF3_TWO', 2),
+      target('A1_CF3_THREE', 3),
+    ];
+    const report = await service.runPilot({ runId, manifestRunId, targets });
 
     expect(report.status).toBe('READY_FOR_APPROVAL');
     expect(report.readyCount).toBe(3);
@@ -280,8 +281,29 @@ describe('Cf3PilotService', () => {
         where: { runId, artifactType: 'CF3_READINESS_REPORT' },
       }),
     ).toBe(1);
-    const run = await prisma.contentFactoryRun.findUnique({ where: { id: runId } });
-    expect(run?.status).toBe('READY FOR OWNER APPROVAL');
+
+    const rerun = await service.runPilot({ runId, manifestRunId, targets });
+    expect(rerun.status).toBe('READY_FOR_APPROVAL');
+    expect(rerun.readyCount).toBe(3);
+    expect(rerun.points).toEqual(report.points);
+    expect(manifestGate.calls).toBe(2);
+    expect(grammarProvider.calls).toBe(3);
+    expect(reviewerProvider.calls).toBe(3);
+    expect(exerciseProvider.calls).toBe(3);
+    expect(preflight.calls).toBe(36);
+    expect(await prisma.contentFactoryJob.count({ where: { runId } })).toBe(15);
+    expect(await prisma.contentValidationRun.count({ where: { runId } })).toBe(6);
+    expect(await prisma.contentReviewRun.count({ where: { runId } })).toBe(3);
+    expect(await prisma.contentFactoryApproval.count({ where: { runId } })).toBe(0);
+    expect(await prisma.contentPublication.count({ where: { runId } })).toBe(0);
+    expect(
+      await prisma.contentFactoryArtifact.count({
+        where: { runId, artifactType: 'CF3_READINESS_REPORT' },
+      }),
+    ).toBe(1);
+
+    const persistedRun = await prisma.contentFactoryRun.findUnique({ where: { id: runId } });
+    expect(persistedRun?.status).toBe('READY FOR OWNER APPROVAL');
   });
 
   it('continues independent points when one reviewer requests changes', async () => {
