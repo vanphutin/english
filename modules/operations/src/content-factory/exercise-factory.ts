@@ -5,18 +5,16 @@ import type { ContentFactoryJsonProvider } from './ai-content-provider.js';
 import { computeSha256 } from './idempotency-lease-manager.js';
 
 export const CF3_EXERCISE_AUTHOR_PROMPT_VERSION = 'cf3-exercise-author-v1';
-const ACTIVITY_TYPES = [
-  'TRANSLATE_CONTEXT',
-  'CORRECT_ERROR',
-  'TRANSFORM_SENTENCE',
-  'COMPLETE_SENTENCE',
-  'ORDER_WORDS',
-  'SELECT_IN_CONTEXT',
-  'GUIDED_WRITING',
-  'MINI_DIALOGUE',
-] as const;
 
-type ActivityType = (typeof ACTIVITY_TYPES)[number];
+type ActivityType =
+  | 'TRANSLATE_CONTEXT'
+  | 'CORRECT_ERROR'
+  | 'TRANSFORM_SENTENCE'
+  | 'COMPLETE_SENTENCE'
+  | 'ORDER_WORDS'
+  | 'SELECT_IN_CONTEXT'
+  | 'GUIDED_WRITING'
+  | 'MINI_DIALOGUE';
 
 export interface ExerciseItemSpec {
   contentKey: string;
