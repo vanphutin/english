@@ -53,15 +53,32 @@ export interface ExerciseAuthoringBatchSpec {
   };
 }
 
+export interface ExercisePreflightResult {
+  targetNecessityPassed: boolean;
+  ambiguityPassed: boolean;
+  evaluatorPassed: boolean;
+  findingCodes: string[];
+}
+
+export interface ExercisePreflightPort {
+  evaluate(params: {
+    grammarPoint: GrammarPointBundleSpec;
+    exercise: ExerciseItemSpec;
+  }): Promise<ExercisePreflightResult>;
+}
+
 /**
  * Minimal CF3 exercise factory. It runs only after GrammarPoint deterministic
- * validation and fails closed unless the 12-exercise readiness floor, activity
- * diversity, topic diversity, duplicate, and preflight evidence gates pass.
+ * validation and fails closed unless the readiness, diversity, duplicate, and
+ * independent target/ambiguity/evaluator preflight gates all pass.
  */
 export class ExerciseFactory {
   private readonly validator = new ContentFactoryValidator();
 
-  constructor(private readonly authorProvider: ContentFactoryJsonProvider) {}
+  constructor(
+    private readonly authorProvider: ContentFactoryJsonProvider,
+    private readonly preflight: ExercisePreflightPort,
+  ) {}
 
   public async generateMinimumBank(params: {
     grammarPoint: GrammarPointBundleSpec;
@@ -95,20 +112,16 @@ export class ExerciseFactory {
           minimumTopicContexts: 6,
           maximumSingleActivityShare: 0.4,
           semanticDuplicatesAllowed: 0,
-          requiredPreflightNotes: [
-            'TARGET_NECESSITY_VERIFIED',
-            'AMBIGUITY_CHECKED',
-            'EVALUATOR_PREFLIGHT_PASSED',
-          ],
+          validationNotesAreNonAuthoritative: true,
         },
       }),
     });
 
-    const record = this.asRecord(
-      this.asRecord(raw).batch && typeof this.asRecord(raw).batch === 'object'
-        ? this.asRecord(raw).batch
-        : raw,
-    );
+    const rawRecord = this.asRecord(raw);
+    const record =
+      rawRecord.batch && typeof rawRecord.batch === 'object'
+        ? this.asRecord(rawRecord.batch)
+        : rawRecord;
     const exercises = Array.isArray(record.exercises)
       ? (record.exercises as ExerciseItemSpec[])
       : [];
@@ -142,7 +155,9 @@ export class ExerciseFactory {
           .join(',')}`,
       );
     }
+
     this.assertReadiness(batch, count);
+    await this.assertIndependentPreflight(params.grammarPoint, batch.exercises);
     return batch;
   }
 
@@ -155,11 +170,6 @@ export class ExerciseFactory {
     const exactPrompts = new Set<string>();
     const activityCounts = new Map<ActivityType, number>();
     const topics = new Set<string>();
-    const requiredNotes = [
-      'TARGET_NECESSITY_VERIFIED',
-      'AMBIGUITY_CHECKED',
-      'EVALUATOR_PREFLIGHT_PASSED',
-    ];
 
     for (const exercise of batch.exercises) {
       if (semanticHashes.has(exercise.semanticHash)) {
@@ -181,11 +191,6 @@ export class ExerciseFactory {
       if (exercise.targetNecessity.trim().length < 10) {
         throw new Error('EXERCISE_TARGET_NECESSITY_UNPROVEN');
       }
-      for (const note of requiredNotes) {
-        if (!exercise.validationNotes.includes(note)) {
-          throw new Error(`EXERCISE_PREFLIGHT_EVIDENCE_MISSING:${note}`);
-        }
-      }
     }
 
     if (activityCounts.size < 4) throw new Error('EXERCISE_ACTIVITY_DIVERSITY_INSUFFICIENT');
@@ -194,6 +199,31 @@ export class ExerciseFactory {
     const maximumActivityCount = Math.max(...activityCounts.values());
     if (maximumActivityCount / batch.exercises.length > 0.4) {
       throw new Error('EXERCISE_ACTIVITY_CONCENTRATION_EXCEEDED');
+    }
+  }
+
+  /** AI-authored validationNotes are never accepted as proof of these gates. */
+  private async assertIndependentPreflight(
+    grammarPoint: GrammarPointBundleSpec,
+    exercises: ExerciseItemSpec[],
+  ): Promise<void> {
+    for (const exercise of exercises) {
+      const result = await this.preflight.evaluate({ grammarPoint, exercise });
+      if (!result.targetNecessityPassed) {
+        throw new Error(
+          `EXERCISE_PREFLIGHT_FAILED:TARGET:${exercise.contentKey}:${result.findingCodes.join(',')}`,
+        );
+      }
+      if (!result.ambiguityPassed) {
+        throw new Error(
+          `EXERCISE_PREFLIGHT_FAILED:AMBIGUITY:${exercise.contentKey}:${result.findingCodes.join(',')}`,
+        );
+      }
+      if (!result.evaluatorPassed) {
+        throw new Error(
+          `EXERCISE_PREFLIGHT_FAILED:EVALUATOR:${exercise.contentKey}:${result.findingCodes.join(',')}`,
+        );
+      }
     }
   }
 
