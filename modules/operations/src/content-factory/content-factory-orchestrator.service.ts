@@ -10,7 +10,7 @@ import {
   generateDryRunReport,
   type ContentFactoryStatus,
 } from '@english/contracts';
-import { canTransitionState, isTerminalState } from './job-state-machine.js';
+import { canTransitionState } from './job-state-machine.js';
 import { computeIdempotencyKey, computeSha256 } from './idempotency-lease-manager.js';
 import { ManifestPlanner } from './manifest-planner.js';
 import { ContentFactoryStorageRepository } from './storage-repository.js';
@@ -41,6 +41,17 @@ export interface EnqueueJobParams {
     maxEstimatedCost: number;
   };
 }
+
+const LEASE_RELEASE_STATES = new Set<ContentFactoryJobState>([
+  'READY_FOR_APPROVAL',
+  'APPROVED',
+  'CHANGES_REQUESTED',
+  'RETRY_WAIT',
+  'QUARANTINED',
+  'REJECTED',
+  'CANCELLED',
+  'SUCCEEDED',
+]);
 
 export class ContentFactoryOrchestratorService {
   private validator: ContentFactoryValidator;
@@ -91,7 +102,6 @@ export class ContentFactoryOrchestratorService {
       attempt,
     });
 
-    // Idempotency check: if job with identical idempotencyKey exists, return existing job
     const existingJob = await this.prisma.contentFactoryJob.findUnique({
       where: { idempotencyKey },
     });
@@ -100,7 +110,6 @@ export class ContentFactoryOrchestratorService {
       return { job: existingJob, isDuplicate: true };
     }
 
-    // Save input content artifact
     const inputFilename = `job_${params.targetCode}_att${attempt}_input.json`;
     const inputRef = this.storageRepo.saveArtifact(
       params.runId,
@@ -149,18 +158,31 @@ export class ContentFactoryOrchestratorService {
     return { job: newJob, isDuplicate: false };
   }
 
+  /**
+   * Claims exactly one queued or expired active job. Expired work is reset to
+   * CLAIMED so the new worker must deliberately resume the state machine rather
+   * than inheriting another worker's in-flight phase.
+   */
   public async claimNextJob(workerId: string, runId?: string, leaseMinutes = 5) {
     const now = new Date();
     const leaseExpiresAt = new Date(now.getTime() + leaseMinutes * 60 * 1000);
 
     const runFilter = runId ? Prisma.sql`AND "run_id" = ${runId}::uuid` : Prisma.empty;
-    // Row locking makes competing workers skip an already claimed candidate instead of double-running it.
     const claimed = await this.prisma.$queryRaw<Array<{ id: string }>>(Prisma.sql`
       UPDATE "content_factory_jobs"
-      SET "state" = 'CLAIMED', "worker_id" = ${workerId}, "lease_expires_at" = ${leaseExpiresAt}, "updated_at" = ${now}
+      SET "state" = 'CLAIMED',
+          "worker_id" = ${workerId},
+          "lease_expires_at" = ${leaseExpiresAt},
+          "updated_at" = ${now}
       WHERE "id" = (
         SELECT "id" FROM "content_factory_jobs"
-        WHERE ("state" = 'QUEUED' OR ("state" = 'CLAIMED' AND "lease_expires_at" <= ${now}))
+        WHERE (
+          "state" = 'QUEUED'
+          OR (
+            "lease_expires_at" <= ${now}
+            AND "state" IN ('CLAIMED', 'GENERATING', 'GENERATED', 'VALIDATING', 'IN_REVIEW', 'PUBLISHING', 'FAILED')
+          )
+        )
         ${runFilter}
         ORDER BY "created_at" ASC
         FOR UPDATE SKIP LOCKED
@@ -173,12 +195,10 @@ export class ContentFactoryOrchestratorService {
   }
 
   /**
-   * Atomically advance a job's state. Uses a conditional UPDATE that verifies
-   * worker ownership and lease validity in the same SQL statement, preventing
-   * the TOCTOU race where a lease could expire between the check and the update.
-   *
-   * Invariant: only the lease-holding worker with an unexpired lease may advance
-   * an active job. Terminal states release the lease.
+   * Advances state only when the caller still owns an unexpired lease and the
+   * database row is still in the state that was validated. Output bytes are
+   * persisted only after that conditional update succeeds, so an expired or
+   * reclaimed worker cannot leave an authoritative output artifact behind.
    */
   public async advanceJobState(
     jobId: string,
@@ -187,7 +207,6 @@ export class ContentFactoryOrchestratorService {
     outputContent?: string,
     normalizedErrorCode?: string,
   ) {
-    // Pre-read for state-machine validation and artifact storage (read-only context)
     const job = await this.prisma.contentFactoryJob.findUnique({
       where: { id: jobId },
       include: { run: true },
@@ -199,48 +218,61 @@ export class ContentFactoryOrchestratorService {
       throw new Error(`Invalid state transition from ${job.state} to ${targetState}`);
     }
 
-    let outputHash: string | undefined = undefined;
-
-    if (outputContent) {
-      outputHash = computeSha256(outputContent);
-      const outputFilename = `job_${job.targetCode}_att${job.attempt}_output.json`;
-      const outputRef = this.storageRepo.saveArtifact(job.runId, outputFilename, outputContent);
-
-      await this.prisma.contentFactoryArtifact.create({
-        data: {
-          runId: job.runId,
-          jobId: job.id,
-          artifactPath: outputRef.artifactPath,
-          artifactType: 'OUTPUT_SNAPSHOT',
-          contentHash: outputRef.contentHash,
-          storageUri: outputRef.storageUri,
-        },
-      });
-    }
-
-    const clearLease = isTerminalState(targetState);
+    const outputHash = outputContent ? computeSha256(outputContent) : undefined;
+    const releaseLease = LEASE_RELEASE_STATES.has(targetState);
     const now = new Date();
+    const outputFilename = outputHash
+      ? `job_${job.targetCode}_att${job.attempt}_${targetState.toLowerCase()}_${outputHash.slice(0, 12)}_output.json`
+      : undefined;
+    let createdOutputFile = false;
 
-    // Atomic conditional update: verify worker ownership + unexpired lease in SQL.
-    // This closes the TOCTOU gap where another worker could reclaim the job
-    // between a JavaScript-side lease check and the subsequent update.
-    const affected = await this.prisma.$executeRaw`
-      UPDATE "content_factory_jobs"
-      SET "state" = ${targetState}::"ContentFactoryJobState",
-          "output_hash" = COALESCE(${outputHash ?? null}, "output_hash"),
-          "normalized_error_code" = COALESCE(${normalizedErrorCode ?? null}, "normalized_error_code"),
-          "lease_expires_at" = CASE WHEN ${clearLease} THEN NULL ELSE "lease_expires_at" END,
-          "updated_at" = ${now}
-      WHERE "id" = ${jobId}::uuid
-        AND "worker_id" = ${workerId}
-        AND "lease_expires_at" > ${now}
-    `;
+    try {
+      await this.prisma.$transaction(async (tx) => {
+        const affected = await tx.$executeRaw`
+          UPDATE "content_factory_jobs"
+          SET "state" = ${targetState}::"ContentFactoryJobState",
+              "output_hash" = COALESCE(${outputHash ?? null}, "output_hash"),
+              "normalized_error_code" = COALESCE(${normalizedErrorCode ?? null}, "normalized_error_code"),
+              "worker_id" = CASE WHEN ${releaseLease} THEN NULL ELSE "worker_id" END,
+              "lease_expires_at" = CASE WHEN ${releaseLease} THEN NULL ELSE "lease_expires_at" END,
+              "updated_at" = ${now}
+          WHERE "id" = ${jobId}::uuid
+            AND "state" = ${job.state}::"ContentFactoryJobState"
+            AND "worker_id" = ${workerId}
+            AND "lease_expires_at" > ${now}
+        `;
 
-    if (affected === 0) {
-      throw new Error(
-        `Worker ${workerId} does not hold an active lease for job ${jobId} ` +
-          `(lease may have expired or job was reclaimed)`,
-      );
+        if (affected === 0) {
+          throw new Error(
+            `Worker ${workerId} does not hold an active lease for job ${jobId} ` +
+              `(lease may have expired, state changed, or job was reclaimed)`,
+          );
+        }
+
+        if (outputContent && outputFilename) {
+          const outputRef = this.storageRepo.saveArtifact(
+            job.runId,
+            outputFilename,
+            outputContent,
+          );
+          createdOutputFile = outputRef.created;
+          await tx.contentFactoryArtifact.create({
+            data: {
+              runId: job.runId,
+              jobId: job.id,
+              artifactPath: outputRef.artifactPath,
+              artifactType: 'OUTPUT_SNAPSHOT',
+              contentHash: outputRef.contentHash,
+              storageUri: outputRef.storageUri,
+            },
+          });
+        }
+      });
+    } catch (error: unknown) {
+      if (createdOutputFile && outputFilename) {
+        this.storageRepo.removeArtifact(job.runId, outputFilename);
+      }
+      throw error;
     }
 
     return this.prisma.contentFactoryJob.findUniqueOrThrow({ where: { id: jobId } });
@@ -264,6 +296,8 @@ export class ContentFactoryOrchestratorService {
       `job_${job.targetCode}_att${job.attempt}_input.json`,
     );
     if (!inputContent) throw new Error(`Could not read input artifact for job ${jobId}`);
+
+    await this.advanceJobState(jobId, workerId, 'VALIDATING');
 
     const manifestData: unknown = JSON.parse(inputContent);
     const validationResult = this.validator.validateManifestArtifact(
@@ -303,10 +337,12 @@ export class ContentFactoryOrchestratorService {
       status: reportStatus,
     });
 
-    // Save validation report artifact
-    this.storageRepo.saveArtifact(job.runId, `validation_report_${job.targetCode}.md`, reportText);
-
-    await this.advanceJobState(jobId, workerId, 'VALIDATING');
+    const validationReportHash = computeSha256(reportText);
+    this.storageRepo.saveArtifact(
+      job.runId,
+      `validation_report_${job.targetCode}_${validationReportHash.slice(0, 12)}.md`,
+      reportText,
+    );
 
     const nextState: ContentFactoryJobState = validationResult.valid
       ? 'READY_FOR_APPROVAL'
@@ -318,11 +354,12 @@ export class ContentFactoryOrchestratorService {
       validationJson,
       validationResult.valid ? undefined : validationResult.findings[0]?.code,
     );
-    if (validationResult.valid)
+    if (validationResult.valid) {
       await this.prisma.contentFactoryRun.update({
         where: { id: job.runId },
         data: { status: 'READY FOR OWNER APPROVAL', manifestHash: job.inputHash },
       });
+    }
     return result;
   }
 
@@ -331,8 +368,9 @@ export class ContentFactoryOrchestratorService {
       where: { runId },
       orderBy: [{ targetCode: 'asc' }, { targetVersion: 'asc' }],
     });
-    if (!jobs.length || jobs.some((job) => job.state !== 'READY_FOR_APPROVAL'))
+    if (!jobs.length || jobs.some((job) => job.state !== 'READY_FOR_APPROVAL')) {
       throw new Error('RUN_NOT_READY_FOR_OWNER_APPROVAL');
+    }
     return computeSha256(
       JSON.stringify(
         jobs.map((job) => ({
@@ -344,6 +382,10 @@ export class ContentFactoryOrchestratorService {
     );
   }
 
+  /**
+   * Human-only boundary. Automated agents may prepare scopeHash/rationale but
+   * must not synthesize approvedBy or the exact APPROVE:<hash> confirmation.
+   */
   public async recordOwnerApproval(params: {
     runId: string;
     approvedBy: string;
@@ -360,8 +402,9 @@ export class ContentFactoryOrchestratorService {
     if (!run) throw new Error(`Run ${runId} not found`);
 
     const scopeHash = await this.getApprovalScopeHash(runId);
-    if (scopeHash !== expectedScopeHash || confirmation !== `APPROVE:${scopeHash}`)
+    if (scopeHash !== expectedScopeHash || confirmation !== `APPROVE:${scopeHash}`) {
       throw new Error('OWNER_APPROVAL_HASH_MISMATCH');
+    }
     const approvalHash = computeSha256(`${runId}:${approvedBy}:${scopeHash}:${rationale}`);
     const requestHash = computeSha256(
       JSON.stringify({ runId, approvedBy, rationale, expectedScopeHash, confirmation }),
@@ -392,10 +435,10 @@ export class ContentFactoryOrchestratorService {
     const plannerResult = planner.generateFullAutonomousManifest();
 
     const manifestContent = JSON.stringify(plannerResult.manifest, null, 2);
-
+    const manifestHash = computeSha256(manifestContent);
     const manifestRef = this.storageRepo.saveArtifact(
       runId,
-      'autonomous_manifest_draft.json',
+      `autonomous_manifest_draft_${manifestHash.slice(0, 12)}.json`,
       manifestContent,
     );
 
@@ -417,9 +460,6 @@ export class ContentFactoryOrchestratorService {
     };
   }
 
-  // runPilotA1 and runBulkGeneration were removed.
-  // They used placeholder template generation that violated provenance/audit
-  // requirements and bypassed the job state machine.
-  // Real implementation requires CF3 provider-backed authoring pipeline.
-  // See contracts/content-factory/02-authoring-contract.md
+  // Bulk generation and publication are intentionally absent from this service.
+  // CF3 must use the provider-backed pilot path and remain bounded to 3–5 A1 points.
 }
