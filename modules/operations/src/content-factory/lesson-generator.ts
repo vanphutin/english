@@ -59,7 +59,7 @@ export interface GrammarPointBundleSpec {
 
 export type PilotGrammarTarget = CurriculumPointSpec & { cefr: 'A1' };
 
-const AUTHOR_PROMPT_VERSION = 'cf3-grammar-author-v1';
+export const CF3_GRAMMAR_AUTHOR_PROMPT_VERSION = 'cf3-grammar-author-v1';
 
 /**
  * CF3 provider-backed GrammarPoint author. The pilot is deliberately bounded to
@@ -75,6 +75,33 @@ export class LessonGenerator {
     targets: PilotGrammarTarget[],
     targetVersion = 1,
   ): Promise<GrammarPointBundleSpec[]> {
+    this.assertPilotScope(targets);
+    const bundles: GrammarPointBundleSpec[] = [];
+    for (const target of targets) {
+      bundles.push(await this.authorPointWithinPilot(target, targets, targetVersion));
+    }
+    return bundles;
+  }
+
+  /**
+   * Authors one point while still requiring the complete approved 3–5 point pilot
+   * scope. Durable orchestration can therefore persist each provider call independently.
+   */
+  public async authorPointWithinPilot(
+    target: PilotGrammarTarget,
+    pilotTargets: PilotGrammarTarget[],
+    targetVersion = 1,
+  ): Promise<GrammarPointBundleSpec> {
+    this.assertPilotScope(pilotTargets);
+    const approvedTarget = pilotTargets.find((item) => item.code === target.code);
+    if (!approvedTarget) throw new Error('CF3_TARGET_NOT_IN_PILOT_SCOPE');
+    if (JSON.stringify(approvedTarget) !== JSON.stringify(target)) {
+      throw new Error('CF3_TARGET_DIFFERS_FROM_APPROVED_MANIFEST_ITEM');
+    }
+    return this.authorOne(approvedTarget, targetVersion);
+  }
+
+  private assertPilotScope(targets: PilotGrammarTarget[]): void {
     if (targets.length < 3 || targets.length > 5) {
       throw new Error('CF3_PILOT_SCOPE_MUST_BE_3_TO_5_A1_POINTS');
     }
@@ -84,12 +111,6 @@ export class LessonGenerator {
     if (targets.some((target) => target.cefr !== 'A1')) {
       throw new Error('CF3_PILOT_ONLY_ACCEPTS_A1_POINTS');
     }
-
-    const bundles: GrammarPointBundleSpec[] = [];
-    for (const target of targets) {
-      bundles.push(await this.authorOne(target, targetVersion));
-    }
-    return bundles;
   }
 
   private async authorOne(
@@ -103,7 +124,7 @@ export class LessonGenerator {
       input: JSON.stringify({
         schemaVersion: '1.0',
         policyVersion: 'content-factory-v1',
-        promptVersion: AUTHOR_PROMPT_VERSION,
+        promptVersion: CF3_GRAMMAR_AUTHOR_PROMPT_VERSION,
         targetVersion,
         manifestItem: target,
         requirements: {
@@ -147,7 +168,7 @@ export class LessonGenerator {
         origin: 'AI_GENERATED',
         provider: this.authorProvider.provider,
         model: this.authorProvider.model,
-        promptVersion: AUTHOR_PROMPT_VERSION,
+        promptVersion: CF3_GRAMMAR_AUTHOR_PROMPT_VERSION,
         generatedAt: new Date().toISOString(),
         sourceNotes: sourceNotes.filter((note) => !note.toLowerCase().startsWith('provider:')),
       },

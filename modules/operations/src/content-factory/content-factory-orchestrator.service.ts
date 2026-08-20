@@ -95,15 +95,21 @@ export class ContentFactoryOrchestratorService {
 
     const inputHash = computeSha256(params.inputContent);
     const targetVersion = params.targetVersion ?? 1;
-    const policyVersion = params.policyVersions?.factory ?? 'content-factory-v1';
     const attempt = 1;
+    const policyVersions = params.policyVersions ?? {
+      factory: 'content-factory-v1' as const,
+      schema: '1.0',
+      prompt: 'v1.0.0',
+    };
 
     const idempotencyKey = computeIdempotencyKey({
       purpose: params.purpose,
       inputHash,
       targetCode: params.targetCode,
       targetVersion,
-      policyVersion,
+      policyVersion: policyVersions.factory,
+      schemaVersion: policyVersions.schema,
+      promptVersion: policyVersions.prompt,
       attempt,
     });
 
@@ -115,18 +121,20 @@ export class ContentFactoryOrchestratorService {
       return { job: existingJob, isDuplicate: true };
     }
 
-    const inputFilename = `job_${params.targetCode}_att${attempt}_input.json`;
+    const inputFilename = [
+      'job',
+      params.purpose.toLowerCase(),
+      params.targetCode,
+      `v${targetVersion}`,
+      `att${attempt}`,
+      inputHash.slice(0, 12),
+      'input.json',
+    ].join('_');
     const inputRef = this.storageRepo.saveArtifact(
       params.runId,
       inputFilename,
       params.inputContent,
     );
-
-    const defaultPolicyVersions = params.policyVersions ?? {
-      factory: 'content-factory-v1',
-      schema: '1.0',
-      prompt: 'v1.0.0',
-    };
 
     const defaultBudget = params.budget ?? {
       maxRequests: 5,
@@ -146,7 +154,7 @@ export class ContentFactoryOrchestratorService {
           attempt,
           idempotencyKey,
           inputHash,
-          policyVersionsJson: defaultPolicyVersions,
+          policyVersionsJson: policyVersions,
           budgetJson: defaultBudget,
           artifacts: {
             create: {
@@ -265,7 +273,16 @@ export class ContentFactoryOrchestratorService {
     const releaseLease = LEASE_RELEASE_STATES.has(targetState);
     const now = new Date();
     const outputFilename = outputHash
-      ? `job_${job.targetCode}_att${job.attempt}_${targetState.toLowerCase()}_${outputHash.slice(0, 12)}_output.json`
+      ? [
+          'job',
+          job.purpose.toLowerCase(),
+          job.targetCode,
+          `v${job.targetVersion}`,
+          `att${job.attempt}`,
+          targetState.toLowerCase(),
+          outputHash.slice(0, 12),
+          'output.json',
+        ].join('_')
       : undefined;
     let createdOutputFile = false;
 
@@ -330,14 +347,13 @@ export class ContentFactoryOrchestratorService {
     if (!job) throw new Error(`Job ${jobId} not found`);
 
     const inputArtifact = job.artifacts.find(
-      (a: { artifactType: string }) => a.artifactType === 'INPUT_SNAPSHOT',
+      (artifact: { artifactType: string }) => artifact.artifactType === 'INPUT_SNAPSHOT',
     );
     if (!inputArtifact) throw new Error(`Job ${jobId} has no input snapshot artifact`);
 
-    const inputContent = this.storageRepo.readArtifact(
-      job.runId,
-      `job_${job.targetCode}_att${job.attempt}_input.json`,
-    );
+    const inputFilename = inputArtifact.artifactPath.split('/').at(-1);
+    if (!inputFilename) throw new Error(`Job ${jobId} has an invalid input artifact path`);
+    const inputContent = this.storageRepo.readArtifact(job.runId, inputFilename);
     if (!inputContent) throw new Error(`Could not read input artifact for job ${jobId}`);
 
     await this.advanceJobState(jobId, workerId, 'VALIDATING');

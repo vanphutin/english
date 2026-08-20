@@ -4,7 +4,7 @@ import type { GrammarPointBundleSpec } from './lesson-generator.js';
 import type { ContentFactoryJsonProvider } from './ai-content-provider.js';
 import { computeSha256 } from './idempotency-lease-manager.js';
 
-const EXERCISE_PROMPT_VERSION = 'cf3-exercise-author-v1';
+export const CF3_EXERCISE_AUTHOR_PROMPT_VERSION = 'cf3-exercise-author-v1';
 const ACTIVITY_TYPES = [
   'TRANSLATE_CONTEXT',
   'CORRECT_ERROR',
@@ -67,6 +67,16 @@ export interface ExercisePreflightPort {
   }): Promise<ExercisePreflightResult>;
 }
 
+export interface ExercisePreflightEvidence {
+  contentKey: string;
+  result: ExercisePreflightResult;
+}
+
+export interface ExerciseFactoryResult {
+  batch: ExerciseAuthoringBatchSpec;
+  preflightEvidence: ExercisePreflightEvidence[];
+}
+
 /**
  * Minimal CF3 exercise factory. It runs only after GrammarPoint deterministic
  * validation and fails closed unless the readiness, diversity, duplicate, and
@@ -85,6 +95,14 @@ export class ExerciseFactory {
     count?: number;
     seed?: string;
   }): Promise<ExerciseAuthoringBatchSpec> {
+    return (await this.generateMinimumBankWithEvidence(params)).batch;
+  }
+
+  public async generateMinimumBankWithEvidence(params: {
+    grammarPoint: GrammarPointBundleSpec;
+    count?: number;
+    seed?: string;
+  }): Promise<ExerciseFactoryResult> {
     const count = params.count ?? 12;
     if (count < 12 || count > 30) throw new Error('EXERCISE_COUNT_MUST_BE_12_TO_30');
 
@@ -102,7 +120,7 @@ export class ExerciseFactory {
         'Author an original exercise bank for the supplied validated GrammarPoint. Return JSON only. Do not publish content. Do not leak exact answers in prompts or hints.',
       input: JSON.stringify({
         schemaVersion: '1.0',
-        promptVersion: EXERCISE_PROMPT_VERSION,
+        promptVersion: CF3_EXERCISE_AUTHOR_PROMPT_VERSION,
         grammarPoint: params.grammarPoint,
         grammarPointHash,
         seed,
@@ -139,7 +157,7 @@ export class ExerciseFactory {
         origin: 'AI_DRAFT',
         provider: this.authorProvider.provider,
         model: this.authorProvider.model,
-        promptVersion: EXERCISE_PROMPT_VERSION,
+        promptVersion: CF3_EXERCISE_AUTHOR_PROMPT_VERSION,
         generatedAt: new Date().toISOString(),
       },
     } as unknown as ExerciseAuthoringBatchSpec;
@@ -157,8 +175,11 @@ export class ExerciseFactory {
     }
 
     this.assertReadiness(batch, count);
-    await this.assertIndependentPreflight(params.grammarPoint, batch.exercises);
-    return batch;
+    const preflightEvidence = await this.assertIndependentPreflight(
+      params.grammarPoint,
+      batch.exercises,
+    );
+    return { batch, preflightEvidence };
   }
 
   private assertReadiness(batch: ExerciseAuthoringBatchSpec, expectedCount: number): void {
@@ -206,9 +227,11 @@ export class ExerciseFactory {
   private async assertIndependentPreflight(
     grammarPoint: GrammarPointBundleSpec,
     exercises: ExerciseItemSpec[],
-  ): Promise<void> {
+  ): Promise<ExercisePreflightEvidence[]> {
+    const evidence: ExercisePreflightEvidence[] = [];
     for (const exercise of exercises) {
       const result = await this.preflight.evaluate({ grammarPoint, exercise });
+      evidence.push({ contentKey: exercise.contentKey, result });
       if (!result.targetNecessityPassed) {
         throw new Error(
           `EXERCISE_PREFLIGHT_FAILED:TARGET:${exercise.contentKey}:${result.findingCodes.join(',')}`,
@@ -225,6 +248,7 @@ export class ExerciseFactory {
         );
       }
     }
+    return evidence;
   }
 
   private asRecord(value: unknown): Record<string, unknown> {

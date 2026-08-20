@@ -23,7 +23,8 @@ export class ContentReviewRunRepository {
       throw new Error('CONTENT_REVIEW_ARTIFACT_IDENTITY_MISMATCH');
     }
 
-    const expectedArtifactHash = job.outputHash ?? job.inputHash;
+    const expectedArtifactHash =
+      job.purpose === 'REVIEW' ? job.inputHash : (job.outputHash ?? job.inputHash);
     if (params.report.artifactHash !== expectedArtifactHash) {
       throw new Error('CONTENT_REVIEW_ARTIFACT_HASH_MISMATCH');
     }
