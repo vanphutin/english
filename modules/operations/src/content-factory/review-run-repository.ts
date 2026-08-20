@@ -6,11 +6,7 @@ import { computeSha256 } from './idempotency-lease-manager.js';
 export class ContentReviewRunRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
-  public async record(params: {
-    runId: string;
-    jobId: string;
-    report: ContentReviewReport;
-  }) {
+  public async record(params: { runId: string; jobId: string; report: ContentReviewReport }) {
     const job = await this.prisma.contentFactoryJob.findUnique({ where: { id: params.jobId } });
     if (!job || job.runId !== params.runId) throw new Error('CONTENT_REVIEW_JOB_NOT_FOUND');
     if (params.report.reviewer.runId !== params.runId) {
