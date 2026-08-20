@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://english.local/schemas/transform-activity-authoring.schema.json",
+  "title": "Transform Sentence Authoring Item",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "grammarCode",
+    "contextVi",
+    "sourceSentence",
+    "transformationGoalVi",
+    "transformedAnswer",
+    "meaningVi",
+    "preservedAnchors",
+    "requirements"
+  ],
+  "properties": {
+    "grammarCode": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+    "contextVi": { "type": "string", "minLength": 10, "maxLength": 300 },
+    "sourceSentence": { "type": "string", "minLength": 3, "maxLength": 300 },
+    "transformationGoalVi": { "type": "string", "minLength": 10, "maxLength": 300 },
+    "transformedAnswer": { "type": "string", "minLength": 3, "maxLength": 300 },
+    "meaningVi": { "type": "string", "minLength": 3, "maxLength": 300 },
+    "preservedAnchors": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+    },
+    "requirements": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 3, "maxLength": 200 }
+    }
+  }
+}

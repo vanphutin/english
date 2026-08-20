@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PAST_SIMPLE_REGULAR",
+  "family": "PAST_SIMPLE",
+  "version": 1,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Quá khứ đơn với động từ có quy tắc",
+  "learningObjectiveVi": "Dùng động từ đuôi -ed để kể một hành động đã kết thúc trong quá khứ.",
+  "learningObjectiveEn": "Use regular -ed verbs for actions completed at a finished past time.",
+  "form": {
+    "patterns": ["subject + regular verb-ed + complement"],
+    "morphologyNotes": [
+      "Use the regular past form when the action belongs to a finished past time."
+    ]
+  },
+  "meaning": {
+    "uses": ["Describe a completed past action.", "Tell events in chronological order."]
+  },
+  "usageConstraints": ["Choose the form from the intended meaning and sentence context."],
+  "relationships": {
+    "prerequisites": ["PRESENT_SIMPLE_AFFIRMATIVE"],
+    "buildsOn": ["PRESENT_SIMPLE_AFFIRMATIVE"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PAST_SIMPLE_REGULAR_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use the regular past form when the action belongs to a finished past time."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "We visited Hue last year.",
+      "vietnamese": "Chúng tôi đã thăm Huế năm ngoái.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu quá khứ đơn với động từ có quy tắc."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "She called me yesterday.",
+      "vietnamese": "Cô ấy đã gọi cho tôi hôm qua.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu quá khứ đơn với động từ có quy tắc."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "The film started at eight.",
+      "vietnamese": "Bộ phim đã bắt đầu lúc tám giờ.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu quá khứ đơn với động từ có quy tắc."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PAST_SIMPLE_REGULAR_COMMON_ERROR",
+      "incorrect": "They visit us yesterday.",
+      "corrected": "They visited us yesterday.",
+      "explanationVi": "Mốc yesterday yêu cầu dạng quá khứ visited.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel"],
+    "maximumSentenceWords": 16,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": ["target form", "meaning preservation", "natural accepted alternatives"],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "foundation-content-v2",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

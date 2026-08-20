@@ -1,0 +1,125 @@
+export type FindingSeverity = 'INFO' | 'WARNING' | 'ERROR' | 'BLOCKING';
+
+export interface ValidationFinding {
+  code: string;
+  family: string;
+  severity: FindingSeverity;
+  artifactPath?: string | undefined;
+  messageVi: string;
+  evidence?: string | undefined;
+  suggestedAction?: string | undefined;
+  origin: 'DETERMINISTIC' | 'AI_REVIEW';
+  validatorVersion: string;
+  resolved: boolean;
+}
+
+export const REASON_CODE_FAMILIES = [
+  'SCHEMA',
+  'UNICODE',
+  'IDENTITY',
+  'GRAPH',
+  'GRANULARITY',
+  'CEFR',
+  'VOCAB',
+  'EXAMPLE',
+  'CONTRADICTION',
+  'DUPLICATE',
+  'LICENSE',
+  'SAFETY',
+  'TARGET',
+  'AMBIGUITY',
+  'ANSWER_LEAK',
+  'FIXTURE',
+] as const;
+
+export type ReasonCodeFamily = (typeof REASON_CODE_FAMILIES)[number];
+
+export const REASON_CODES = {
+  // SCHEMA family
+  SCHEMA_VALIDATION_FAILED: 'SCHEMA_VALIDATION_FAILED',
+  SCHEMA_MISSING_REQUIRED_FIELD: 'SCHEMA_MISSING_REQUIRED_FIELD',
+  SCHEMA_INVALID_TYPE: 'SCHEMA_INVALID_TYPE',
+
+  // UNICODE family
+  UNICODE_MOJIBAKE_DETECTED: 'UNICODE_MOJIBAKE_DETECTED',
+  UNICODE_NON_UTF8_ENCODING: 'UNICODE_NON_UTF8_ENCODING',
+
+  // IDENTITY family
+  IDENTITY_MISSING_CODE: 'IDENTITY_MISSING_CODE',
+  IDENTITY_INVALID_CODE_FORMAT: 'IDENTITY_INVALID_CODE_FORMAT',
+  IDENTITY_PUBLISHED_STABLE_CODE_CONFLICT: 'IDENTITY_PUBLISHED_STABLE_CODE_CONFLICT',
+
+  // GRAPH family
+  GRAPH_CYCLIC_PREREQUISITE: 'GRAPH_CYCLIC_PREREQUISITE',
+  GRAPH_UNRESOLVED_PREREQUISITE: 'GRAPH_UNRESOLVED_PREREQUISITE',
+
+  // GRANULARITY family
+  GRANULARITY_TOO_BROAD: 'GRANULARITY_TOO_BROAD',
+  GRANULARITY_COSMETIC_SUBDIVISION: 'GRANULARITY_COSMETIC_SUBDIVISION',
+  GRANULARITY_PLACEHOLDER_CONTENT: 'GRANULARITY_PLACEHOLDER_CONTENT',
+
+  // CEFR family
+  CEFR_INVALID_LEVEL: 'CEFR_INVALID_LEVEL',
+  CEFR_MISMATCH_WITH_UNIT: 'CEFR_MISMATCH_WITH_UNIT',
+
+  // VOCAB family
+  VOCAB_CEFR_CEILING_EXCEEDED: 'VOCAB_CEFR_CEILING_EXCEEDED',
+
+  // EXAMPLE family
+  EXAMPLE_MISSING_REQUIRED_TYPES: 'EXAMPLE_MISSING_REQUIRED_TYPES',
+  EXAMPLE_GRAMMAR_MISMATCH: 'EXAMPLE_GRAMMAR_MISMATCH',
+  EXAMPLE_PLACEHOLDER_TEXT: 'EXAMPLE_PLACEHOLDER_TEXT',
+
+  // CONTRADICTION family
+  CONTRADICTION_RULE_EXAMPLE_CONFLICT: 'CONTRADICTION_RULE_EXAMPLE_CONFLICT',
+
+  // DUPLICATE family
+  DUPLICATE_ITEM_CODE: 'DUPLICATE_ITEM_CODE',
+  DUPLICATE_EXERCISE_TEXT: 'DUPLICATE_EXERCISE_TEXT',
+
+  // LICENSE family
+  LICENSE_MISSING_DECLARATION: 'LICENSE_MISSING_DECLARATION',
+  LICENSE_UNAUTHORIZED_SOURCE: 'LICENSE_UNAUTHORIZED_SOURCE',
+
+  // SAFETY family
+  SAFETY_PROMPT_INJECTION_DETECTED: 'SAFETY_PROMPT_INJECTION_DETECTED',
+  SAFETY_UNSAFE_CONTENT: 'SAFETY_UNSAFE_CONTENT',
+
+  // TARGET family
+  TARGET_NECESSITY_UNPROVEN: 'TARGET_NECESSITY_UNPROVEN',
+  TARGET_MISSING_GOAL: 'TARGET_MISSING_GOAL',
+
+  // AMBIGUITY family
+  AMBIGUITY_MULTIPLE_VALID_INTERPRETATIONS: 'AMBIGUITY_MULTIPLE_VALID_INTERPRETATIONS',
+
+  // ANSWER_LEAK family
+  ANSWER_LEAK_IN_PROMPT_OR_CONTEXT: 'ANSWER_LEAK_IN_PROMPT_OR_CONTEXT',
+
+  // FIXTURE family
+  FIXTURE_EVALUATION_FAILED: 'FIXTURE_EVALUATION_FAILED',
+} as const;
+
+export function createFinding(params: {
+  code: string;
+  severity: FindingSeverity;
+  artifactPath?: string | undefined;
+  messageVi: string;
+  evidence?: string | undefined;
+  suggestedAction?: string | undefined;
+  origin?: 'DETERMINISTIC' | 'AI_REVIEW' | undefined;
+  validatorVersion?: string | undefined;
+}): ValidationFinding {
+  const family = params.code.split('_')[0] || 'SCHEMA';
+  return {
+    code: params.code,
+    family,
+    severity: params.severity,
+    artifactPath: params.artifactPath,
+    messageVi: params.messageVi,
+    evidence: params.evidence,
+    suggestedAction: params.suggestedAction,
+    origin: params.origin ?? 'DETERMINISTIC',
+    validatorVersion: params.validatorVersion ?? 'CF0-v1',
+    resolved: false,
+  };
+}

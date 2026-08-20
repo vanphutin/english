@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0",
+  "code": "MODAL_DEDUCTION_PRESENT_PAST",
+  "family": "MODALITY",
+  "version": 1,
+  "cefr": "B2",
+  "status": "DRAFT",
+  "title": "Modal suy đoán ở hiện tại và quá khứ",
+  "learningObjectiveVi": "Dùng must, might, could và cannot để thể hiện mức chắc chắn khi suy luận.",
+  "learningObjectiveEn": "Use must, might, could, and cannot to express degrees of certainty in present and past deductions.",
+  "form": {
+    "patterns": ["present: modal + base verb/be", "past: modal + have + past participle"],
+    "morphologyNotes": [
+      "Use modal plus have plus a past participle for deductions about a completed past situation."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Make a strong or tentative present deduction.",
+      "Infer what probably or possibly happened in the past."
+    ]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["MODALS_OBLIGATION_ADVICE", "PRESENT_PERFECT_EXPERIENCE"],
+    "buildsOn": ["MODALS_OBLIGATION_ADVICE", "PRESENT_PERFECT_EXPERIENCE"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "MODAL_DEDUCTION_PRESENT_PAST_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use modal plus have plus a past participle for deductions about a completed past situation."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "The lights are on, so she must be home.",
+      "vietnamese": "Đèn đang bật nên chắc cô ấy ở nhà.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu modal suy đoán ở hiện tại và quá khứ."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "He might have missed the bus.",
+      "vietnamese": "Có thể anh ấy đã lỡ xe buýt.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu modal suy đoán ở hiện tại và quá khứ."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "They cannot have finished already.",
+      "vietnamese": "Họ không thể nào đã xong rồi.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu modal suy đoán ở hiện tại và quá khứ."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "MODAL_DEDUCTION_PRESENT_PAST_COMMON_ERROR",
+      "incorrect": "She must went home.",
+      "corrected": "She must have gone home.",
+      "explanationVi": "Suy đoán về quá khứ cần must have cộng quá khứ phân từ.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 28,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PARTICIPLE_CLAUSES",
+  "family": "NONFINITE_CLAUSES",
+  "version": 1,
+  "cefr": "C1",
+  "status": "DRAFT",
+  "title": "Mệnh đề phân từ rút gọn",
+  "learningObjectiveVi": "Rút gọn mệnh đề trạng ngữ bằng hiện tại phân từ, quá khứ phân từ hoặc perfect participle khi chủ thể rõ ràng.",
+  "learningObjectiveEn": "Reduce adverbial clauses with present, past, or perfect participles when subject reference is clear.",
+  "form": {
+    "patterns": [
+      "verb-ing clause, main clause",
+      "past-participle clause, main clause",
+      "having + past participle, main clause"
+    ],
+    "morphologyNotes": [
+      "The understood subject of the participle clause must normally match the subject of the main clause."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Compress simultaneous or causal information.",
+      "Mark an action completed before the main event."
+    ]
+  },
+  "usageConstraints": [
+    "The structure must be motivated by meaning, information flow, stance, or register rather than complexity alone."
+  ],
+  "relationships": {
+    "prerequisites": ["PAST_PERFECT_SEQUENCE", "PASSIVE_ADVANCED_FORMS"],
+    "buildsOn": ["PAST_PERFECT_SEQUENCE", "PASSIVE_ADVANCED_FORMS"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PARTICIPLE_CLAUSES_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "The understood subject of the participle clause must normally match the subject of the main clause."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "Walking home, I noticed the new café.",
+      "vietnamese": "Khi đi bộ về nhà, tôi để ý quán cà phê mới.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu mệnh đề phân từ rút gọn."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "Designed for small teams, the tool is easy to use.",
+      "vietnamese": "Được thiết kế cho nhóm nhỏ, công cụ này dễ dùng.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu mệnh đề phân từ rút gọn."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "Having completed the review, we published the report.",
+      "vietnamese": "Sau khi hoàn tất việc rà soát, chúng tôi công bố báo cáo.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu mệnh đề phân từ rút gọn."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PARTICIPLE_CLAUSES_COMMON_ERROR",
+      "incorrect": "Driving to work, the rain started.",
+      "corrected": "Driving to work, I saw the rain start.",
+      "explanationVi": "Mệnh đề phân từ không được tạo chủ ngữ lơ lửng; người lái phải là chủ ngữ câu chính.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": [
+      "academic discussion",
+      "professional writing",
+      "formal correspondence",
+      "narrative",
+      "public policy"
+    ],
+    "maximumSentenceWords": 34,
+    "requireExplicitTarget": true,
+    "requireDiscourseMotivation": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "scope",
+      "information structure",
+      "register",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "advanced-content-v4",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

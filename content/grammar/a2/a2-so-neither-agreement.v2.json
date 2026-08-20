@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_SO_NEITHER_AGREEMENT",
+  "family": "DISCOURSE_COHESION",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Đồng ý với So do I / Neither do I",
+  "learningObjectiveVi": "Hiểu và vận dụng cách dùng 'so do I / so am I' và 'neither do I / neither have I' để đồng ý hoặc phủ định với một phát ngôn ở mức A2; nhận diện trợ động từ và cấu trúc phù hợp.",
+  "learningObjectiveEn": "Understand and use 'so do I / so am I' and 'neither do I / neither have I' to agree or disagree with a statement at A2 level; recognize the correct auxiliary and structure.",
+  "form": {
+    "patterns": [
+      "1) I like mornings. So do I.",
+      "2) I don't eat meat. Neither do I.",
+      "3) I can swim. So can I.",
+      "4) I have finished my work. So have I.",
+      "5) I didn't see that. Neither did I."
+    ],
+    "morphologyNotes": [
+      "Dạng 'So do I/So can I/So have I' áp dụng cho affirmative với trợ động từ giống câu chính; 'Neither do I/Neither have I' áp dụng cho phủ định hoặc quá khứ/hoàn thành tùy thì của câu chính.",
+      "Lưu ý: Nếu câu chính dùng động từ như 'am/is/are' trong trạng thái hiện tại, đuôi 'So am I/So are we' có thể được dùng ở một số trường hợp; với dạng phủ định hãy dùng 'Neither do I/Neither did I/Neither have I' tùy thì."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Phản ánh sự đồng ý hoặc đồng ý ở mức độ tương tự với người nói bằng cách lặp lại trợ động từ ở thì tương ứng.",
+      "Dùng để nhấn mạnh sự giống hoặc khác biệt giữa hai hay nhiều hành động/ trạng thái."
+    ]
+  },
+  "usageConstraints": [
+    "Phản ứng bằng 'So' hoặc 'Neither' phải phù hợp với thì và trợ động từ của câu chính.",
+    "Không lạm dụng trong văn viết trang trọng; phổ biến ở nói và giao tiếp hàng ngày."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A2_SO_NEITHER_FORM_01",
+      "type": "FORM",
+      "description": "Sử dụng 'so' với trợ động từ từ câu khẳng định và 'neither' với câu phủ định; tuân thủ thì và chủ ngữ."
+    },
+    {
+      "code": "A2_SO_NEITHER_MEANING_01",
+      "type": "MEANING",
+      "description": "Dùng để đồng ý hoặc đồng ý ngược với phát ngôn của người nói tùy ngữ cảnh; có thể diễn đạt sự thích nghi hoặc khác biệt do sự thay đổi trạng thái."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I like coffee. So do I.",
+      "vietnamese": "Mình thích cà phê. Mình cũng vậy.",
+      "explanationVi": "Đồng ý với một phát ngôn tích cực bằng cách lặp lại trợ động từ ở cùng thì."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "I don't eat meat. Neither do I.",
+      "vietnamese": "Mình không ăn thịt. Mình cũng vậy.",
+      "explanationVi": "Đồng ý/đồng hành với phát ngôn phủ định bằng cách dùng 'neither do I'."
+    },
+    {
+      "type": "QUESTION",
+      "english": "I can swim. So can I.",
+      "vietnamese": "Mình có thể bơi. Mình cũng vậy.",
+      "explanationVi": "Phản hồi với câu có trợ động từ 'can' bằng cách dùng 'So can I'."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "I have finished the work. So have I.",
+      "vietnamese": "Mình đã làm xong công việc. Mình cũng vậy.",
+      "explanationVi": "Dạng đồng ý ở thì hiện tại hoàn thành; dùng khi người nói và người nghe có cùng trạng thái."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "I didn't see the document. Neither did I.",
+      "vietnamese": "Mình không thấy tài liệu đó. Mình cũng vậy.",
+      "explanationVi": "Dùng để đồng ý/không đồng ý một phát ngôn ở thì quá khứ; thể hiện sự tương đồng ở mặt ngữ nghĩa."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "ERR_SO_NEITHER_01",
+      "incorrect": "I like tea. So I do.",
+      "corrected": "I like tea. So do I.",
+      "explanationVi": "Cần đảo trợ động từ phù hợp với câu khẳng định; thiếu 'do' sẽ làm câu sai ngữ pháp.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "ERR_SO_NEITHER_02",
+      "incorrect": "I don't exercise. So I do.",
+      "corrected": "I don't exercise. Neither do I.",
+      "explanationVi": "Nếu câu phủ định, đuôi đúng là 'Neither do I' hoặc 'Neither did I' tùy thì; dùng đúng trợ động từ ở câu chính.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "Bài tập đồng ý/không đồng ý ở mức A2",
+      "Giao tiếp hàng ngày",
+      "Payroll dialogue exercises"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "correctAgreementForm",
+      "appropriateAuxiliaryUse",
+      "naturalnessOfReplies"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:44:49.630Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

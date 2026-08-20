@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "1.0",
+  "code": "MODALS_OBLIGATION_ADVICE",
+  "family": "MODALITY",
+  "version": 1,
+  "cefr": "B1",
+  "status": "DRAFT",
+  "title": "Must, have to và should",
+  "learningObjectiveVi": "Phân biệt nghĩa vụ mạnh với lời khuyên bằng must, have to và should.",
+  "learningObjectiveEn": "Distinguish strong obligation from advice using must, have to, and should.",
+  "form": {
+    "patterns": [
+      "subject + must + base verb",
+      "subject + have/has to + base verb",
+      "subject + should + base verb"
+    ],
+    "morphologyNotes": [
+      "Use a base verb after a modal; choose should for advice and must or have to for obligation."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Express a rule or strong necessity.",
+      "Give advice without imposing an absolute requirement."
+    ]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["PRESENT_SIMPLE_AFFIRMATIVE"],
+    "buildsOn": ["PRESENT_SIMPLE_AFFIRMATIVE"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "MODALS_OBLIGATION_ADVICE_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use a base verb after a modal; choose should for advice and must or have to for obligation."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "You must wear a helmet.",
+      "vietnamese": "Bạn phải đội mũ bảo hiểm.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu must, have to và should."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I have to finish this today.",
+      "vietnamese": "Tôi phải hoàn thành việc này hôm nay.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu must, have to và should."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "You should get more sleep.",
+      "vietnamese": "Bạn nên ngủ nhiều hơn.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu must, have to và should."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "MODALS_OBLIGATION_ADVICE_COMMON_ERROR",
+      "incorrect": "You should to rest.",
+      "corrected": "You should rest.",
+      "explanationVi": "Sau should dùng động từ nguyên mẫu không có to.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 22,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

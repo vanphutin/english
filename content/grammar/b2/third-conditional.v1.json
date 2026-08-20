@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "1.0",
+  "code": "THIRD_CONDITIONAL",
+  "family": "CONDITIONALS",
+  "version": 1,
+  "cefr": "B2",
+  "status": "DRAFT",
+  "title": "Câu điều kiện loại ba",
+  "learningObjectiveVi": "Dùng câu điều kiện loại ba để tưởng tượng kết quả khác cho một quá khứ không thể thay đổi.",
+  "learningObjectiveEn": "Use the third conditional to imagine a different result for an unchangeable past condition.",
+  "form": {
+    "patterns": ["if + had + past participle, would have + past participle"],
+    "morphologyNotes": [
+      "Use past perfect in the if-clause and would have plus a past participle in the result clause."
+    ]
+  },
+  "meaning": {
+    "uses": ["Express a counterfactual past condition.", "Reflect on an unreal past result."]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["SECOND_CONDITIONAL", "PAST_PERFECT_SEQUENCE"],
+    "buildsOn": ["SECOND_CONDITIONAL", "PAST_PERFECT_SEQUENCE"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "THIRD_CONDITIONAL_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use past perfect in the if-clause and would have plus a past participle in the result clause."
+    }
+  ],
+  "examples": [
+    {
+      "type": "CONTEXTUAL",
+      "english": "If we had left earlier, we would have caught the train.",
+      "vietnamese": "Nếu rời đi sớm hơn, chúng tôi đã bắt kịp tàu.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu câu điều kiện loại ba."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "She would not have got lost if she had used the map.",
+      "vietnamese": "Cô ấy đã không bị lạc nếu dùng bản đồ.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu câu điều kiện loại ba."
+    },
+    {
+      "type": "QUESTION",
+      "english": "What would you have done if they had refused?",
+      "vietnamese": "Bạn đã làm gì nếu họ từ chối?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu câu điều kiện loại ba."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "THIRD_CONDITIONAL_COMMON_ERROR",
+      "incorrect": "If I knew, I would have told you.",
+      "corrected": "If I had known, I would have told you.",
+      "explanationVi": "Điều kiện quá khứ không có thật cần had known.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 28,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

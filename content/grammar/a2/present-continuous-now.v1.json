@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PRESENT_CONTINUOUS_NOW",
+  "family": "PRESENT_CONTINUOUS",
+  "version": 1,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Hiện tại tiếp diễn cho hành động đang diễn ra",
+  "learningObjectiveVi": "Dùng be cộng V-ing cho hành động đang diễn ra quanh thời điểm nói.",
+  "learningObjectiveEn": "Use be plus an -ing form for an action in progress around now.",
+  "form": {
+    "patterns": ["subject + am/is/are + verb-ing"],
+    "morphologyNotes": ["The auxiliary be agrees with the subject and the lexical verb takes -ing."]
+  },
+  "meaning": {
+    "uses": ["Describe an action happening now.", "Describe a temporary activity around now."]
+  },
+  "usageConstraints": ["Choose the form from the intended meaning and sentence context."],
+  "relationships": {
+    "prerequisites": ["BE_PRESENT_AFFIRMATIVE", "PRESENT_SIMPLE_AFFIRMATIVE"],
+    "buildsOn": ["BE_PRESENT_AFFIRMATIVE", "PRESENT_SIMPLE_AFFIRMATIVE"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PRESENT_CONTINUOUS_NOW_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "The auxiliary be agrees with the subject and the lexical verb takes -ing."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I am reading now.",
+      "vietnamese": "Bây giờ tôi đang đọc sách.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại tiếp diễn cho hành động đang diễn ra."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "She is not working today.",
+      "vietnamese": "Hôm nay cô ấy không làm việc.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại tiếp diễn cho hành động đang diễn ra."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Are they waiting outside?",
+      "vietnamese": "Họ có đang đợi ở ngoài không?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại tiếp diễn cho hành động đang diễn ra."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PRESENT_CONTINUOUS_NOW_COMMON_ERROR",
+      "incorrect": "He is cook dinner.",
+      "corrected": "He is cooking dinner.",
+      "explanationVi": "Sau is, động từ hành động cần dạng V-ing.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel"],
+    "maximumSentenceWords": 16,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": ["target form", "meaning preservation", "natural accepted alternatives"],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "foundation-content-v2",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

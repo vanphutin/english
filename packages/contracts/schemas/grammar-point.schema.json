@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://english.local/schemas/grammar-point.schema.json",
+  "title": "GrammarPointBundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "code",
+    "family",
+    "version",
+    "cefr",
+    "status",
+    "title",
+    "learningObjectiveVi",
+    "learningObjectiveEn",
+    "form",
+    "meaning",
+    "usageConstraints",
+    "relationships",
+    "rules",
+    "examples",
+    "commonErrors",
+    "generationPolicy",
+    "evaluationPolicy",
+    "provenance",
+    "license"
+  ],
+  "properties": {
+    "license": { "enum": ["PUBLIC_CONTENT", "PUBLIC_CONTENT_ORIGINAL"] },
+    "schemaVersion": { "const": "1.0" },
+    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+    "family": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+    "version": { "type": "integer", "minimum": 1 },
+    "cefr": { "enum": ["A1", "A2", "B1", "B2", "C1", "C2"] },
+    "status": { "enum": ["DRAFT", "IN_REVIEW", "PUBLISHED", "RETIRED"] },
+    "title": { "type": "string", "minLength": 3, "maxLength": 160 },
+    "learningObjectiveVi": { "type": "string", "minLength": 10 },
+    "learningObjectiveEn": { "type": "string", "minLength": 10 },
+    "form": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["patterns"],
+      "properties": {
+        "patterns": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 3 }
+        },
+        "morphologyNotes": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "meaning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["uses"],
+      "properties": {
+        "uses": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 5 } }
+      }
+    },
+    "usageConstraints": { "type": "array", "items": { "type": "string" } },
+    "relationships": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prerequisites", "buildsOn", "contrastsWith", "oftenConfusedWith"],
+      "properties": {
+        "prerequisites": { "$ref": "#/$defs/codeList" },
+        "buildsOn": { "$ref": "#/$defs/codeList" },
+        "contrastsWith": { "$ref": "#/$defs/codeList" },
+        "oftenConfusedWith": { "$ref": "#/$defs/codeList" }
+      }
+    },
+    "rules": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/rule" } },
+    "examples": { "type": "array", "minItems": 3, "items": { "$ref": "#/$defs/example" } },
+    "commonErrors": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/commonError" } },
+    "generationPolicy": { "type": "object" },
+    "evaluationPolicy": { "type": "object" },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["origin", "model", "promptVersion", "generatedAt"],
+      "properties": {
+        "origin": { "const": "AI_GENERATED" },
+        "model": { "type": "string", "minLength": 1 },
+        "promptVersion": { "type": "string", "minLength": 1 },
+        "generatedAt": { "type": "string", "format": "date-time" },
+        "sourceNotes": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  },
+  "$defs": {
+    "codeList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" }
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "type", "description"],
+      "properties": {
+        "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+        "type": { "enum": ["HARD_CONSTRAINT", "TENDENCY", "FORM", "MEANING", "USE"] },
+        "description": { "type": "string", "minLength": 5 }
+      }
+    },
+    "example": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "english", "vietnamese", "explanationVi"],
+      "properties": {
+        "type": { "enum": ["AFFIRMATIVE", "NEGATIVE", "QUESTION", "CONTEXTUAL", "CONTRASTIVE"] },
+        "english": { "type": "string", "minLength": 2 },
+        "vietnamese": { "type": "string", "minLength": 2 },
+        "explanationVi": { "type": "string", "minLength": 5 }
+      }
+    },
+    "commonError": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "incorrect", "corrected", "explanationVi", "severity"],
+      "properties": {
+        "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+        "incorrect": { "type": "string" },
+        "corrected": { "type": "string" },
+        "explanationVi": { "type": "string", "minLength": 5 },
+        "severity": { "enum": ["MINOR", "MAJOR", "BLOCKING"] }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "code": "MOJIBAKE_MANIFEST",
+  "version": "1.0.0",
+  "title": "TÃªn bÃ i há»ïc vÃ¡Â»ï vÃ´i",
+  "license": "PUBLIC_CONTENT",
+  "items": [
+    {
+      "code": "POINT_MOJI",
+      "family": "PRESENT_TENSE",
+      "cefr": "A1",
+      "titleVi": "BÃ i há»ïc bá»ï vá»ï font UTF-8",
+      "titleEn": "Mojibake lesson",
+      "distinctionVi": "Ã¢ÂºÂ¡ÃªÂ°",
+      "prerequisites": []
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_AS_AS_EQUALITY",
+  "family": "COMPARISON",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "So sánh bằng với As...as",
+  "learningObjectiveVi": "Sử dụng cấu trúc As...as để diễn đạt sự bằng nhau giữa hai tính chất/điểm đo, bao gồm tính từ, trạng từ và danh từ đếm được/ko đếm được.",
+  "learningObjectiveEn": "Use the structure As...as to express equality between adjectives, adverbs, and nouns in everyday English.",
+  "form": {
+    "patterns": [
+      "as + adjective + as",
+      "as + many/much + noun + as"
+    ],
+    "morphologyNotes": [
+      "Adjective/adverb with 'as' pattern; for countable nouns use 'as many', for uncountable nouns use 'as much'."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "express equality of two qualities or quantities",
+      "compare two objects to show they are the same in a certain aspect"
+    ]
+  },
+  "usageConstraints": [
+    "Dùng để diễn đạt sự bằng nhau, không phải sự khác biệt hoặc mức độ lớn hơn/bé hơn",
+    "Không dùng với tính từ mang tính tuyệt đối hoặc so sánh tuyệt đối; dùng 'not as ... as' để biểu đạt bất bằng."
+  ],
+  "relationships": {
+    "prerequisites": [
+      "COMPARATIVE_ADJECTIVES"
+    ],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A2_AS_AS_EQUALITY_FORM",
+      "type": "FORM",
+      "description": "Sử dụng đúng cấu trúc 'as ... as' cho tính từ, trạng từ hoặc danh từ (as many/as much) để diễn đạt sự bằng nhau."
+    },
+    {
+      "code": "A2_AS_AS_EQUALITY_MEANING",
+      "type": "MEANING",
+      "description": "Ý nghĩa: thể hiện sự bằng nhau giữa hai đối tượng về một đặc characteristics hoặc số lượng."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "This room is as bright as that room.",
+      "vietnamese": "Phòng này sáng bằng phòng kia.",
+      "explanationVi": "Dùng 'as ... as' để diễn đạt sự bằng nhau về độ sáng giữa hai phòng."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "This room is not as bright as that room.",
+      "vietnamese": "Phòng này không sáng bằng phòng kia.",
+      "explanationVi": "Phủ định cấu trúc 'as ... as' để diễn tả sự bất bằng."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Is this room as bright as that room?",
+      "vietnamese": "Phòng này sáng bằng phòng kia không?",
+      "explanationVi": "Hỏi về sự bằng nhau giữa hai phòng bằng câu đảo ngữ với 'Is ... as ...'."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "In terms of price, the new model is as affordable as the old one.",
+      "vietnamese": "Về giá cả, mẫu mới rẻ như mẫu cũ.",
+      "explanationVi": "Ví dụ ở ngữ cảnh so sánh giá giữa hai mẫu."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "This book is not as interesting as the movie.",
+      "vietnamese": "Cuốn sách này không thú vị bằng bộ phim.",
+      "explanationVi": "Ví dụ đối chiếu sự khác biệt bằng cách phủ định cấu trúc 'as ... as'."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "A2_AS_AS_EQUALITY_ERROR1",
+      "incorrect": "This room as bright as that room.",
+      "corrected": "This room is as bright as that room.",
+      "explanationVi": "Thiếu động từ 'is' sau chủ ngữ, khiến câu thiếu cấu trúc.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "A2_AS_AS_EQUALITY_ERROR2",
+      "incorrect": "She has as many books as me.",
+      "corrected": "She has as many books as I do.",
+      "explanationVi": "Dùng đại từ tân ngữ 'me' sau 'as' không chuẩn; nên dùng đại từ chủ ngữ ở mệnh đề phụ.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "A2_AS_AS_EQUALITY_ERROR3",
+      "incorrect": "Use as many books as me.",
+      "corrected": "Use as many books as I do.",
+      "explanationVi": "Cấu trúc câu bị thiếu yếu tố phụ ở mệnh đề so sánh.",
+      "severity": "MINOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "Giao tiếp hằng ngày",
+      "Bài tập ngữ pháp",
+      "Luyện nói căn bản"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "patternUsage",
+      "sentenceStructure",
+      "lexicalAccuracy"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:39:07.039Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "1.0",
+  "code": "FRONTING_TOPICALISATION",
+  "family": "INFORMATION_STRUCTURE",
+  "version": 1,
+  "cefr": "C1",
+  "status": "DRAFT",
+  "title": "Fronting và topicalisation",
+  "learningObjectiveVi": "Đưa bổ ngữ hoặc trạng ngữ lên đầu câu để nối chủ đề hoặc tạo đối lập có kiểm soát.",
+  "learningObjectiveEn": "Front complements or adjuncts to manage topic continuity or controlled contrast.",
+  "form": {
+    "patterns": ["fronted complement + subject + verb", "fronted adjunct + clause"],
+    "morphologyNotes": [
+      "Fronting must have a clear discourse motivation and preserve grammatical relations in the remaining clause."
+    ]
+  },
+  "meaning": {
+    "uses": ["Maintain discourse topic.", "Contrast two perspectives or categories."]
+  },
+  "usageConstraints": [
+    "The structure must be motivated by meaning, information flow, stance, or register rather than complexity alone."
+  ],
+  "relationships": {
+    "prerequisites": ["CLEFT_SENTENCES_FOCUS"],
+    "buildsOn": ["CLEFT_SENTENCES_FOCUS"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "FRONTING_TOPICALISATION_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Fronting must have a clear discourse motivation and preserve grammatical relations in the remaining clause."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "This problem, we can solve immediately.",
+      "vietnamese": "Vấn đề này thì chúng ta có thể giải quyết ngay.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu fronting và topicalisation."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "More difficult was the question of funding.",
+      "vietnamese": "Khó hơn là vấn đề kinh phí.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu fronting và topicalisation."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "In the second category, we include indirect costs.",
+      "vietnamese": "Trong nhóm thứ hai, chúng tôi bao gồm chi phí gián tiếp.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu fronting và topicalisation."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "FRONTING_TOPICALISATION_COMMON_ERROR",
+      "incorrect": "The new policy, affects every employee.",
+      "corrected": "The new policy affects every employee.",
+      "explanationVi": "Không tách chủ ngữ thông thường khỏi động từ bằng dấu phẩy nếu không có cấu trúc topic rõ ràng.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": [
+      "academic discussion",
+      "professional writing",
+      "formal correspondence",
+      "narrative",
+      "public policy"
+    ],
+    "maximumSentenceWords": 34,
+    "requireExplicitTarget": true,
+    "requireDiscourseMotivation": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "scope",
+      "information structure",
+      "register",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "advanced-content-v4",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

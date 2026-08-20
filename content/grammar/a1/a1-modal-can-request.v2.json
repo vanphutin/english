@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_MODAL_CAN_REQUEST",
+  "family": "MODAL_VERBS",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Can trong lời yêu cầu / xin phép",
+  "learningObjectiveVi": "Hiểu và dùng đúng động từ can/could để trình bày lời yêu cầu ở mức cơ bản và lịch sự.",
+  "learningObjectiveEn": "Understand and use can/could to make requests at a basic and polite level.",
+  "form": {
+    "patterns": [
+      "Can you + base verb + ? (ví dụ: Can you help me?)",
+      "Could you + please + base verb + ? (ví dụ: Could you please pass me the salt?)"
+    ],
+    "morphologyNotes": [
+      "Can thể hiện khả năng và được dùng cho lời yêu cầu; Could lịch sự hơn.",
+      "Please làm dịu yêu cầu; dạng câu hỏi có cấu trúc trợ động từ ở đầu câu."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Yêu cầu người nghe thực hiện một hành động.",
+      "Xin phép một cách lịch sự và ngắn gọn."
+    ]
+  },
+  "usageConstraints": [
+    "Nên dùng 'Could you' khi yêu cầu lịch sự hoặc khi người nghe ở vị trí cao hơn.",
+    "Không dùng quá nhiều 'could' trong cùng một câu; dùng 'could you' một lần ở đầu câu."
+  ],
+  "relationships": {
+    "prerequisites": [
+      "A1_MODAL_CAN_ABILITY"
+    ],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A1_REQ_FORM",
+      "type": "FORM",
+      "description": "Cấu trúc: Can/Could + you + base verb + ?"
+    },
+    {
+      "code": "A1_REQ_USE",
+      "type": "USE",
+      "description": "Sử dụng nhằm yêu cầu hành động một cách lịch sự."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I can help you with this task.",
+      "vietnamese": "Tôi có thể giúp bạn với nhiệm vụ này.",
+      "explanationVi": "Yêu cầu hỗ trợ ở mức cơ bản bằng can."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "I can't come to the meeting today.",
+      "vietnamese": "Mình không thể tham dự cuộc họp hôm nay.",
+      "explanationVi": "Dạng phủ định cho khả năng ở hiện tại."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Can you help me move this box?",
+      "vietnamese": "Bạn có thể giúp tôi chuyển cái hộp này không?",
+      "explanationVi": "Mẫu câu hỏi lịch sự cho yêu cầu."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "Could you please review my report before lunch?",
+      "vietnamese": "Bạn có thể xem giúp báo cáo của tôi trước bữa trưa được không?",
+      "explanationVi": "Lời yêu cầu lịch sự, thêm 'please'."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "Could you help me now, or would you prefer to wait?",
+      "vietnamese": "Bạn có thể giúp tôi ngay bây giờ, hay bạn thích đợi?",
+      "explanationVi": "So sánh hai lựa chọn với mức độ lịch sự khác nhau."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "A1_REQ_ERR1",
+      "incorrect": "You can please help me?",
+      "corrected": "Could you please help me?",
+      "explanationVi": "Dùng could để lịch sự, và đặt please ở cuối mẫu.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "A1_REQ_ERR2",
+      "incorrect": "Can you please to pass me the salt?",
+      "corrected": "Could you please pass me the salt?",
+      "explanationVi": "Không dùng 'to' sau động từ khi dùng modal.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "PRACTICE_SCENARIOS",
+      "REAL_LIFE_SIMULATION"
+    ],
+    "maximumSentenceWords": 14,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "GRAMMAR",
+      "USAGE",
+      "POLITENESS"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:32:54.702Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_MODAL_COULD_PAST_ABILITY",
+  "family": "MODAL_VERBS",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Could chỉ khả năng trong quá khứ",
+  "learningObjectiveVi": "Diễn đạt khả năng trong quá khứ bằng could và nhận diện dạng phủ định/quá khứ/question phù hợp.",
+  "learningObjectiveEn": "Express past ability using could, including its negative and interrogative forms.",
+  "form": {
+    "patterns": [
+      "I could swim when I was a child.",
+      "He could ride a bike when he was five.",
+      "They couldn't play yesterday."
+    ],
+    "morphologyNotes": [
+      "could là quá khứ của can; dùng với động từ nguyên thể (bare infinitive) sau could (ví dụ: could swim, could ride).",
+      "Phủ định: couldn't; câu hỏi: Could + subject + base verb (Could you help me?)."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Diễn đạt khả năng trong quá khứ.",
+      "Dùng để ra yêu cầu lịch sự ở hiện tại bằng cấu trúc Could you...?"
+    ]
+  },
+  "usageConstraints": [
+    "Không dùng để diễn đạt khả năng ở hiện tại; ở hiện tại nên dùng 'can' hoặc 'be able to'.",
+    "Không dùng 'could' để diễn đạt nhiệm vụ bắt buộc hoặc lời gợi ý quá mạnh; dùng modal khác như should hoặc must tùy ngữ cảnh."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A2_MODAL_COULD_PAST_ABILITY_FORM",
+      "type": "FORM",
+      "description": "Cấu trúc cơ bản: subject + could + base verb; phủ định: subject + couldn't + base verb; câu hỏi: Could + subject + base verb + ?"
+    },
+    {
+      "code": "A2_MODAL_COULD_PAST_ABILITY_MEANING",
+      "type": "MEANING",
+      "description": "Diễn đạt khả năng trong quá khứ và khả năng trình bày yêu cầu lịch sự ở hiện tại với could"
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I could swim when I was a child.",
+      "vietnamese": "Tôi có thể bơi khi còn là trẻ em.",
+      "explanationVi": "Khẳng định khả năng trong quá khứ."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "She couldn't ride a bike when she was four.",
+      "vietnamese": "Cô ấy đã không thể đạp xe khi lên bốn.",
+      "explanationVi": "Khả năng không xảy ra trong quá khứ."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Could you help me yesterday?",
+      "vietnamese": "Bạn có thể giúp tôi hôm qua không?",
+      "explanationVi": "Hỏi về khả năng trong quá khứ; dùng dạng phép hỏi của could."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "During the trip, I could see many birds from the window.",
+      "vietnamese": "Trong chuyến đi, tôi có thể nhìn thấy nhiều loài chim từ cửa sổ.",
+      "explanationVi": "Khả năng được nhận diện trong một ngữ cảnh cụ thể ở quá khứ."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "I could swim, but I couldn't climb that tree.",
+      "vietnamese": "Tôi có thể bơi, nhưng tôi không thể trèo cây kia.",
+      "explanationVi": "So sánh khả năng có và không có trong quá khứ."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "A2_MODAL_PAST_1",
+      "incorrect": "I could goes to school yesterday.",
+      "corrected": "I could go to school yesterday.",
+      "explanationVi": "Sau could dùng động từ nguyên thể base form; không thêm -s ở động từ.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "A2_MODAL_PAST_2",
+      "incorrect": "I couldn't could swim.",
+      "corrected": "I couldn't swim.",
+      "explanationVi": "Phủ định với could ở dạng nguyên thể; dùng couldn't + base verb.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "ESL_A2",
+      "MODAL_VERB_COULD_PAST_ABILITY"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "form",
+      "meaning",
+      "usage"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:41:40.578Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

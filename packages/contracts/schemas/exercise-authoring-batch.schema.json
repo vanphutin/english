@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://english.local/schemas/exercise-authoring-batch.schema.json",
+  "title": "Exercise authoring batch",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "batchId",
+    "grammarPointCode",
+    "grammarPointVersion",
+    "grammarPointHash",
+    "policyVersion",
+    "seed",
+    "exercises",
+    "provenance"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "batchId": { "type": "string", "format": "uuid" },
+    "grammarPointCode": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+    "grammarPointVersion": { "type": "integer", "minimum": 1 },
+    "grammarPointHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "policyVersion": { "const": "content-factory-v1" },
+    "seed": { "type": "string", "minLength": 8 },
+    "exercises": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 30,
+      "items": { "$ref": "#/$defs/exercise" }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["origin", "provider", "model", "promptVersion", "generatedAt"],
+      "properties": {
+        "origin": { "const": "AI_DRAFT" },
+        "provider": { "type": "string" },
+        "model": { "type": "string" },
+        "promptVersion": { "type": "string" },
+        "generatedAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "$defs": {
+    "exercise": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contentKey",
+        "activityType",
+        "topicCode",
+        "contextVi",
+        "instructionVi",
+        "targetNecessity",
+        "semanticRequirements",
+        "allowedAnswers",
+        "forbiddenMeaningChanges",
+        "hints",
+        "variationGroup",
+        "semanticHash",
+        "difficulty",
+        "validationNotes"
+      ],
+      "properties": {
+        "contentKey": { "type": "string", "minLength": 8 },
+        "activityType": {
+          "enum": [
+            "TRANSLATE_CONTEXT",
+            "CORRECT_ERROR",
+            "TRANSFORM_SENTENCE",
+            "COMPLETE_SENTENCE",
+            "ORDER_WORDS",
+            "SELECT_IN_CONTEXT",
+            "GUIDED_WRITING",
+            "MINI_DIALOGUE"
+          ]
+        },
+        "topicCode": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+        "contextVi": { "type": "string", "minLength": 5 },
+        "instructionVi": { "type": "string", "minLength": 5 },
+        "targetNecessity": { "type": "string", "minLength": 10 },
+        "semanticRequirements": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "allowedAnswers": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string" }
+        },
+        "forbiddenMeaningChanges": { "type": "array", "items": { "type": "string" } },
+        "hints": { "type": "array", "minItems": 1, "maxItems": 3, "items": { "type": "string" } },
+        "variationGroup": { "type": "string" },
+        "semanticHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "difficulty": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "validationNotes": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

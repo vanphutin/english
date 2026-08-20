@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_DEMONSTRATIVE_PRONOUNS",
+  "family": "DETERMINERS",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Demonstratives: This, That, These, Those",
+  "learningObjectiveVi": "Hiểu và dùng đúng đại từ chỉ định (this, that, these, those) để chỉ vật ở gần hoặc xa và số ít/số nhiều trong giao tiếp cơ bản.",
+  "learningObjectiveEn": "Learn to use demonstratives (this, that, these, those) to indicate near or far items, with correct singular/plural form and simple sentence patterns.",
+  "form": {
+    "patterns": [
+      "This is a book.",
+      "That is a chair.",
+      "These are books.",
+      "Those are pencils."
+    ],
+    "morphologyNotes": [
+      "Demonstratives act as determiners before a noun; singular dùng 'this'/'that' với động từ 'is'; plural dùng 'these'/'those' với 'are'. Khi dùng làm đại từ, có thể ở lại sau động từ be hoặc đứng một mình (This is mine; Those are theirs)."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Chỉ vật ở gần bằng 'this' hoặc 'these' khi nói về một vật hoặc vài vật ở gần người nói.",
+      "Chỉ vật ở xa bằng 'that' hoặc 'those' khi nói về vật ở xa hoặc với người nghe.",
+      "Dùng để xác định và nhận diện: This is... / Those are..."
+    ]
+  },
+  "usageConstraints": [
+    "This/That đi kèm với danh từ số ít; These/Those đi kèm với danh từ số nhiều.",
+    "Nếu dùng làm đại từ, có thể đảo ngữ để hỏi: Is this... ? Are those... ?"
+  ],
+  "relationships": {
+    "prerequisites": [
+      "SUBJECT_PRONOUNS"
+    ],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "SINGULAR_PLURAL_AGREEMENT",
+      "type": "HARD_CONSTRAINT",
+      "description": "This/That với danh từ số ít và 'is'; These/Those với danh từ số nhiều và 'are'."
+    },
+    {
+      "code": "POSITION_BEFORE_NOUN",
+      "type": "FORM",
+      "description": "Đại từ chỉ định phải đứng trực tiếp trước danh từ được sửa; khi dùng làm đại từ, có thể đứng sau 'be' hoặc đứng một mình."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "This is a book.",
+      "vietnamese": "Đây là một quyển sách.",
+      "explanationVi": "This chỉ định vật ở gần; 'is' cho động từ ở ngôi số ít."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "That is not my pen.",
+      "vietnamese": "Đó không phải là cây bút của tôi.",
+      "explanationVi": "Phủ định với 'be' bằng cách đặt 'not' sau 'is'."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Is this your bag?",
+      "vietnamese": "Có phải đây là túi của bạn không?",
+      "explanationVi": "Đảo ngữ để tạo câu hỏi với 'be'."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "Those are my friends from school.",
+      "vietnamese": "Kia là những người bạn của tôi từ trường.",
+      "explanationVi": "Khi chỉ nhiều đối tượng ở xa, dùng 'Those are'."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "This is a pen, but that is a pencil.",
+      "vietnamese": "Đây là một cây viết, nhưng kia là một bút chì.",
+      "explanationVi": "So sánh gần và xa để nhấn mạnh sự khác biệt."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "DEMO_SINGULAR_PLURAL_MISMATCH",
+      "incorrect": "These is a book.",
+      "corrected": "These are books.",
+      "explanationVi": "Chủ ngữ ở dạng số nhiều phải đi kèm với động từ 'are'.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "DEMO_MIXED_AGREEMENT",
+      "incorrect": "That are a pencil.",
+      "corrected": "That is a pencil.",
+      "explanationVi": "Khi danh từ ở số ít, động từ phải ở dạng 'is'.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "A1_DEMONSTRATIVE_PRONOUNS_LESSON",
+      "BEGINNER_SPEAKING"
+    ],
+    "maximumSentenceWords": 25,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "objectiveAlignment",
+      "patternAccuracy",
+      "exampleCompleteness"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "secondary-authoring",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T00:00:00.000Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

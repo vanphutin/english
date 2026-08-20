@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://english.local/schemas/error-notebook-projection.schema.json",
+  "title": "Learner Error Pattern Projection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["policyVersion", "patterns"],
+  "properties": {
+    "policyVersion": { "const": "error-pattern-v1" },
+    "patterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "grammarPointId",
+          "grammarCode",
+          "grammarTitle",
+          "category",
+          "code",
+          "state",
+          "occurrenceCount",
+          "firstSeenAt",
+          "lastSeenAt",
+          "representative"
+        ],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "grammarPointId": { "type": "string", "format": "uuid" },
+          "grammarCode": { "type": "string" },
+          "grammarTitle": { "type": "string" },
+          "category": { "type": "string" },
+          "code": { "type": "string" },
+          "state": { "enum": ["ACTIVE", "IMPROVING", "RESOLVED", "RECURRED"] },
+          "occurrenceCount": { "type": "integer", "minimum": 1 },
+          "firstSeenAt": { "type": "string", "format": "date-time" },
+          "lastSeenAt": { "type": "string", "format": "date-time" },
+          "representative": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["answer", "feedbackVi", "correctedAnswer"],
+            "properties": {
+              "answer": { "type": "string" },
+              "feedbackVi": { "type": "string" },
+              "correctedAnswer": { "type": ["string", "null"] }
+            }
+          }
+        }
+      }
+    }
+  }
+}

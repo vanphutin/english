@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0",
+  "code": "FUTURE_CONTINUOUS",
+  "family": "FUTURE_ASPECT",
+  "version": 1,
+  "cefr": "B2",
+  "status": "DRAFT",
+  "title": "Tương lai tiếp diễn",
+  "learningObjectiveVi": "Dùng tương lai tiếp diễn cho hành động sẽ đang diễn ra tại một thời điểm tương lai.",
+  "learningObjectiveEn": "Use the future continuous for an action that will be in progress at a future time.",
+  "form": {
+    "patterns": ["subject + will be + verb-ing"],
+    "morphologyNotes": [
+      "Use will be plus an -ing form and provide a meaningful future reference point."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Describe an action in progress at a future point.",
+      "Ask politely about expected future arrangements."
+    ]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["PRESENT_CONTINUOUS_NOW", "FUTURE_GOING_TO_PLANS"],
+    "buildsOn": ["PRESENT_CONTINUOUS_NOW", "FUTURE_GOING_TO_PLANS"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "FUTURE_CONTINUOUS_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use will be plus an -ing form and provide a meaningful future reference point."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "This time tomorrow, I will be flying to Seoul.",
+      "vietnamese": "Giờ này ngày mai tôi sẽ đang bay đến Seoul.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu tương lai tiếp diễn."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "We will not be using the office next week.",
+      "vietnamese": "Tuần sau chúng tôi sẽ không sử dụng văn phòng.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu tương lai tiếp diễn."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Will you be working late tonight?",
+      "vietnamese": "Tối nay bạn sẽ làm việc muộn chứ?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu tương lai tiếp diễn."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "FUTURE_CONTINUOUS_COMMON_ERROR",
+      "incorrect": "I will be work at ten.",
+      "corrected": "I will be working at ten.",
+      "explanationVi": "Sau will be cần dạng V-ing.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 28,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

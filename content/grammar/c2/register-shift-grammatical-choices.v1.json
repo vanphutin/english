@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "1.0",
+  "code": "REGISTER_SHIFT_GRAMMATICAL_CHOICES",
+  "family": "REGISTER",
+  "version": 1,
+  "cefr": "C2",
+  "status": "DRAFT",
+  "title": "Chuyển register bằng lựa chọn ngữ pháp",
+  "learningObjectiveVi": "Điều chỉnh chủ động/bị động, nominalisation, contraction và cấu trúc yêu cầu theo quan hệ xã hội và thể loại.",
+  "learningObjectiveEn": "Adjust voice, nominalisation, contraction, and request structure to suit social relationship and genre.",
+  "form": {
+    "patterns": [
+      "informal personal clause ↔ formal impersonal/passive clause",
+      "direct request ↔ modalised indirect request"
+    ],
+    "morphologyNotes": [
+      "Register shifts must preserve core meaning while making coordinated grammatical changes rather than swapping isolated vocabulary."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Match grammar to formal or informal genre.",
+      "Shift interpersonal distance without changing core proposition."
+    ]
+  },
+  "usageConstraints": [
+    "The structure must be motivated by meaning, information flow, stance, or register rather than complexity alone."
+  ],
+  "relationships": {
+    "prerequisites": [
+      "NOMINALISATION_FORMAL_STYLE",
+      "PASSIVE_ADVANCED_FORMS",
+      "PRAGMATIC_SOFTENING_IMPLICATION"
+    ],
+    "buildsOn": [
+      "NOMINALISATION_FORMAL_STYLE",
+      "PASSIVE_ADVANCED_FORMS",
+      "PRAGMATIC_SOFTENING_IMPLICATION"
+    ],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "REGISTER_SHIFT_GRAMMATICAL_CHOICES_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Register shifts must preserve core meaning while making coordinated grammatical changes rather than swapping isolated vocabulary."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "Send us the files today. → We would appreciate it if the files could be sent today.",
+      "vietnamese": "Hãy gửi tệp hôm nay. → Chúng tôi rất cảm kích nếu các tệp có thể được gửi hôm nay.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu chuyển register bằng lựa chọn ngữ pháp."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "We didn't look into it. → No investigation was undertaken.",
+      "vietnamese": "Chúng tôi không xem xét việc đó. → Không có cuộc điều tra nào được tiến hành.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu chuyển register bằng lựa chọn ngữ pháp."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "The results are kind of odd. → The results appear somewhat anomalous.",
+      "vietnamese": "Kết quả hơi lạ. → Kết quả có vẻ phần nào bất thường.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu chuyển register bằng lựa chọn ngữ pháp."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "REGISTER_SHIFT_GRAMMATICAL_CHOICES_COMMON_ERROR",
+      "incorrect": "Please kindly send me it ASAP in the report.",
+      "corrected": "Please send it as soon as possible.",
+      "explanationVi": "Trộn các dấu hiệu register không nhất quán làm yêu cầu kém tự nhiên.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": [
+      "academic discussion",
+      "professional writing",
+      "formal correspondence",
+      "narrative",
+      "public policy"
+    ],
+    "maximumSentenceWords": 42,
+    "requireExplicitTarget": true,
+    "requireDiscourseMotivation": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "scope",
+      "information structure",
+      "register",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "advanced-content-v4",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "1.0",
+  "code": "NOMINALISATION_FORMAL_STYLE",
+  "family": "FORMAL_STYLE",
+  "version": 1,
+  "cefr": "C1",
+  "status": "DRAFT",
+  "title": "Danh hóa trong văn phong trang trọng",
+  "learningObjectiveVi": "Chuyển một số hành động hoặc tính chất thành cụm danh từ để viết cô đọng và trang trọng mà vẫn rõ tác nhân.",
+  "learningObjectiveEn": "Use nominalisation for concise formal writing while keeping agency and meaning clear.",
+  "form": {
+    "patterns": [
+      "the + noun form + of + complement",
+      "possessive/determiner + noun form + prepositional complement"
+    ],
+    "morphologyNotes": [
+      "Nominalisation must not obscure a necessary agent or create an unnecessarily dense noun phrase."
+    ]
+  },
+  "meaning": {
+    "uses": ["Package a process as a concept.", "Create cohesion in formal analysis."]
+  },
+  "usageConstraints": [
+    "The structure must be motivated by meaning, information flow, stance, or register rather than complexity alone."
+  ],
+  "relationships": {
+    "prerequisites": ["PASSIVE_ADVANCED_FORMS"],
+    "buildsOn": ["PASSIVE_ADVANCED_FORMS"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "NOMINALISATION_FORMAL_STYLE_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Nominalisation must not obscure a necessary agent or create an unnecessarily dense noun phrase."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "The committee rejected the plan. → The committee’s rejection of the plan was unexpected.",
+      "vietnamese": "Ủy ban bác bỏ kế hoạch. → Việc ủy ban bác bỏ kế hoạch là điều bất ngờ.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu danh hóa trong văn phong trang trọng."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "A reduction in costs improved performance.",
+      "vietnamese": "Việc giảm chi phí đã cải thiện hiệu suất.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu danh hóa trong văn phong trang trọng."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "The rapid expansion of the service created new risks.",
+      "vietnamese": "Sự mở rộng nhanh của dịch vụ tạo ra rủi ro mới.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu danh hóa trong văn phong trang trọng."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "NOMINALISATION_FORMAL_STYLE_COMMON_ERROR",
+      "incorrect": "The decide of the board caused concern.",
+      "corrected": "The decision of the board caused concern.",
+      "explanationVi": "Danh từ của decide là decision, không phải decide.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": [
+      "academic discussion",
+      "professional writing",
+      "formal correspondence",
+      "narrative",
+      "public policy"
+    ],
+    "maximumSentenceWords": 34,
+    "requireExplicitTarget": true,
+    "requireDiscourseMotivation": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "scope",
+      "information structure",
+      "register",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "advanced-content-v4",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

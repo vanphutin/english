@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "1.0",
+  "code": "REPORTED_SPEECH_QUESTIONS",
+  "family": "REPORTED_SPEECH",
+  "version": 1,
+  "cefr": "B2",
+  "status": "DRAFT",
+  "title": "Câu hỏi tường thuật",
+  "learningObjectiveVi": "Tường thuật câu hỏi bằng trật tự mệnh đề và liên từ phù hợp.",
+  "learningObjectiveEn": "Report questions using statement word order and an appropriate reporting connector.",
+  "form": {
+    "patterns": ["asked + wh-word + subject + verb", "asked + if/whether + subject + verb"],
+    "morphologyNotes": [
+      "Use statement word order after the reporting connector and omit do, does, or did support."
+    ]
+  },
+  "meaning": {
+    "uses": ["Report an information question.", "Report a yes/no question."]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["REPORTED_SPEECH_STATEMENTS", "PAST_SIMPLE_QUESTIONS"],
+    "buildsOn": ["REPORTED_SPEECH_STATEMENTS", "PAST_SIMPLE_QUESTIONS"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "REPORTED_SPEECH_QUESTIONS_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use statement word order after the reporting connector and omit do, does, or did support."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "She asked where I lived.",
+      "vietnamese": "Cô ấy hỏi tôi sống ở đâu.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu câu hỏi tường thuật."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "He asked whether we were ready.",
+      "vietnamese": "Anh ấy hỏi liệu chúng tôi đã sẵn sàng chưa.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu câu hỏi tường thuật."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "They asked me why I had left early.",
+      "vietnamese": "Họ hỏi vì sao tôi đã rời đi sớm.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu câu hỏi tường thuật."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "REPORTED_SPEECH_QUESTIONS_COMMON_ERROR",
+      "incorrect": "She asked where did I live.",
+      "corrected": "She asked where I lived.",
+      "explanationVi": "Câu hỏi tường thuật dùng trật tự chủ ngữ trước động từ.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 28,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

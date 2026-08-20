@@ -1,0 +1,26 @@
+{
+  "code": "CYCLIC_MANIFEST",
+  "version": "1.0.0",
+  "title": "Cyclic Manifest Test",
+  "license": "PUBLIC_CONTENT",
+  "items": [
+    {
+      "code": "POINT_A",
+      "family": "PRESENT_TENSE",
+      "cefr": "A1",
+      "titleVi": "Bài A",
+      "titleEn": "Lesson A",
+      "distinctionVi": "Điểm ngữ pháp A",
+      "prerequisites": ["POINT_B"]
+    },
+    {
+      "code": "POINT_B",
+      "family": "PRESENT_TENSE",
+      "cefr": "A1",
+      "titleVi": "Bài B",
+      "titleEn": "Lesson B",
+      "distinctionVi": "Điểm ngữ pháp B",
+      "prerequisites": ["POINT_A"]
+    }
+  ]
+}

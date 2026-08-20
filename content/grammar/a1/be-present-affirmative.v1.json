@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "1.0",
+  "code": "BE_PRESENT_AFFIRMATIVE",
+  "family": "BE_PRESENT",
+  "version": 1,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Động từ be ở hiện tại: câu khẳng định",
+  "learningObjectiveVi": "Dùng am, is và are để mô tả danh tính hoặc trạng thái hiện tại.",
+  "learningObjectiveEn": "Use am, is, and are to describe present identity or state.",
+  "form": {
+    "patterns": [
+      "I + am + complement",
+      "he/she/it + is + complement",
+      "you/we/they + are + complement"
+    ],
+    "morphologyNotes": ["Use am only with I.", "Use is with third-person singular subjects."]
+  },
+  "meaning": { "uses": ["Identify a person or thing.", "Describe a present state or quality."] },
+  "usageConstraints": ["The complement must naturally describe or identify the subject."],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "BE_SUBJECT_AGREEMENT",
+      "type": "HARD_CONSTRAINT",
+      "description": "The form of be agrees with the subject."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I am tired.",
+      "vietnamese": "Tôi mệt.",
+      "explanationVi": "Chủ ngữ I đi với am."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "She is a teacher.",
+      "vietnamese": "Cô ấy là giáo viên.",
+      "explanationVi": "She là ngôi thứ ba số ít nên đi với is."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "They are at home now.",
+      "vietnamese": "Bây giờ họ đang ở nhà.",
+      "explanationVi": "They là chủ ngữ số nhiều nên đi với are."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "BE_WRONG_AGREEMENT",
+      "incorrect": "She are tired.",
+      "corrected": "She is tired.",
+      "explanationVi": "She phải đi với is.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": ["identity", "present state", "location"],
+    "maximumSentenceWords": 12
+  },
+  "evaluationPolicy": { "mustCheck": ["subject-verb agreement", "meaning preservation"] },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "contract-fixture",
+    "promptVersion": "grammar-kb-v1",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": ["Independently authored bootstrap fixture."]
+  }
+}

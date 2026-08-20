@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_PLURAL_NOUNS_REGULAR",
+  "family": "NOUN_PHRASE",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Danh từ số nhiều có quy tắc (-s, -es)",
+  "learningObjectiveVi": "Hiểu và áp dụng quy tắc danh từ số nhiều bằng cách thêm -s hoặc -es cho danh từ đếm được ở mức A1; nhận diện các danh từ có dạng số nhiều quy tắc và bất quy tắc phổ biến.",
+  "learningObjectiveEn": "Understand and apply regular plural noun rules by adding -s or -es to countable nouns at the A1 level; recognize common regular plural forms.",
+  "form": {
+    "patterns": [
+      "The cat is on the mat. The cats are on the mat.",
+      "The bus is old. The buses are on the road.",
+      "The baby is crying. The babies are quiet now."
+    ],
+    "morphologyNotes": [
+      "Most nouns form the plural by adding -s; nouns ending in s, x, z, ch, sh or nouns ending in a consonant + y require -es (e.g., buses, boxes, wishes)."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Refer to more than one item (plural form).",
+      "Talk about a group or items in general within a sentence using context."
+    ]
+  },
+  "usageConstraints": [
+    "Do not add -s/-es to uncountable nouns (e.g., water, sand) when speaking generally.",
+    "Some nouns have irregular plurals (e.g., child -> children) and do not follow -s/-es rules; these must be learned separately."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "R_REGULAR_PLURAL_ADDITION",
+      "type": "FORM",
+      "description": "Add -s to most nouns to form the plural (dog -> dogs, book -> books)."
+    },
+    {
+      "code": "R_Y_TO_IES",
+      "type": "FORM",
+      "description": "If a noun ends with a consonant + y, change y to i and add -es (baby -> babies, party -> parties)."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "The cat is on the mat.",
+      "vietnamese": "Con mèo đang ở trên chiếc thảm.",
+      "explanationVi": "Đây là ví dụ về danh từ số ít và số nhiều từ cùng một từ (the cat / the cats)."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "The buses are not on the road yet.",
+      "vietnamese": "Các xe buýt chưa ở trên đường.",
+      "explanationVi": "Ví dụ về danh từ số nhiều quy tắc với phủ định."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Are the dogs on the lawn?",
+      "vietnamese": "Những con chó ở bãi cỏ có ở đó không?",
+      "explanationVi": "Dùng 'the' để nói về danh từ số nhiều đã được xác định trong ngữ cảnh."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "In this neighborhood, the buses run every 15 minutes.",
+      "vietnamese": "Ở khu phố này, các xe buýt chạy mỗi 15 phút.",
+      "explanationVi": "Cung cấp ngữ cảnh để thấy ứng dụng của danh từ số nhiều quy tắc."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "The books here are old, but the books there are new.",
+      "vietnamese": "Sách ở đây cũ, nhưng sách ở đó mới.",
+      "explanationVi": "So sánh hai tập sách khác nhau và quy tắc số nhiều."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "ERR_ADD_S_OR_ES",
+      "incorrect": "The dog is cute.",
+      "corrected": "The dogs are cute.",
+      "explanationVi": "Danh từ đếm được ở dạng số nhiều cần thêm -s/-es; bỏ lẫn lộn hiện tượng.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "ERR_UNCOUNTABLE_WITH_PLURAL",
+      "incorrect": "The water are essential.",
+      "corrected": "Water is essential.",
+      "explanationVi": "Danh từ không đếm được không nhận số nhiều; không dùng 'the' trong ngữ cảnh chung.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "A1 classroom teaching context",
+      "Self-study materials"
+    ],
+    "maximumSentenceWords": 14,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "grammaticality",
+      "pluralization accuracy",
+      "naturalness of examples"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:26:16.889Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

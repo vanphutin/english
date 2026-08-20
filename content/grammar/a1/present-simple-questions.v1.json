@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PRESENT_SIMPLE_QUESTIONS",
+  "family": "PRESENT_SIMPLE",
+  "version": 1,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Hiện tại đơn: câu hỏi",
+  "learningObjectiveVi": "Dùng do hoặc does để hỏi về thói quen và thông tin thường xuyên.",
+  "learningObjectiveEn": "Use do or does to ask about routines and regular facts.",
+  "form": {
+    "patterns": [
+      "do + I/you/we/they + base verb?",
+      "does + he/she/it + base verb?",
+      "wh-word + do/does + subject + base verb?"
+    ],
+    "morphologyNotes": [
+      "Use does for third-person singular and keep the main verb in its base form."
+    ]
+  },
+  "meaning": {
+    "uses": ["Ask about a routine.", "Request regular or factual information."]
+  },
+  "usageConstraints": ["Choose the form from the intended meaning and sentence context."],
+  "relationships": {
+    "prerequisites": ["PRESENT_SIMPLE_NEGATIVE"],
+    "buildsOn": ["PRESENT_SIMPLE_NEGATIVE"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PRESENT_SIMPLE_QUESTIONS_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use does for third-person singular and keep the main verb in its base form."
+    }
+  ],
+  "examples": [
+    {
+      "type": "QUESTION",
+      "english": "Do you work on Fridays?",
+      "vietnamese": "Bạn có làm việc vào thứ Sáu không?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại đơn: câu hỏi."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Does Lan live near here?",
+      "vietnamese": "Lan có sống gần đây không?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại đơn: câu hỏi."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Where do they study?",
+      "vietnamese": "Họ học ở đâu?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại đơn: câu hỏi."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PRESENT_SIMPLE_QUESTIONS_COMMON_ERROR",
+      "incorrect": "Does he plays football?",
+      "corrected": "Does he play football?",
+      "explanationVi": "Sau does, dùng động từ nguyên mẫu play.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel"],
+    "maximumSentenceWords": 12,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": ["target form", "meaning preservation", "natural accepted alternatives"],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "foundation-content-v2",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

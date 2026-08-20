@@ -1,0 +1,194 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PERSONAL_ENGLISH",
+  "title": "Lộ trình ngữ pháp tiếng Anh cá nhân",
+  "version": 2,
+  "levels": [
+    {
+      "code": "LEVEL_A1_FOUNDATIONS",
+      "cefr": "A1",
+      "title": "Nền tảng A1",
+      "unlockPolicy": {
+        "requiredMasteryPercent": 80,
+        "minimumPointScore": 60
+      },
+      "units": [
+        {
+          "code": "A1_U01_SUBJECT_AND_BE",
+          "title": "Chủ ngữ, động từ be và sở hữu",
+          "items": [
+            {
+              "grammarPointCode": "SUBJECT_PRONOUNS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "BE_PRESENT_AFFIRMATIVE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "BE_PRESENT_NEGATIVE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "BE_PRESENT_QUESTIONS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "POSSESSIVE_ADJECTIVES_BASIC",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        },
+        {
+          "code": "A1_U02_EXISTENCE_AND_ROUTINES",
+          "title": "Sự tồn tại và thói quen hằng ngày",
+          "items": [
+            {
+              "grammarPointCode": "THERE_IS_ARE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "HAVE_GOT_POSSESSION",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PRESENT_SIMPLE_AFFIRMATIVE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PRESENT_SIMPLE_NEGATIVE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PRESENT_SIMPLE_QUESTIONS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "LEVEL_A2_ELEMENTARY",
+      "cefr": "A2",
+      "title": "Sơ cấp A2",
+      "unlockPolicy": {
+        "requiredMasteryPercent": 80,
+        "minimumPointScore": 60
+      },
+      "units": [
+        {
+          "code": "A2_U01_TIME_AND_ACTION",
+          "title": "Hành động trong quá khứ và hiện tại",
+          "items": [
+            {
+              "grammarPointCode": "PAST_SIMPLE_REGULAR",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PAST_SIMPLE_IRREGULAR",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PAST_SIMPLE_NEGATIVE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PAST_SIMPLE_QUESTIONS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PRESENT_CONTINUOUS_NOW",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PRESENT_SIMPLE_VS_CONTINUOUS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        },
+        {
+          "code": "A2_U02_QUANTITY_COMPARISON_PLANS",
+          "title": "Số lượng, so sánh và dự định",
+          "items": [
+            {
+              "grammarPointCode": "COUNTABLE_UNCOUNTABLE_QUANTIFIERS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "COMPARATIVE_ADJECTIVES",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "SUPERLATIVE_ADJECTIVES",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "FUTURE_GOING_TO_PLANS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

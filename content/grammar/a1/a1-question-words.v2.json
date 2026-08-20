@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_QUESTION_WORDS",
+  "family": "QUESTIONS",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Từ hỏi Wh- (who, what, where, when)",
+  "learningObjectiveVi": "Hiểu và sử dụng đúng các từ hỏi Wh- (who, what, where, when) để đặt câu hỏi thông tin cơ bản trong giao tiếp tiếng Anh.",
+  "learningObjectiveEn": "Understand and use Wh- question words (who, what, where, when) to ask for basic information in everyday English.",
+  "form": {
+    "patterns": [
+      "What + is/are + your + name? (ví dụ: What is your name?)",
+      "Where + do/does + subject + verb? (ví dụ: Where do you live?)",
+      "Who + is/are + the + person? (ví dụ: Who is your teacher?)"
+    ],
+    "morphologyNotes": [
+      "Wh- từ ở đầu câu, đảo ngữ trợ động từ với chủ ngữ (What is your name? / Where do you live?).",
+      "Dạng căn bản: sử dụng what/where/who, và các trợ động từ phù hợp (is/are/do/does)."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Hỏi thông tin nhận diện, vị trí, thời gian hoặc hoạt động của người/vật.",
+      "Thu thập thông tin cơ bản trong giao tiếp hàng ngày."
+    ]
+  },
+  "usageConstraints": [
+    "Chọn Wh- word đúng với thông tin cần hỏi (Who cho người, What/Which cho vật hoặc lựa chọn, Where cho địa điểm, When cho thời gian).",
+    "Dùng dấu hỏi ở cuối câu và điều chỉnh trợ động từ cho chủ ngữ số ít/ nhiều."
+  ],
+  "relationships": {
+    "prerequisites": [
+      "BE_PRESENT_QUESTIONS"
+    ],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A1_QW_FORM",
+      "type": "FORM",
+      "description": "Cấu trúc câu hỏi Wh- với từ để hỏi ở đầu và trợ động từ/động từ 'to be' ở dạng đúng với chủ ngữ."
+    },
+    {
+      "code": "A1_QW_MEANING",
+      "type": "MEANING",
+      "description": "Wh- words biểu thị thông tin cần hỏi và không phải là mệnh đề khẳng định."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "What you need is practice.",
+      "vietnamese": "Điều bạn cần là luyện tập.",
+      "explanationVi": "Wh- ở đầu câu tạo thành một mệnh đề danh định nhấn mạnh nội dung cần biết."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "I don’t know where she lives.",
+      "vietnamese": "Mình không biết cô ấy sống ở đâu.",
+      "explanationVi": "Wh- ở đầu câu hỏi phủ định để hỏi về địa điểm."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Where do you live?",
+      "vietnamese": "Bạn sống ở đâu?",
+      "explanationVi": "Dạng hỏi với trợ động từ đảo ngữ giữa chủ ngữ."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "In the interview, she asked what time the meeting starts.",
+      "vietnamese": "Trong buổi phỏng vấn, cô ấy hỏi giờ bắt đầu cuộc họp.",
+      "explanationVi": "Ví dụ đặt trong ngữ cảnh giao tiếp để thể hiện việc hỏi thông tin thời gian."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "Which city do you prefer, Tokyo or Seoul?",
+      "vietnamese": "Bạn thích thành phố nào hơn, Tokyo hay Seoul?",
+      "explanationVi": "Sử dụng Which cho lựa chọn giữa hai hoặc nhiều tùy chọn."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "A1_QW_ERR1",
+      "incorrect": "What she is doing?",
+      "corrected": "What is she doing?",
+      "explanationVi": "Đảo ngữ sai; động từ to be phải ở sau Wh- và phù hợp với chủ ngữ.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "A1_QW_ERR2",
+      "incorrect": "Where you from?",
+      "corrected": "Where are you from?",
+      "explanationVi": "Thiếu trợ động từ và trật tự từ đúng với câu hỏi Wh-.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "EVERYDAY_CONVERSATION",
+      "CLASSROOM"
+    ],
+    "maximumSentenceWords": 14,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "GRAMMAR",
+      "MEANING",
+      "USAGE"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:32:54.694Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0",
+  "code": "FUTURE_GOING_TO_PLANS",
+  "family": "FUTURE_EXPRESSIONS",
+  "version": 1,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Be going to cho dự định tương lai",
+  "learningObjectiveVi": "Dùng be going to để nói về dự định đã có trước thời điểm nói.",
+  "learningObjectiveEn": "Use be going to for a future intention formed before speaking.",
+  "form": {
+    "patterns": ["subject + am/is/are + going to + base verb"],
+    "morphologyNotes": ["Use an agreeing form of be before going to and a base verb after to."]
+  },
+  "meaning": {
+    "uses": ["Express a prior intention or plan.", "Ask about another person’s plan."]
+  },
+  "usageConstraints": ["Choose the form from the intended meaning and sentence context."],
+  "relationships": {
+    "prerequisites": ["BE_PRESENT_AFFIRMATIVE", "PRESENT_CONTINUOUS_NOW"],
+    "buildsOn": ["BE_PRESENT_AFFIRMATIVE", "PRESENT_CONTINUOUS_NOW"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "FUTURE_GOING_TO_PLANS_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use an agreeing form of be before going to and a base verb after to."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I am going to learn to cook.",
+      "vietnamese": "Tôi dự định học nấu ăn.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu be going to cho dự định tương lai."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "They are not going to move this year.",
+      "vietnamese": "Năm nay họ không định chuyển nhà.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu be going to cho dự định tương lai."
+    },
+    {
+      "type": "QUESTION",
+      "english": "What are you going to do tonight?",
+      "vietnamese": "Tối nay bạn định làm gì?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu be going to cho dự định tương lai."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "FUTURE_GOING_TO_PLANS_COMMON_ERROR",
+      "incorrect": "She is going to studies abroad.",
+      "corrected": "She is going to study abroad.",
+      "explanationVi": "Sau going to dùng động từ nguyên mẫu study.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel"],
+    "maximumSentenceWords": 16,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": ["target form", "meaning preservation", "natural accepted alternatives"],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "foundation-content-v2",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

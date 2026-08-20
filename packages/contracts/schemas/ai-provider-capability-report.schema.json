@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grammar-path.local/schemas/ai-provider-capability-report.schema.json",
+  "title": "AI Provider Capability Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "probeVersion",
+    "provider",
+    "baseHost",
+    "probedAt",
+    "status",
+    "checks",
+    "models"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "probeVersion": { "type": "string", "minLength": 1 },
+    "provider": { "type": "string", "enum": ["OPENAI", "SECONDARY_OPENAI_COMPATIBLE"] },
+    "baseHost": { "type": "string", "minLength": 1 },
+    "probedAt": { "type": "string", "format": "date-time" },
+    "status": { "type": "string", "enum": ["VERIFIED", "PARTIAL", "UNAVAILABLE", "MISCONFIGURED"] },
+    "selectedModel": { "type": ["string", "null"] },
+    "models": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["capability", "status", "latencyMs"],
+        "properties": {
+          "capability": {
+            "type": "string",
+            "enum": [
+              "TLS_HOST",
+              "AUTH_MODELS",
+              "CHAT_COMPLETIONS",
+              "RESPONSES",
+              "VIETNAMESE_UNICODE",
+              "STRUCTURED_OUTPUT",
+              "PROMPT_INJECTION_BOUNDARY"
+            ]
+          },
+          "status": { "type": "string", "enum": ["PASS", "FAIL", "UNSUPPORTED", "SKIPPED"] },
+          "latencyMs": { "type": "integer", "minimum": 0 },
+          "errorCode": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

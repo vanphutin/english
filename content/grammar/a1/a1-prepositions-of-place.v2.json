@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_PREPOSITIONS_OF_PLACE",
+  "family": "PREPOSITIONS",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Giới từ chỉ nơi chốn cơ bản",
+  "learningObjectiveVi": "Hiểu và áp dụng giới từ chỉ nơi chốn cơ bản (in, on, at) để nói vị trí của người/vật trong ngữ cảnh hàng ngày.",
+  "learningObjectiveEn": "Understand and apply the basic prepositions of place (in, on, at) to describe the location of people/things in everyday contexts.",
+  "form": {
+    "patterns": [
+      "Subject + be + in/on/at + place (ví dụ: The keys are on the table; The book is in the box; She is at the door.)",
+      "Question form: Where is + subject + be? (ví dụ: Where is the book?)",
+      "Choice/contrast pattern: Is the lamp on the desk or in the drawer?"
+    ],
+    "morphologyNotes": [
+      "Dùng động từ to be ở hiện tại đơn (am/is/are) tùy chủ ngữ; sau be thường là giới từ chỉ vị trí theo sau: in, on, at.",
+      "in được dùng cho không gian kín hoặc bên trong; on cho bề mặt; at cho một điểm hoặc vị trí cụ thể."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Chỉ vị trí của người hoặc vật ở một địa điểm cụ thể (ví dụ: The cat is in the box; The book is on the table).",
+      "Chỉ vị trí tại một điểm cụ thể hoặc địa điểm (ví dụ: She is at the door; He is at the bus stop)."
+    ]
+  },
+  "usageConstraints": [
+    "Không dùng for indicating movement; giới từ chỉ nơi chốn miêu tả vị trí, không hành động di chuyển.",
+    "Với danh từ chỉ nơi chốn cần dùng đúng loại giới từ: in cho nơi chứa đựng, on cho bề mặt, at cho điểm/địa điểm cụ thể. Không dùng lẫn lộn."
+  ],
+  "relationships": {
+    "prerequisites": [
+      "BE_PRESENT_AFFIRMATIVE"
+    ],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A1_PREP_OF_PLACE_FORM_PATTERN",
+      "type": "FORM",
+      "description": "Patterns must follow Subject + be + in/on/at + place (or a question/contrast variant) with correct subject-verb agreement."
+    },
+    {
+      "code": "A1_PREP_OF_PLACE_MEANING",
+      "type": "MEANING",
+      "description": "Choose the correct preposition based on enclosure (in), surface (on), or point/location (at)."
+    },
+    {
+      "code": "A1_PREP_OF_PLACE_USE",
+      "type": "USE",
+      "description": "Use for describing where things are in everyday contexts; avoid using for time expressions."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "The keys are on the table.",
+      "vietnamese": "Các chìa khóa ở trên bàn.",
+      "explanationVi": "Dùng 'on' để chỉ vị trí trên bề mặt của bàn."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "The cat is not in the box.",
+      "vietnamese": "Con mèo không ở trong hộp.",
+      "explanationVi": "Dùng 'in' để chỉ vị trí bên trong một không gian kín."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Where is the book?",
+      "vietnamese": "Cuốn sách ở đâu?",
+      "explanationVi": "Dùng 'Where is' để hỏi vị trí của một vật."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "In the classroom, the map is on the wall.",
+      "vietnamese": "Trong lớp học, bản đồ ở trên tường.",
+      "explanationVi": "Ví dụ ngữ cảnh học đường cho thấy vị trí bản đồ."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "Is the lamp on the desk or in the drawer?",
+      "vietnamese": "Đèn ở trên bàn hay ở ngăn kéo?",
+      "explanationVi": "So sánh giữa hai trạng thái vị trí khác nhau với các giới từ khác nhau."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "A1_PREP_OF_PLACE_MISSING_ON",
+      "incorrect": "The keys are table.",
+      "corrected": "The keys are on the table.",
+      "explanationVi": "Quên dùng giới từ; 'on' dành cho bề mặt.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "A1_PREP_OF_PLACE_INSTEAD_OF_ON",
+      "incorrect": "The book is at table.",
+      "corrected": "The book is on the table.",
+      "explanationVi": "Dùng 'on' cho bề mặt, không dùng 'at' cho vị trí trên bàn.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "A1_BASIC_CONVERSATION",
+      "BEGINNER_ENGLISH_LEARNING"
+    ],
+    "maximumSentenceWords": 14,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "patterns",
+      "meanings",
+      "examples"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:20:59.706Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

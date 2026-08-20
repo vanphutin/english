@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: english-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: english
+      POSTGRES_USER: english
+      POSTGRES_PASSWORD: english
+    ports:
+      - '6543:5432'
+    volumes:
+      - english_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U english -d english']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  english_postgres_data:

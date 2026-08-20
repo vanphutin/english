@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_CONNECTORS_BECAUSE_SO",
+  "family": "DISCOURSE_COHESION",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Từ nối chỉ nguyên nhân kết quả Because, So",
+  "learningObjectiveVi": "Sử dụng đúng từ nối Because và So để diễn đạt nguyên nhân và kết quả ở mức A2.",
+  "learningObjectiveEn": "Use the connectors because and so to express cause and effect at the A2 level.",
+  "form": {
+    "patterns": [
+      "Because + clause, + result.",
+      "It was late, so + clause."
+    ],
+    "morphologyNotes": [
+      "Because đưa ra lý do, trạng thái; So nhấn mạnh kết quả.",
+      "Đặt dấu phẩy trước nối Because/So khi nối hai mệnh đề độc lập."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Nêu nguyên nhân và kết quả trong câu nói và văn bản.",
+      "Liên kết ý tưởng cho câu chuyện hoặc lời giải thích ở mức cơ bản."
+    ]
+  },
+  "usageConstraints": [
+    "Nên dùng because để giải thích nguyên nhân hợp lý.",
+    "So dùng để diễn đạt kết quả hoặc hậu quả rõ ràng sau lý do."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "R1",
+      "type": "FORM",
+      "description": "Cấu trúc câu có Because hoặc So ở đầu hoặc giữa câu; dấu phẩy trước nối."
+    },
+    {
+      "code": "R2",
+      "type": "MEANING",
+      "description": "Chỉ sử dụng Because/So cho nguyên nhân và kết quả thực tế hoặc hợp lý."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "Because it was late, we left.",
+      "vietnamese": "Vì muộn nên chúng tôi đã rời đi.",
+      "explanationVi": "Because đưa lý do, kết quả là rời đi."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "Because the shop wasn't open, we couldn't buy groceries.",
+      "vietnamese": "Vì cửa hàng đóng cửa nên chúng tôi không thể mua thực phẩm.",
+      "explanationVi": "Dùng Because để nêu lý do khiến hành động không thể thực hiện."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Was it raining, so you stayed indoors?",
+      "vietnamese": "Trời có mưa không, nên bạn ở trong nhà phải không?",
+      "explanationVi": "Câu hỏi dùng cấu trúc liên kết với So bày tỏ quan hệ nhân quả."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "In daily life, if it rains, you take an umbrella. If it was late, you left.",
+      "vietnamese": "Trong đời sống hàng ngày, nếu trời mưa thì bạn mang ô; nếu muộn, bạn rời đi.",
+      "explanationVi": "Ví dụ kết hợp vì/so trong ngữ cảnh giao tiếp thực tế."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "Ice melts because heat is applied, while metal expands when heated.",
+      "vietnamese": "Đá tan chảy vì được nung nóng, trong khi kim loại giãn nở khi được nung nóng.",
+      "explanationVi": "So sánh hiện tượng vật lý với nguyên nhân khác nhau."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "E1",
+      "incorrect": "Because it was late, we left. It was raining.",
+      "corrected": "Because it was late, we left; it was raining is a separate clause.",
+      "explanationVi": "Cách ghép nhiều mệnh đề cần xử lý ngắt câu hợp lý.",
+      "severity": "MINOR"
+    },
+    {
+      "code": "E2",
+      "incorrect": "It was late so we left, because it was late.",
+      "corrected": "It was late, so we left.",
+      "explanationVi": "Tránh lặp nguyên nhân và kết quả không cần thiết.",
+      "severity": "MINOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "Education",
+      "CommunicationPractice"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "connectorUsage",
+      "commaPlacement",
+      "tenseConsistency"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:46:11.214Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

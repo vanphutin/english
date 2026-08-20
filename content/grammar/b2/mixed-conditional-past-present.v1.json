@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "1.0",
+  "code": "MIXED_CONDITIONAL_PAST_PRESENT",
+  "family": "CONDITIONALS",
+  "version": 1,
+  "cefr": "B2",
+  "status": "DRAFT",
+  "title": "Điều kiện hỗn hợp: nguyên nhân quá khứ, kết quả hiện tại",
+  "learningObjectiveVi": "Liên kết một điều kiện quá khứ không có thật với kết quả trái thực tế ở hiện tại.",
+  "learningObjectiveEn": "Connect an unreal past condition to a counterfactual present result.",
+  "form": {
+    "patterns": ["if + had + past participle, would + base verb + now"],
+    "morphologyNotes": [
+      "Use past perfect for the unreal past cause and would plus a base verb for the present result."
+    ]
+  },
+  "meaning": {
+    "uses": ["Explain a present state as the unreal result of a past choice."]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["THIRD_CONDITIONAL", "SECOND_CONDITIONAL"],
+    "buildsOn": ["THIRD_CONDITIONAL", "SECOND_CONDITIONAL"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "MIXED_CONDITIONAL_PAST_PRESENT_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use past perfect for the unreal past cause and would plus a base verb for the present result."
+    }
+  ],
+  "examples": [
+    {
+      "type": "CONTEXTUAL",
+      "english": "If I had taken that job, I would live in Tokyo now.",
+      "vietnamese": "Nếu nhận công việc đó, giờ tôi đã sống ở Tokyo.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu điều kiện hỗn hợp: nguyên nhân quá khứ, kết quả hiện tại."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "She would be healthier now if she had stopped smoking.",
+      "vietnamese": "Giờ cô ấy đã khỏe hơn nếu trước đây bỏ thuốc.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu điều kiện hỗn hợp: nguyên nhân quá khứ, kết quả hiện tại."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "If we had checked the route, we would not be lost now.",
+      "vietnamese": "Nếu đã kiểm tra đường, giờ chúng tôi đã không bị lạc.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu điều kiện hỗn hợp: nguyên nhân quá khứ, kết quả hiện tại."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "MIXED_CONDITIONAL_PAST_PRESENT_COMMON_ERROR",
+      "incorrect": "If I had studied medicine, I would have been a doctor now.",
+      "corrected": "If I had studied medicine, I would be a doctor now.",
+      "explanationVi": "Kết quả hiện tại dùng would be, không dùng would have been.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 28,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

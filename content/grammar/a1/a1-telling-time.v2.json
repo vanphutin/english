@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_TELLING_TIME",
+  "family": "TIME_EXPRESSIONS",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Cách nói giờ trong tiếng Anh",
+  "learningObjectiveVi": "Người học có thể nói giờ ở mức A1 bằng các cấu trúc căn bản như It is [hour] o'clock, It isn't [hour] o'clock, và có thể trả lời câu hỏi What time is it?",
+  "learningObjectiveEn": "Learners can tell the time at A1 level using simple phrases such as It is [hour] o'clock, It isn't [hour] o'clock, and answer What time is it?",
+  "form": {
+    "patterns": [
+      "It is [hour] o'clock.",
+      "It's [hour] o'clock.",
+      "What time is it?"
+    ],
+    "morphologyNotes": [
+      "'It' là chủ ngữ giả cho giờ; 'is' là động từ to be ở dạng hiện tại; 'o'clock' dùng sau giờ để chỉ giờ đầy đủ; dạng contraction 'It's' phổ biến trong spoken English."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Dùng để nói giờ hiện tại một cách ngắn gọn.",
+      "Dùng để trả lời câu hỏi What time is it? để xác định giờ."
+    ]
+  },
+  "usageConstraints": [
+    "Chỉ dùng với giờ đầy đủ (full hour), không dùng phút.",
+    "Tránh dùng 24 giờ hoặc chữ ký như 'a.m./p.m.' ở mức A1; thay bằng cụm thời gian trong ngày (in the morning/afternoon)."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "R1",
+      "type": "FORM",
+      "description": "Pattern It is [hour] o'clock/ It's [hour] o'clock là dạng chuẩn cho giờ ở A1."
+    },
+    {
+      "code": "R2",
+      "type": "MEANING",
+      "description": "Dùng để nói giờ hiện tại và trả lời câu hỏi về giờ, không dùng phút."
+    },
+    {
+      "code": "R3",
+      "type": "USE",
+      "description": "Trong giao tiếp nói thông thường có thể dùng It's thay cho It is trong câu nói tự nhiên."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "It is three o'clock.",
+      "vietnamese": "Bây giờ là ba giờ.",
+      "explanationVi": "Khẳng định giờ theo mẫu It is [hour] o'clock."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "It isn't five o'clock.",
+      "vietnamese": "Không phải lúc năm giờ.",
+      "explanationVi": "Phủ định giờ bằng 'isn't' với mẫu It is [hour] o'clock."
+    },
+    {
+      "type": "QUESTION",
+      "english": "What time is it?",
+      "vietnamese": "Mấy giờ rồi?",
+      "explanationVi": "Đặt câu hỏi để hỏi giờ."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "It is six o'clock in the morning.",
+      "vietnamese": "Lúc sáu giờ sáng.",
+      "explanationVi": "Nối giờ với thời gian trong ngày."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "It is twelve o'clock.",
+      "vietnamese": "Lúc mười hai giờ.",
+      "explanationVi": "Ví dụ giờ ở giữa chiều hoặc tối khi chỉ giờ đầy đủ."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "A1_TELL_01",
+      "incorrect": "It is 3 o'clock.",
+      "corrected": "It is three o'clock.",
+      "explanationVi": "Viết số bằng chữ (three) cho giờ ở mức A1 thay vì số (3).",
+      "severity": "MINOR"
+    },
+    {
+      "code": "A1_TELL_02",
+      "incorrect": "It is five o'clock p.m.",
+      "corrected": "It is five o'clock in the morning/afternoon.",
+      "explanationVi": "Không dùng 'a.m.'/'p.m.' ở mức A1; dùng cụm thời gian thích hợp.",
+      "severity": "MINOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "A1 grammar and vocabulary practice",
+      "Elementary English classroom instruction"
+    ],
+    "maximumSentenceWords": 14,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "pattern conformity to 'It is [hour] o'clock'",
+      "subject-verb agreement with 'It is' vs 'It's'"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:35:54.633Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

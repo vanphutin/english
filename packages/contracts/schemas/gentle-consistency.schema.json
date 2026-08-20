@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grammar-path.local/schemas/gentle-consistency.schema.json",
+  "title": "Gentle consistency views",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["calendar", "dailySurprise"],
+  "properties": {
+    "calendar": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policyVersion",
+        "days",
+        "meaningfulDayCount",
+        "currentRhythm",
+        "bestRhythm",
+        "messageVi"
+      ],
+      "properties": {
+        "policyVersion": { "const": "gentle-consistency-v1" },
+        "days": {
+          "type": "array",
+          "minItems": 28,
+          "maxItems": 28,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["date", "type", "evidenceCount"],
+            "properties": {
+              "date": { "type": "string", "format": "date" },
+              "type": { "enum": ["LEARNING", "REST", "EMPTY"] },
+              "evidenceCount": { "type": "integer", "minimum": 0 }
+            }
+          }
+        },
+        "meaningfulDayCount": { "type": "integer", "minimum": 0 },
+        "currentRhythm": { "type": "integer", "minimum": 0 },
+        "bestRhythm": { "type": "integer", "minimum": 0 },
+        "messageVi": { "type": "string", "minLength": 1 }
+      }
+    },
+    "dailySurprise": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": [
+        "date",
+        "contentKey",
+        "cefr",
+        "type",
+        "titleVi",
+        "bodyVi",
+        "topicCode",
+        "optional"
+      ],
+      "properties": {
+        "date": { "type": "string", "format": "date" },
+        "contentKey": { "type": "string" },
+        "cefr": { "enum": ["A1", "A2", "B1", "B2", "C1", "C2"] },
+        "type": { "enum": ["MICRO_STORY", "ERROR_PUZZLE", "CONTEXT_NOTE"] },
+        "titleVi": { "type": "string" },
+        "bodyVi": { "type": "string" },
+        "topicCode": { "type": "string" },
+        "optional": { "const": true }
+      }
+    }
+  }
+}

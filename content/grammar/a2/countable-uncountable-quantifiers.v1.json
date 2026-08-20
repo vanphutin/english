@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "1.0",
+  "code": "COUNTABLE_UNCOUNTABLE_QUANTIFIERS",
+  "family": "NOUN_QUANTITY",
+  "version": 1,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Danh từ đếm được, không đếm được và lượng từ",
+  "learningObjectiveVi": "Chọn much, many, a few và a little theo loại danh từ và lượng cần diễn đạt.",
+  "learningObjectiveEn": "Choose much, many, a few, and a little according to noun type and intended quantity.",
+  "form": {
+    "patterns": ["many/a few + plural countable noun", "much/a little + uncountable noun"],
+    "morphologyNotes": [
+      "Use plural forms with countable quantifiers and singular mass nouns with uncountable quantifiers."
+    ]
+  },
+  "meaning": {
+    "uses": ["Ask or talk about quantity.", "Express a small positive amount."]
+  },
+  "usageConstraints": ["Choose the form from the intended meaning and sentence context."],
+  "relationships": {
+    "prerequisites": ["THERE_IS_ARE"],
+    "buildsOn": ["THERE_IS_ARE"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "COUNTABLE_UNCOUNTABLE_QUANTIFIERS_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use plural forms with countable quantifiers and singular mass nouns with uncountable quantifiers."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "We have a few chairs.",
+      "vietnamese": "Chúng tôi có một vài chiếc ghế.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu danh từ đếm được, không đếm được và lượng từ."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "There is a little milk left.",
+      "vietnamese": "Còn lại một ít sữa.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu danh từ đếm được, không đếm được và lượng từ."
+    },
+    {
+      "type": "QUESTION",
+      "english": "How many tickets do you need?",
+      "vietnamese": "Bạn cần bao nhiêu vé?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu danh từ đếm được, không đếm được và lượng từ."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "COUNTABLE_UNCOUNTABLE_QUANTIFIERS_COMMON_ERROR",
+      "incorrect": "How much books are there?",
+      "corrected": "How many books are there?",
+      "explanationVi": "Books là danh từ đếm được số nhiều nên dùng many.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel"],
+    "maximumSentenceWords": 16,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": ["target form", "meaning preservation", "natural accepted alternatives"],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "foundation-content-v2",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

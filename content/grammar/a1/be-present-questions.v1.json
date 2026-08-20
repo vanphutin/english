@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "1.0",
+  "code": "BE_PRESENT_QUESTIONS",
+  "family": "BE_PRESENT",
+  "version": 1,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Động từ be ở hiện tại: câu hỏi yes/no",
+  "learningObjectiveVi": "Đảo am, is hoặc are lên trước chủ ngữ để tạo câu hỏi yes/no.",
+  "learningObjectiveEn": "Invert am, is, or are with the subject to form present yes/no questions.",
+  "form": { "patterns": ["am/is/are + subject + complement?"] },
+  "meaning": { "uses": ["Ask whether a present identity, quality, or location is true."] },
+  "usageConstraints": [],
+  "relationships": {
+    "prerequisites": ["BE_PRESENT_AFFIRMATIVE"],
+    "buildsOn": ["SUBJECT_PRONOUNS"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "BE_QUESTION_INVERSION",
+      "type": "HARD_CONSTRAINT",
+      "description": "Move the form of be before the subject in a yes/no question."
+    }
+  ],
+  "examples": [
+    {
+      "type": "QUESTION",
+      "english": "Are you ready?",
+      "vietnamese": "Bạn sẵn sàng chưa?",
+      "explanationVi": "Are đứng trước you."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Is she at home?",
+      "vietnamese": "Cô ấy có ở nhà không?",
+      "explanationVi": "Is đứng trước she."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "Are they students?",
+      "vietnamese": "Họ có phải là học sinh không?",
+      "explanationVi": "They dùng với are."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "BE_QUESTION_NO_INVERSION",
+      "incorrect": "She is ready?",
+      "corrected": "Is she ready?",
+      "explanationVi": "Câu hỏi chuẩn cần đảo is lên trước she.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": { "maximumSentenceWords": 12 },
+  "evaluationPolicy": { "mustCheck": ["be inversion", "question meaning"] },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "contract-fixture",
+    "promptVersion": "grammar-kb-v1",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": ["Independently authored bootstrap fixture."]
+  }
+}

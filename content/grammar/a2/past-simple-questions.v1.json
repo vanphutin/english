@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PAST_SIMPLE_QUESTIONS",
+  "family": "PAST_SIMPLE",
+  "version": 1,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Quá khứ đơn: câu hỏi",
+  "learningObjectiveVi": "Dùng did để hỏi về hành động đã xảy ra trong quá khứ.",
+  "learningObjectiveEn": "Use did to ask about completed past actions.",
+  "form": {
+    "patterns": ["did + subject + base verb?", "wh-word + did + subject + base verb?"],
+    "morphologyNotes": ["After did, use the base form of the main verb."]
+  },
+  "meaning": {
+    "uses": ["Ask whether a past event happened.", "Ask for details about a past event."]
+  },
+  "usageConstraints": ["Choose the form from the intended meaning and sentence context."],
+  "relationships": {
+    "prerequisites": ["PAST_SIMPLE_NEGATIVE"],
+    "buildsOn": ["PAST_SIMPLE_NEGATIVE"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PAST_SIMPLE_QUESTIONS_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "After did, use the base form of the main verb."
+    }
+  ],
+  "examples": [
+    {
+      "type": "QUESTION",
+      "english": "Did you call Mai?",
+      "vietnamese": "Bạn đã gọi cho Mai chưa?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu quá khứ đơn: câu hỏi."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Where did they go?",
+      "vietnamese": "Họ đã đi đâu?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu quá khứ đơn: câu hỏi."
+    },
+    {
+      "type": "QUESTION",
+      "english": "What time did the meeting start?",
+      "vietnamese": "Cuộc họp đã bắt đầu lúc mấy giờ?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu quá khứ đơn: câu hỏi."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PAST_SIMPLE_QUESTIONS_COMMON_ERROR",
+      "incorrect": "Did she arrived early?",
+      "corrected": "Did she arrive early?",
+      "explanationVi": "Sau did, dùng động từ nguyên mẫu arrive.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel"],
+    "maximumSentenceWords": 16,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": ["target form", "meaning preservation", "natural accepted alternatives"],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "foundation-content-v2",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

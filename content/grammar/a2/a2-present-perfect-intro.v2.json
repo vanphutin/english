@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_PRESENT_PERFECT_INTRO",
+  "family": "PERFECT_ASPECT",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Nhập môn Hiện tại hoàn thành (have/has + V3)",
+  "learningObjectiveVi": "Hiểu và sử dụng cấu trúc hiện tại hoàn thành (have/has + V3) ở mức căn bản để diễn đạt kinh nghiệm và hành động liên quan đến hiện tại.",
+  "learningObjectiveEn": "Understand and use the present perfect (have/has + past participle) at a basic level to express experiences and actions connected to the present.",
+  "form": {
+    "patterns": [
+      "Subject + have/has + past participle",
+      "Subject + have/has + not + past participle (contractions: haven't/hasn't + past participle)",
+      "Have/Has + subject + past participle + time expression (e.g., for/since/just/yet)"
+    ],
+    "morphologyNotes": [
+      "Past participle form (V3) cho động từ bất quy tắc có dạng riêng (ví dụ go → gone, do → done).",
+      "Have/has đồng bộ với ngôi: I/you/we/they dùng have; he/she/it dùng has. Contractions phổ biến (I've, you've, hasn't, etc.)."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Diễn đạt kinh nghiệm sống tới thời điểm hiện tại (ví dụ: I have visited Paris).",
+      "Nói về hành động đã xảy ra trong quá khứ và có ảnh hưởng tới hiện tại (ví dụ: She has finished her work)."
+    ]
+  },
+  "usageConstraints": [
+    "Khi thời gian cụ thể đã nêu rõ trong quá khứ (yesterday, last year), hãy dùng Simple Past thay cho Present Perfect.",
+    "Dùng Present Perfect khi hành động có liên hệ với hiện tại hoặc chưa xác định thời gian cụ thể."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "R1",
+      "type": "HARD_CONSTRAINT",
+      "description": "Các câu khẳng định present perfect phải có have/has + V3."
+    },
+    {
+      "code": "R2",
+      "type": "FORM",
+      "description": "Dùng đúng dạng negative với haven't/hasn't + V3, và dùng contraction phổ biến."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I have visited Paris.",
+      "vietnamese": "Tôi đã viếng Paris.",
+      "explanationVi": "Khẳng định hiện tại hoàn thành diễn đạt kinh nghiệm tới hiện tại."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "She hasn't finished her homework.",
+      "vietnamese": "Cô ấy chưa làm xong bài tập.",
+      "explanationVi": "Phủ định với have/has + not + V3, contraction phổ biến."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Have you ever tried Vietnamese coffee?",
+      "vietnamese": "Bạn đã từng thử cà phê Việt Nam chưa?",
+      "explanationVi": "Dạng nghi vấn hiện tại hoàn thành cho hỏi về kinh nghiệm hoặc trạng thái tới hiện tại."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "They have just arrived at the station.",
+      "vietnamese": "Họ vừa đến ga.",
+      "explanationVi": "Just nhấn mạnh hành động vừa mới xảy ra và có liên quan đến hiện tại."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "I have seen that movie, but I watched it last night.",
+      "vietnamese": "Tôi đã xem phim đó, nhưng tôi xem nó tối qua.",
+      "explanationVi": "So sánh giữa hiện tại hoàn thành và quá khứ đơn."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "E1",
+      "incorrect": "I have visited Paris yesterday.",
+      "corrected": "I visited Paris yesterday.",
+      "explanationVi": "Khi có thời gian xác định trong quá khứ, dùng Simple Past.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "E2",
+      "incorrect": "She has went to the store.",
+      "corrected": "She has gone to the store.",
+      "explanationVi": "Past participle của đi là gone. Dạng sai phổ biến.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "Education",
+      "Self-study",
+      "Speaking practice"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "subjectVerbAgreement",
+      "pastParticipleForm",
+      "timeExpressionCompatibility",
+      "contractionsUsage",
+      "coherenceWithContext"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:46:11.212Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PRESENT_SIMPLE_VS_CONTINUOUS",
+  "family": "PRESENT_TENSE_CONTRAST",
+  "version": 1,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Hiện tại đơn và hiện tại tiếp diễn",
+  "learningObjectiveVi": "Phân biệt thói quen ổn định với hành động tạm thời hoặc đang diễn ra.",
+  "learningObjectiveEn": "Contrast stable routines with temporary or currently unfolding actions.",
+  "form": {
+    "patterns": ["routine: subject + present simple", "now/temporary: subject + be + verb-ing"],
+    "morphologyNotes": [
+      "Choose the tense from the intended time meaning, not from a signal word alone."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Choose present simple for routines.",
+      "Choose present continuous for current temporary actions."
+    ]
+  },
+  "usageConstraints": ["Choose the form from the intended meaning and sentence context."],
+  "relationships": {
+    "prerequisites": ["PRESENT_SIMPLE_AFFIRMATIVE", "PRESENT_CONTINUOUS_NOW"],
+    "buildsOn": ["PRESENT_SIMPLE_AFFIRMATIVE", "PRESENT_CONTINUOUS_NOW"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PRESENT_SIMPLE_VS_CONTINUOUS_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Choose the tense from the intended time meaning, not from a signal word alone."
+    }
+  ],
+  "examples": [
+    {
+      "type": "CONTRASTIVE",
+      "english": "I usually work at home, but today I am working at the office.",
+      "vietnamese": "Tôi thường làm ở nhà, nhưng hôm nay tôi đang làm ở văn phòng.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại đơn và hiện tại tiếp diễn."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "Lan takes the bus every day.",
+      "vietnamese": "Lan đi xe buýt mỗi ngày.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại đơn và hiện tại tiếp diễn."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "Please be quiet; the baby is sleeping.",
+      "vietnamese": "Xin hãy yên lặng; em bé đang ngủ.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại đơn và hiện tại tiếp diễn."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PRESENT_SIMPLE_VS_CONTINUOUS_COMMON_ERROR",
+      "incorrect": "I am going to work every day.",
+      "corrected": "I go to work every day.",
+      "explanationVi": "Every day diễn tả thói quen nên dùng hiện tại đơn.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel"],
+    "maximumSentenceWords": 16,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": ["target form", "meaning preservation", "natural accepted alternatives"],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "foundation-content-v2",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

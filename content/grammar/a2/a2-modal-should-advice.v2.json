@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_MODAL_SHOULD_ADVICE",
+  "family": "MODAL_VERBS",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Should / Shouldn't cho lời khuyên",
+  "learningObjectiveVi": "Hiểu và dùng Should cho lời khuyên ở mức A2.",
+  "learningObjectiveEn": "Be able to give advice using should in simple conversations.",
+  "form": {
+    "patterns": [
+      "subject + should + baseVerb",
+      "subject + should not + baseVerb",
+      "Should + subject + baseVerb?"
+    ],
+    "morphologyNotes": [
+      "Should dùng để đưa lời khuyên nhẹ nhàng; dạng rút gọn nên dùng shouldn't; Should không thay đổi theo người ở thì hiện tại."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Diễn đạt lời khuyên hay gợi ý cho hành động nên làm.",
+      "Nêu gợi ý phù hợp trong hoàn cảnh giao tiếp thông thường."
+    ]
+  },
+  "usageConstraints": [
+    "Không dùng cho nghĩa bắt buộc hoặc quy định bắt buộc.",
+    "Không dùng để cấp phép hoặc cho phép làm việc gì."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A2_MODAL_SHOULD_ADVICE_FORM",
+      "type": "FORM",
+      "description": "Cấu trúcShould + base verb; Shouldn't + base verb; Should được dùng cho lời khuyên nhẹ."
+    },
+    {
+      "code": "A2_MODAL_SHOULD_ADVICE_MEANING",
+      "type": "MEANING",
+      "description": "Should diễn đạt lời khuyên hoặc khuyến nghị phù hợp với hoàn cảnh giao tiếp."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "You should try the new café near the corner.",
+      "vietnamese": "Bạn nên thử quán cà phê mới ở góc phố.",
+      "explanationVi": "Lời khuyên nhẹ, không bắt buộc."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "You shouldn't ignore warning signs.",
+      "vietnamese": "Bạn không nên bỏ qua các dấu hiệu cảnh báo.",
+      "explanationVi": "Lời khuyên để tránh rủi ro."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Should I bring an umbrella today?",
+      "vietnamese": "Hôm nay tôi có nên mang ô không?",
+      "explanationVi": "Câu hỏi xin lời khuyên."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "In this situation, you should take some time to think.",
+      "vietnamese": "Ở hoàn cảnh này, bạn nên dành thời gian để suy nghĩ.",
+      "explanationVi": "Gợi ý hành động phù hợp trong ngữ cảnh."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "You should study more, but you shouldn't skip meals.",
+      "vietnamese": "Bạn nên học nhiều hơn, nhưng đừng bỏ bữa.",
+      "explanationVi": "Mô tả hai hướng dẫn cân bằng."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "ERR_SHOULD_TO",
+      "incorrect": "You should to go to the gym.",
+      "corrected": "You should go to the gym.",
+      "explanationVi": "Should đi với base verb, không có 'to'.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "ERR_SHOULD_NOT_TO",
+      "incorrect": "You shouldn't to eat before class.",
+      "corrected": "You shouldn't eat before class.",
+      "explanationVi": "Dạng phủ định dùng should + not + base verb.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "A2 classroom",
+      "practice exercises",
+      "self-study materials"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "form accuracy (pattern)",
+      "negation forms",
+      "question forms",
+      "contextual appropriateness"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:40:15.531Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

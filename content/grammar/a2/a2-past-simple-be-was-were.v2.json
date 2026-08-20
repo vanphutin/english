@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_PAST_SIMPLE_BE_WAS_WERE",
+  "family": "PAST_TENSE",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Quá khứ đơn với Động từ Be (Was/Were)",
+  "learningObjectiveVi": "Hiểu và vận dụng đúng thì quá khứ đơn của động từ 'to be' (was/were) để mô tả trạng thái, địa điểm và sự kiện quá khứ.",
+  "learningObjectiveEn": "Understand and correctly use the past simple form of the verb 'to be' (was/were) to describe past states, locations, and events.",
+  "form": {
+    "patterns": [
+      "Pattern 1: SUBJECT + was/were + COMPLEMENT (ví dụ: I was tired. They were in the park).",
+      "Pattern 2: Was/Were + SUBJECT + COMPLEMENT? (ví dụ: Were you at the park? Were they happy?)"
+    ],
+    "morphologyNotes": [
+      "Was dành cho I/He/She/It; Were dành cho You/We/They. Việc viết ngắn gọn: wasn't/weren't cho dạng phủ định."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Diễn đạt trạng thái hoặc vị trí trong quá khứ (was ở nhà, were ở công viên).",
+      "Kể ra sự kiện/những hành động xảy ra trong quá khứ với động từ to be."
+    ]
+  },
+  "usageConstraints": [
+    "Không dùng với thì quá khứ của động từ khác ngoài 'to be' khi diễn đạt trạng thái.",
+    "Không dùng quá khứ hoàn thành hay quá khứ tiếp diễn ở cùng câu với động từ 'to be' khi mô tả trạng thái đơn giản."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "R1",
+      "type": "FORM",
+      "description": "Cấu trúc khẳng định: SUBJECT + WAS/WERE + COMPLEMENT."
+    },
+    {
+      "code": "R2",
+      "type": "USE",
+      "description": "Câu hỏi đảo ngược bằng cách đặt WERE/ WAS ở đầu câu: Was/Were + SUBJECT + COMPLEMENT?"
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I was at home yesterday.",
+      "vietnamese": "Tôi ở nhà hôm qua.",
+      "explanationVi": "Khẳng định trạng thái quá khứ với 'was'."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "They were not at the cinema.",
+      "vietnamese": "Họ đã không ở rạp chiếu phim.",
+      "explanationVi": "Dạng phủ định dùng 'wasn't/weren't'."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Were you at the park yesterday?",
+      "vietnamese": "Bạn có ở công viên hôm qua không?",
+      "explanationVi": "Câu hỏi đảo ngữ với 'Was/Were'."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "The museum was closed on Monday, so we visited the gallery.",
+      "vietnamese": "Bảo tàng đóng cửa thứ Hai nên chúng tôi đến phòng triển lãm.",
+      "explanationVi": "Sử dụng trong kể chuyện ngắn, ngữ cảnh quá khứ."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "He was excited then, but he is tired now.",
+      "vietnamese": "Lúc ấy anh ấy hào hứng, còn bây giờ thì mệt mỏi.",
+      "explanationVi": "So sánh giữa quá khứ và hiện tại."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "CE_WAS_WERE_AGREEMENT",
+      "incorrect": "You was here.",
+      "corrected": "You were here.",
+      "explanationVi": "Was sai với chủ ngữ 'you'; cần 'were'.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "CE_NEGATION_CONTRACTION",
+      "incorrect": "Was not he there?",
+      "corrected": "Wasn't he there?",
+      "explanationVi": "Trong câu hỏi, dạng rút gọn thường dùng 'Wasn't'.",
+      "severity": "MINOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "Giao tiếp A2",
+      "Bài tập ngữ pháp A2",
+      "Kỹ năng nghe nói A2"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "subject-verb agreement",
+      "correct question formation",
+      "proper negation forms"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:37:34.895Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

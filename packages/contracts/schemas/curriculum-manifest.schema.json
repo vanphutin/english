@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://english.local/schemas/curriculum-manifest.schema.json",
+  "title": "Autonomous curriculum manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "manifestCode",
+    "version",
+    "policyVersion",
+    "status",
+    "levels",
+    "provenance"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "manifestCode": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+    "version": { "type": "integer", "minimum": 1 },
+    "policyVersion": { "const": "content-factory-v1" },
+    "status": { "enum": ["DRAFT", "VALIDATED", "APPROVED", "RETIRED"] },
+    "levels": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": { "$ref": "#/$defs/level" }
+    },
+    "provenance": { "$ref": "#/$defs/provenance" }
+  },
+  "$defs": {
+    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+    "codes": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/code" } },
+    "level": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cefr", "titleVi", "sortOrder", "units"],
+      "properties": {
+        "cefr": { "enum": ["A1", "A2", "B1", "B2", "C1", "C2"] },
+        "titleVi": { "type": "string", "minLength": 3 },
+        "sortOrder": { "type": "integer", "minimum": 1, "maximum": 6 },
+        "units": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/unit" } }
+      }
+    },
+    "unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "titleVi", "sortOrder", "points"],
+      "properties": {
+        "code": { "$ref": "#/$defs/code" },
+        "titleVi": { "type": "string", "minLength": 3 },
+        "sortOrder": { "type": "integer", "minimum": 1 },
+        "points": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/point" } }
+      }
+    },
+    "point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "family",
+        "canonicalSlug",
+        "titleVi",
+        "titleEn",
+        "assessableDistinction",
+        "communicativeFunctions",
+        "formBoundary",
+        "meaningBoundary",
+        "useBoundary",
+        "prerequisites",
+        "buildsOn",
+        "contrastsWith",
+        "oftenConfusedWith",
+        "vocabularyDomains",
+        "rationale",
+        "sortOrder"
+      ],
+      "properties": {
+        "code": { "$ref": "#/$defs/code" },
+        "family": { "$ref": "#/$defs/code" },
+        "canonicalSlug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+        "titleVi": { "type": "string", "minLength": 3 },
+        "titleEn": { "type": "string", "minLength": 3 },
+        "assessableDistinction": { "type": "string", "minLength": 20 },
+        "communicativeFunctions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 3 }
+        },
+        "formBoundary": { "type": "string", "minLength": 10 },
+        "meaningBoundary": { "type": "string", "minLength": 10 },
+        "useBoundary": { "type": "string", "minLength": 10 },
+        "prerequisites": { "$ref": "#/$defs/codes" },
+        "buildsOn": { "$ref": "#/$defs/codes" },
+        "contrastsWith": { "$ref": "#/$defs/codes" },
+        "oftenConfusedWith": { "$ref": "#/$defs/codes" },
+        "vocabularyDomains": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string" }
+        },
+        "rationale": { "type": "string", "minLength": 15 },
+        "sortOrder": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["origin", "provider", "model", "promptVersion", "generatedAt", "licenseClass"],
+      "properties": {
+        "origin": { "enum": ["AI_GENERATED", "DETERMINISTIC_TEMPLATE"] },
+        "provider": { "type": "string" },
+        "model": { "type": "string" },
+        "promptVersion": { "type": "string" },
+        "generatedAt": { "type": "string", "format": "date-time" },
+        "licenseClass": { "const": "PUBLIC_CONTENT_ORIGINAL" }
+      }
+    }
+  }
+}

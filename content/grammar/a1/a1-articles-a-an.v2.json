@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_ARTICLES_A_AN",
+  "family": "DETERMINERS",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Mạo từ không xác định A / An",
+  "learningObjectiveVi": "Hiểu và dùng đúng mạo từ bất định A / An trước danh từ đếm được số ít để giới thiệu một vật chưa xác định trong giao tiếp tiếng Anh.",
+  "learningObjectiveEn": "Understand and correctly use the indefinite article A/An before singular count nouns to introduce non-specific items in English.",
+  "form": {
+    "patterns": [
+      "Pattern 1: a + singular count noun with a consonant sound. Examples: a cat, a university.",
+      "Pattern 2: an + singular count noun with a vowel sound. Examples: an apple, an hour.",
+      "Pattern 3: no article before plural nouns or uncountable nouns. Examples: Dogs are friendly; Water is essential."
+    ],
+    "morphologyNotes": [
+      "The choice between a and an depends on sound, not spelling. Some words start with a silent h (e.g., hour) or with a vowel sound though spelled with a consonant (e.g., university)."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "To introduce a non-specific, countable item in conversation.",
+      "To refer to one member of a class or group for the first time."
+    ]
+  },
+  "usageConstraints": [
+    "Not used before plural nouns.",
+    "Not used before uncountable (mass) nouns.",
+    "Not used before proper nouns."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A1_ARTICLES_A_AN_FORM",
+      "type": "FORM",
+      "description": "Use 'a' before a noun that starts with a consonant sound and 'an' before a noun that starts with a vowel sound."
+    },
+    {
+      "code": "A1_ARTICLES_A_AN_SOUND_RULE",
+      "type": "HARD_CONSTRAINT",
+      "description": "The choice of 'a' or 'an' must agree with the first sound of the following word, not the spelling."
+    },
+    {
+      "code": "A1_ARTICLES_A_AN_UNCOUNTABLE",
+      "type": "USE",
+      "description": "Avoid using indefinite articles with plural or uncountable nouns."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I adopted a dog yesterday.",
+      "vietnamese": "Tôi nhận nuôi một con chó ngày hôm qua.",
+      "explanationVi": "Khẳng định một vật đếm được số ít chưa xác định lần đầu được giới thiệu."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "There isn't a book on the shelf.",
+      "vietnamese": "Trên kệ không có một cuốn sách.",
+      "explanationVi": "Phủ định vẫn dùng mạo từ bất định trước danh từ đếm được số ít khi đề cập một vật chưa có."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Is there an apple on the table?",
+      "vietnamese": "Có một quả táo ở bàn không?",
+      "explanationVi": "Câu hỏi tồn tại của một danh từ đếm được số ít với mạo từ bất định."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "She bought a bag for the trip.",
+      "vietnamese": "Cô ấy mua một chiếc túi cho chuyến đi.",
+      "explanationVi": "Ví dụ trong ngữ cảnh giao tiếp giới thiệu một vật cụ thể trong tình huống cụ thể."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "I want a chair, not the chair you mentioned.",
+      "vietnamese": "Tôi muốn một chiếc ghế, không phải chiếc ghế bạn đề cập.",
+      "explanationVi": "So sánh giữa một vật chưa xác định và một vật đã được xác định."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "A1_ARTICLES_A_AN_MISSING",
+      "incorrect": "There is dog in the yard.",
+      "corrected": "There is a dog in the yard.",
+      "explanationVi": "Cần mạo từ bất định trước danh từ đếm được số ít khi nhắc đến một vật chưa xác định.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "A1_ARTICLES_A_AN_CONSISTENCY",
+      "incorrect": "There is apple on the table.",
+      "corrected": "There is an apple on the table.",
+      "explanationVi": "Trước danh từ bắt đầu bằng âm nguyên âm cần dùng 'an'.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "beginner-level teaching",
+      "self-study",
+      "practice sentences"
+    ],
+    "maximumSentenceWords": 14,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "patternAccuracy",
+      "determinerPlacement"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:22:37.123Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

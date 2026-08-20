@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "1.0",
+  "code": "HAVE_GOT_POSSESSION",
+  "family": "POSSESSION",
+  "version": 1,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Have got/has got để diễn đạt sở hữu",
+  "learningObjectiveVi": "Dùng have got và has got để nói ai đó sở hữu hoặc có một đặc điểm.",
+  "learningObjectiveEn": "Use have got and has got to express possession or a personal feature.",
+  "form": {
+    "patterns": [
+      "I/you/we/they + have got + noun",
+      "he/she/it + has got + noun",
+      "have/has + subject + got + noun?"
+    ],
+    "morphologyNotes": [
+      "Use has got with third-person singular subjects and have got with the other subjects."
+    ]
+  },
+  "meaning": {
+    "uses": ["Express present possession.", "Describe a feature a person or thing has."]
+  },
+  "usageConstraints": ["Choose the form from the intended meaning and sentence context."],
+  "relationships": {
+    "prerequisites": ["SUBJECT_PRONOUNS"],
+    "buildsOn": ["SUBJECT_PRONOUNS"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "HAVE_GOT_POSSESSION_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use has got with third-person singular subjects and have got with the other subjects."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I have got a new phone.",
+      "vietnamese": "Tôi có một chiếc điện thoại mới.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu have got/has got để diễn đạt sở hữu."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "She has not got a car.",
+      "vietnamese": "Cô ấy không có ô tô.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu have got/has got để diễn đạt sở hữu."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Have they got any children?",
+      "vietnamese": "Họ có con không?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu have got/has got để diễn đạt sở hữu."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "HAVE_GOT_POSSESSION_COMMON_ERROR",
+      "incorrect": "He have got a bike.",
+      "corrected": "He has got a bike.",
+      "explanationVi": "He là ngôi thứ ba số ít nên dùng has got.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel"],
+    "maximumSentenceWords": 12,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": ["target form", "meaning preservation", "natural accepted alternatives"],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "foundation-content-v2",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

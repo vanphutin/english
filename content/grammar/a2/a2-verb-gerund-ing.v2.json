@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_VERB_GERUND_ING",
+  "family": "COMPLEMENTATION",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Cấu trúc V + Gerund (enjoy, finish, stop)",
+  "learningObjectiveVi": "Nắm và vận dụng đúng cấu trúc V + Gerund sau các động từ phổ biến như enjoy, finish, stop để diễn đạt sở thích, hoạt động đã hoàn tất hoặc đang diễn ra.",
+  "learningObjectiveEn": "To correctly use the structure verb + gerund after verbs such as enjoy, finish, and stop to express liking, completion of an action, or an ongoing activity.",
+  "form": {
+    "patterns": [
+      "I enjoy reading books.",
+      "She finished painting the fence.",
+      "We stopped talking when the teacher entered.",
+      "They enjoy swimming in the sea."
+    ],
+    "morphologyNotes": [
+      "Dạng chuẩn: subject + verb + gerund (-ing).",
+      "Some verbs (e.g., stop) có ý nghĩa khác khi theo sau bởi -ing so với to-infinitive; mục đích ở đây là trình bày các động từ đi kèm với gerund và ý nghĩa thông dụng của chúng."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Diễn đạt sở thích hoặc sự thích thú với một hành động (enjoy + V-ing).",
+      "Diễn đạt hành động đã hoàn tất hoặc đang dừng lại (finish + V-ing, stop + V-ing)."
+    ]
+  },
+  "usageConstraints": [
+    "Sau các động từ enjoy, finish, stop, dùng gerund (V-ing).",
+    "Không sử dụng gerund sau các động từ như want/need/plan; dùng to-infinitive cho mục đích hoặc ý định ở nhiều trường hợp khác."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A2_VERB_GERUND_ING_PATTERN",
+      "type": "FORM",
+      "description": "Cấu trúc chuẩn: [subject] + [verb] + -ing (gerund) sau các động từ như enjoy, finish, stop."
+    },
+    {
+      "code": "A2_VERB_GERUND_ING_MEANING",
+      "type": "MEANING",
+      "description": "Gerund sau các động từ này diễn đạt sở thích, sự hoàn tất hoặc sự dừng của hành động."
+    },
+    {
+      "code": "A2_VERB_GERUND_ING_ADDITIONAL_USAGE",
+      "type": "TENDENCY",
+      "description": "Một số động từ cho phép cả gerund và to-infinitive với sự khác biệt ý nghĩa (ví dụ: stop + V-ing = dừng hẳn làm việc; stop + to V = dừng để làm việc khác)."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I enjoy reading books.",
+      "vietnamese": "Tôi thích đọc sách.",
+      "explanationVi": "Sử dụng enjoy + V-ing để diễn đạt sở thích."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "She doesn't enjoy swimming in the morning.",
+      "vietnamese": "Cô ấy không thích bơi vào buổi sáng.",
+      "explanationVi": "Dạng phủ định của cấu trúc enjoy + V-ing."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Do you enjoy listening to music?",
+      "vietnamese": "Bạn có thích nghe nhạc không?",
+      "explanationVi": "Mẫu câu hỏi cho sự thích thú với V-ing."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "After finishing the project, they stopped talking.",
+      "vietnamese": "Sau khi hoàn thành dự án, họ ngừng nói chuyện.",
+      "explanationVi": "Ví dụ cho mẫu câu với finish + V-ing và stop + V-ing trong ngữ cảnh hành động hoàn tất."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "I stopped smoking last year, but I started again.",
+      "vietnamese": "Tôi đã bỏ hút thuốc vào năm ngoái, nhưng sau đó lại bắt đầu hút trở lại.",
+      "explanationVi": "So sánh sự dừng một hành động với việc bắt đầu lại hành động tương tự."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "GERUND_AFTER_WANT",
+      "incorrect": "I want going to the park.",
+      "corrected": "I want to go to the park.",
+      "explanationVi": "Sau động từ want, sử dụng to-infinitive với động từ nguyên mẫu.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "ING_AFTER_READ",
+      "incorrect": "I enjoy to read books.",
+      "corrected": "I enjoy reading books.",
+      "explanationVi": "Sau động từ enjoy, dùng V-ing (reading) thay vì to read.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "GRAMMAR_EXPLANATION",
+      "PRACTICE"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "grammar correctness",
+      "meaning consistency"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:43:02.827Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

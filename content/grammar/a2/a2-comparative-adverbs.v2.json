@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_COMPARATIVE_ADVERBS",
+  "family": "COMPARISON",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "So sánh hơn với trạng từ",
+  "learningObjectiveVi": "Hiểu và dùng trạng từ ở dạng so sánh (comparative adverbs) để mô tả cách thức hành động diễn ra nhanh/ chậm hơn hoặc dễ dàng hơn.",
+  "learningObjectiveEn": "Understand and use comparative adverbs to describe how actions are performed more quickly or more slowly, etc.",
+  "form": {
+    "patterns": [
+      "Pattern 1: Subject + VERB + ADVERB + THAN + other_subject (ví dụ: She runs faster than me).",
+      "Pattern 2: Subject + VERB + more/less + ADVERB (ví dụ: He speaks more slowly).",
+      "Pattern 3: Subject + VERB + adverb (often in base form) or with -er (ví dụ: They work quickly / They work more quickly than before)."
+    ],
+    "morphologyNotes": [
+      "Một số trạng từ ngắn thêm -er (fast → faster). Với các trạng từ kết thúc -ly thì dùng more/less (carefully → more carefully)."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "So sánh cách thức hành động giữa hai chủ thể.",
+      "Chọn form thích hợp giữa more/less và -er tùy trạng từ."
+    ]
+  },
+  "usageConstraints": [
+    "Tránh so sánh trạng từ khi muốn nhấn mạnh tính chất khác (ví dụ so sánh thời gian).",
+    "Lựa chọn cấu trúc 'more/less + trạng từ' với trạng từ tận cùng -ly; trạng từ ngắn thường dùng -er."
+  ],
+  "relationships": {
+    "prerequisites": [
+      "COMPARATIVE_ADJECTIVES"
+    ],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "R1",
+      "type": "FORM",
+      "description": "Dạng so sánh trạng từ: một số trạng từ ngắn thêm -er; trạng từ kết thúc -ly dùng 'more'/'less'."
+    },
+    {
+      "code": "R2",
+      "type": "USE",
+      "description": "Cấu trúc so sánh phổ biến: 'Subject + Verb + Adverb + than + ...' hoặc 'Subject + Verb + more/less + Adverb'."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "She speaks faster than you.",
+      "vietnamese": "Cô ấy nói nhanh hơn bạn.",
+      "explanationVi": "So sánh trạng từ nhanh hơn giữa hai người."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "He does not speak as clearly as before.",
+      "vietnamese": "Anh ấy không nói rõ ràng bằng trước đây.",
+      "explanationVi": "So sánh cách nói bằng 'as ... as'."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Do you work more slowly now?",
+      "vietnamese": "Bạn làm việc chậm hơn bây giờ à?",
+      "explanationVi": "Hỏi về sự thay đổi trong cách làm việc."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "In a lesson, teachers often say 'Read aloud more slowly' to encourage clarity.",
+      "vietnamese": "Trong bài học, thầy cô thường nói 'Đọc to hơn từ từ' để tăng rõ ràng.",
+      "explanationVi": "Sử dụng trong hướng dẫn luyện nói."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "They work quickly, but she works more carefully.",
+      "vietnamese": "Họ làm việc nhanh, nhưng cô ấy làm việc cẩn thận hơn.",
+      "explanationVi": "So sánh cách làm việc giữa hai người."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "CE_BAD_COMPARISON",
+      "incorrect": "She runs more quicker.",
+      "corrected": "She runs faster or more quickly.",
+      "explanationVi": "Trạng từ ngắn thường thành -er; trạng từ kết thúc -ly dùng 'more'.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "CE_MISTAKES_WITH_THAN",
+      "incorrect": "She runs faster than me do.",
+      "corrected": "She runs faster than I do.",
+      "explanationVi": "Dạng so sánh khi nói về đối tượng bị so sánh cần 'I do' hoặc ít nhất 'I' ở sau.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "Bài tập so sánh trạng từ A2",
+      "Giao tiếp A2",
+      "Viết ngắn A2"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "accurate use of -er vs more/less + -ly",
+      "correct placement of 'than' and pronouns"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:37:34.903Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

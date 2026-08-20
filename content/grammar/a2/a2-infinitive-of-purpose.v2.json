@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_INFINITIVE_OF_PURPOSE",
+  "family": "COMPLEMENTATION",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Động từ nguyên mẫu chỉ mục đích (to + V)",
+  "learningObjectiveVi": "Hiểu và vận dụng đúng Động từ nguyên mẫu chỉ mục đích (to + V) để diễn đạt mục đích của hành động.",
+  "learningObjectiveEn": "To understand and correctly use the infinitive of purpose (to + verb) to express the goal of an action.",
+  "form": {
+    "patterns": [
+      "I went to the library to study.",
+      "She exercises to stay healthy.",
+      "They moved here to be closer to work."
+    ],
+    "morphologyNotes": [
+      "Dạng to + V (infinitive) dùng để diễn đạt mục đích của hành động chủ thể.",
+      "Sau động từ chỉ hành động, to-infinitive thể hiện mục đích."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Diễn đạt mục đích của hành động (to study, to stay, to be closer).",
+      "Giải thích lý do hoặc mục tiêu ở hậu cảnh hành động."
+    ]
+  },
+  "usageConstraints": [
+    "Không dùng to-infinitive để diễn đạt mục đích sau một danh từ mà chưa có động từ ở phía trước.",
+    "Nên dùng to + V sau động từ chỉ hành động có mục đích rõ ràng."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A2_INFINTIVE_OF_PURPOSE_PATTERN",
+      "type": "FORM",
+      "description": "Cấu trúc chuẩn: [subject] + [verb of motion/action] + to + V (infinitive) diễn đạt mục đích."
+    },
+    {
+      "code": "A2_INFINTIVE_OF_PURPOSE_MEANING",
+      "type": "MEANING",
+      "description": "Infinitive of purpose biểu thị lý do hoặc mục đích của hành động."
+    },
+    {
+      "code": "A2_INFINTIVE_OF_PURPOSE_USAGE",
+      "type": "TENDENCY",
+      "description": "Một số động từ có thể dùng both to + V và để nhấn mạnh mục đích bằng 'in order to' hoặc 'so as to'."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I went to the library to study.",
+      "vietnamese": "Tôi đến thư viện để học.",
+      "explanationVi": "Mục đích đi thư viện là để học."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "He doesn't go to the gym to waste time.",
+      "vietnamese": "Anh ấy không đến phòng gym để phí thời gian.",
+      "explanationVi": "Dùng to + V để diễn đạt mục đích hành động."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Why did you go to the store to buy bread?",
+      "vietnamese": "Tại sao bạn đi đến cửa hàng để mua bánh mì?",
+      "explanationVi": "Câu hỏi về mục đích của hành động."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "They moved to the city to be closer to work.",
+      "vietnamese": "Họ chuyển đến thành phố để ở gần chỗ làm hơn.",
+      "explanationVi": "Mô tả mục đích của hành động di chuyển."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "She studied to pass the exam, not for fun.",
+      "vietnamese": "Cô ấy học để vượt qua kỳ thi, không phải để vui chơi.",
+      "explanationVi": "Sự khác biệt giữa mục đích và động lực khác."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "INF_PURPOSE_MISSING_TO",
+      "incorrect": "I go store to buy bread.",
+      "corrected": "I go to the store to buy bread.",
+      "explanationVi": "Thiếu mạo từ và dùng to + V đúng sau động từ chỉ hành động.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "TO_INFINTIVE_MISSING_ARTICLE",
+      "incorrect": "She goes gym to stay fit.",
+      "corrected": "She goes to the gym to stay fit.",
+      "explanationVi": "Cần mạo từ 'to the' trước danh từ chỉ nơi chốn.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "GRAMMAR_EXPLANATION",
+      "EXERCISES"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "grammar correctness",
+      "meaning alignment"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:43:02.834Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

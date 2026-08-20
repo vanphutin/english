@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "1.0",
+  "code": "FUTURE_PERFECT",
+  "family": "FUTURE_ASPECT",
+  "version": 1,
+  "cefr": "B2",
+  "status": "DRAFT",
+  "title": "Tương lai hoàn thành",
+  "learningObjectiveVi": "Dùng tương lai hoàn thành cho việc sẽ xong trước một hạn hoặc mốc tương lai.",
+  "learningObjectiveEn": "Use the future perfect for something that will be complete before a future deadline or point.",
+  "form": {
+    "patterns": ["subject + will have + past participle + by + future time"],
+    "morphologyNotes": [
+      "Use will have plus a past participle and make the future completion point clear."
+    ]
+  },
+  "meaning": {
+    "uses": ["Predict completion by a deadline.", "Look back from a future reference point."]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["FUTURE_CONTINUOUS", "PRESENT_PERFECT_EXPERIENCE"],
+    "buildsOn": ["FUTURE_CONTINUOUS", "PRESENT_PERFECT_EXPERIENCE"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "FUTURE_PERFECT_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use will have plus a past participle and make the future completion point clear."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "By Friday, we will have finished the report.",
+      "vietnamese": "Đến thứ Sáu, chúng tôi sẽ hoàn thành báo cáo.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu tương lai hoàn thành."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "She will have worked here for ten years by June.",
+      "vietnamese": "Đến tháng Sáu, cô ấy sẽ làm ở đây được mười năm.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu tương lai hoàn thành."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Will they have arrived by then?",
+      "vietnamese": "Đến lúc đó họ sẽ đến nơi chưa?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu tương lai hoàn thành."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "FUTURE_PERFECT_COMMON_ERROR",
+      "incorrect": "I will have finish by noon.",
+      "corrected": "I will have finished by noon.",
+      "explanationVi": "Sau will have dùng quá khứ phân từ finished.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 28,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://english.local/schemas/curriculum-release.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "code", "title", "version", "levels"],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+    "title": { "type": "string", "minLength": 3 },
+    "version": { "type": "integer", "minimum": 1 },
+    "levels": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/level" } }
+  },
+  "$defs": {
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "grammarPointCode",
+        "grammarPointVersion",
+        "role",
+        "weight",
+        "minimumEvidenceCount"
+      ],
+      "properties": {
+        "grammarPointCode": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+        "grammarPointVersion": { "type": "integer", "minimum": 1 },
+        "role": { "enum": ["REQUIRED", "REVIEW", "OPTIONAL"] },
+        "weight": { "type": "number", "exclusiveMinimum": 0 },
+        "minimumEvidenceCount": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "title", "items"],
+      "properties": {
+        "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+        "title": { "type": "string", "minLength": 3 },
+        "items": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/item" } }
+      }
+    },
+    "level": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "cefr", "title", "unlockPolicy", "units"],
+      "properties": {
+        "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+        "cefr": { "enum": ["A1", "A2", "B1", "B2", "C1", "C2"] },
+        "title": { "type": "string", "minLength": 3 },
+        "unlockPolicy": { "type": "object" },
+        "units": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/unit" } }
+      }
+    }
+  }
+}

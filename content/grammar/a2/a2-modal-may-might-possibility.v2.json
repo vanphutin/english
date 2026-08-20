@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_MODAL_MAY_MIGHT_POSSIBILITY",
+  "family": "MODAL_VERBS",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "May / Might chỉ khả năng có thể xảy ra",
+  "learningObjectiveVi": "Hiểu và dùng May/Might để diễn đạt khả năng có thể xảy ra ở mức A2.",
+  "learningObjectiveEn": "Be able to express possibility using may and might at the A2 level.",
+  "form": {
+    "patterns": [
+      "subject + may + baseVerb",
+      "subject + might + baseVerb",
+      "May/Might + I + ...? (question)"
+    ],
+    "morphologyNotes": [
+      "May được dùng để diễn đạt khả năng hoặc xin phép; Might diễn đạt khả năng ít chắc chắn hơn. Dạng câu hỏi thường dùng cấu trúc May I …? hoặc Could/Can tùy ngữ cảnh."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Diễn đạt khả năng có thể xảy ra ở thời điểm hiện tại hoặc tương lai.",
+      "Dùng để xin phép lịch sự bằng cách hỏi May I …?"
+    ]
+  },
+  "usageConstraints": [
+    "May có thể biểu đạt xin phép; Might không mang nghĩa xin phép.",
+    "Không dùng cho nghĩa bắt buộc hay cho phép tuyệt đối."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A2_MODAL_MAY_MIGHT_FORM",
+      "type": "FORM",
+      "description": "MAY + baseVerb hoặc MIGHT + baseVerb để diễn đạt khả năng; Often used in simple present or future contexts."
+    },
+    {
+      "code": "A2_MODAL_MAY_MIGHT_MEANING",
+      "type": "MEANING",
+      "description": "May diễn đạt khả năng hoặc xin phép; Might diễn đạt khả năng thấp hơn."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "It may rain tomorrow.",
+      "vietnamese": "Trời có thể mưa vào ngày mai.",
+      "explanationVi": "Khả năng xảy ra ở tương lai."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "It might not rain tomorrow.",
+      "vietnamese": "Ngày mai có thể không mưa.",
+      "explanationVi": "Khả năng thấp hơn, diễn đạt sự suy đoán ít chắc chắn."
+    },
+    {
+      "type": "QUESTION",
+      "english": "May I borrow your pen?",
+      "vietnamese": "Tôi có thể mượn bút của bạn được không?",
+      "explanationVi": "Xin phép lịch sự."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "There may be a delay, so bring extra time.",
+      "vietnamese": "Có thể có sự trễ, nên mang thêm thời gian.",
+      "explanationVi": "Dự báo khả năng xảy ra và điều chỉnh kế hoạch."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "It may be expensive, but it might be worth it.",
+      "vietnamese": "Có thể đắt, nhưng có thể đáng để bỏ tiền ra.",
+      "explanationVi": "So sánh khả năng và kết quả có thể."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "ERR_MAY_ALIEN",
+      "incorrect": "You may can come.",
+      "corrected": "You might come or You may come.",
+      "explanationVi": "Cannot mix may with can; chọn may or might.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "ERR_MIGHT_CAN",
+      "incorrect": "He might can go.",
+      "corrected": "He might go.",
+      "explanationVi": "Might đi với base verb; không có 'can'.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "A2 classroom",
+      "practice exercises",
+      "self-study materials"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "form accuracy (pattern)",
+      "modal usage (may/might)",
+      "question formation"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:40:15.532Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

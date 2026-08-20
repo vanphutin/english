@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_QUESTION_TAGS_BASIC",
+  "family": "QUESTIONS",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Câu hỏi đuôi cơ bản",
+  "learningObjectiveVi": "Hiểu và vận dụng câu hỏi đuôi căn bản ở mức A2 để xác nhận thông tin và giữ được nhịp đối thoại tự nhiên.",
+  "learningObjectiveEn": "Be able to form and use basic question tags with statements at the A2 level to confirm information and keep conversations natural.",
+  "form": {
+    "patterns": [
+      "1) You live in Hanoi, don't you?",
+      "2) They are coming, aren't they?",
+      "3) She isn't at home, is she?",
+      "4) We finished our homework, didn't we?",
+      "5) You have finished, haven't you?"
+    ],
+    "morphologyNotes": [
+      "Tag phụ thuộc vào động từ chính (auxiliary) hoặc dạng động từ chính được dùng; nếu câu khẳng định dùng trạng từ phủ định đuôi sẽ là 'n't you/ isn't he/ aren't they/ hasn't she' theo thì của động từ chính.",
+      "Nếu câu chính không có trợ động từ, dùng do/does/did cho đuôi question tag tương ứng."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Xác nhận thông tin đã nêu trong câu chính và làm cho cuộc trò chuyện tự nhiên hơn.",
+      "Thể hiện sự quan tâm hoặc góp ý để người đối thoại xác nhận hoặc sửa lại thông tin."
+    ]
+  },
+  "usageConstraints": [
+    "Chọn đúng trợ động từ ở đuôi tag để phù hợp với thì và chủ ngữ ở câu chính.",
+    "Tránh sử dụng câu tag khi nội dung câu chính có tính chất trạng thái lâu dài hoặc không có trợ động từ phù hợp; khi đó có thể dùng 'do/does/did' hoặc bỏ qua đuôi cho câu ngắn."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A2_QTAG_FORM_01",
+      "type": "FORM",
+      "description": "Đuôi câu hỏi phải nghịch đảo với động từ chính (hoặc auxiliary) và tuân theo ngữ cảnh thì."
+    },
+    {
+      "code": "A2_QTAG_USE_01",
+      "type": "USE",
+      "description": "Dùng để xác nhận thông tin và giữ nhịp hội thoại; tránh lạm dụng trong văn viết trang trọng."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "You're coming to the party, aren't you?",
+      "vietnamese": "Bạn sẽ đến bữa tiệc, phải không?",
+      "explanationVi": "Đuôi TAG: 'aren't you' bổ sung cho câu khẳng định ở thì hiện tại tiếp diễn."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "They didn't go to the meeting, did they?",
+      "vietnamese": "Họ đã không đi cuộc họp, phải chứ?",
+      "explanationVi": "Đuôi 'did they' cho câu phủ định quá khứ."
+    },
+    {
+      "type": "QUESTION",
+      "english": "She can swim, can’t she?",
+      "vietnamese": "Cô ấy có thể bơi được, phải không?",
+      "explanationVi": "Đuôi 'can’t she' phù hợp với động từ khuyết thiếu 'can'."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "It's raining, isn't it?",
+      "vietnamese": "Trời đang mưa, phải thế phải không?",
+      "explanationVi": "Câu hỏi đuôi phổ biến để xác nhận điều kiện thời tiết đang diễn ra."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "You like tea, don't you? But you prefer coffee.",
+      "vietnamese": "Bạn thích trà, phải không? Nhưng bạn thích cà phê.",
+      "explanationVi": "Ví dụ này cho thấy sự pha giữa xác nhận và bổ sung thông tin đối lập (phần sau câu nói chưa được đuôi)."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "ERR_QTAG_01",
+      "incorrect": "You are coming, are you?",
+      "corrected": "You are coming, aren't you?",
+      "explanationVi": "Đuôi phải nghịch đảo với chủ ngữ/trợ động từ ở câu chính; 'are you' sai khi câu chính ở dạng khẳng định 'You are coming'.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "ERR_QTAG_02",
+      "incorrect": "They is coming, aren’t they?",
+      "corrected": "They are coming, aren’t they?",
+      "explanationVi": "Chủ ngữ/động từ phải hòa hợp; lỗi phổ biến về đồng nhất giữa 'they' và 'is'.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "Bài tập hỏi đáp ngôn ngữ cơ bản",
+      "Kịch bản giao tiếp hàng ngày",
+      "Tài liệu luyện nghe nói ở cấp A2"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "correctQuestionTagFormation",
+      "appropriatePronounChoice",
+      "naturalnessOfDialog",
+      "grammaticalAccuracy"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:44:49.628Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

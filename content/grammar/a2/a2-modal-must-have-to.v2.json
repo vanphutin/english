@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_MODAL_MUST_HAVE_TO",
+  "family": "MODAL_VERBS",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Must và Have to chỉ nghĩa bắt buộc",
+  "learningObjectiveVi": "Hiểu và dùng đúng cách Must và Have to để diễn đạt nghĩa bắt buộc ở trình độ A2.",
+  "learningObjectiveEn": "Be able to express obligation using must and have to at the A2 level.",
+  "form": {
+    "patterns": [
+      "subject + must + baseVerb",
+      "subject + have to + baseVerb",
+      "Do/Does + subject + have to + baseVerb?"
+    ],
+    "morphologyNotes": [
+      "Must không dùng với 'to' và thường diễn đạt nghĩa bắt buộc nội tại hoặc do quy định. Have to có dạng cơ bản với động từ gốc ở sau 'to'. Mustn't = cấm; Don't have to = không bắt buộc."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Diễn đạt nghĩa bắt buộc hoặc cần thiết để hành động được thực hiện.",
+      "Nêu ra các yêu cầu từ quy định, luật hay hoàn cảnh bên ngoài."
+    ]
+  },
+  "usageConstraints": [
+    "Không dùng để xin phép hay cho phép.",
+    "Không dùng cho dự đoán hay kế hoạch mang tính khả thi ở hiện tại."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A2_MODAL_MUST_HAVE_TO_FORM",
+      "type": "FORM",
+      "description": "Cấu trúc cơ bản: must + base verb hoặc have to + base verb; 'must' không đi kè với to sau động từ."
+    },
+    {
+      "code": "A2_MODAL_MUST_HAVE_TO_MEANING",
+      "type": "MEANING",
+      "description": "Must và have to đều biểu thị nghĩa bắt buộc, nhưng nguồn gốc và mức độ nhấn mạnh có khác nhau: must thường nội tại hoặc quy định mạnh; have to nhấn mạnh yếu tố bên ngoài."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "You must finish your homework.",
+      "vietnamese": "Bạn phải làm bài tập về nhà.",
+      "explanationVi": "Khẳng định bắt buộc nội tại hoặc do quy định."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "You mustn't smoke here.",
+      "vietnamese": "Bạn không được hút thuốc ở đây.",
+      "explanationVi": "Phủ định: cấm làm việc nào đó."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Do I have to wear a uniform?",
+      "vietnamese": "Tôi có phải mặc đồng phục không?",
+      "explanationVi": "Câu hỏi về sự bắt buộc dùng trong trường học hoặc công ty."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "We have to leave now because the train leaves soon.",
+      "vietnamese": "Chúng ta phải rời đi ngay bây giờ vì tàu sắp khởi hành.",
+      "explanationVi": "Ngữ cảnh thực tế cho sự bắt buộc từ thời gian/hoàn cảnh."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "You must arrive by 9, whereas you don't have to stay late if the meeting ends early.",
+      "vietnamese": "Bạn phải đến trước 9 giờ, còn nếu cuộc họp kết thúc sớm thì bạn không phải ở lại đến muộn.",
+      "explanationVi": "So sánh hai hình thức bắt buộc khác nhau và trường hợp không bắt buộc."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "ERR_MUST_TO",
+      "incorrect": "You must to finish your homework.",
+      "corrected": "You must finish your homework.",
+      "explanationVi": "Must đi với base verb, không có 'to' sau.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "ERR_HAVE_TO_VERB_FROM",
+      "incorrect": "I have to goes to work.",
+      "corrected": "I have to go to work.",
+      "explanationVi": "Sau 'have to' dùng động từ gốc, '-s' không thêm sau base verb.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "A2 classroom",
+      "practice exercises",
+      "self-study materials"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "form accuracy (pattern)",
+      "negation forms",
+      "question forms",
+      "subject-verb agreement in present simple"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:40:15.529Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

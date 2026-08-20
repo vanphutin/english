@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "1.0",
+  "code": "INVERSION_NEGATIVE_ADVERBIALS",
+  "family": "INVERSION",
+  "version": 1,
+  "cefr": "C1",
+  "status": "DRAFT",
+  "title": "Đảo ngữ sau trạng từ phủ định",
+  "learningObjectiveVi": "Dùng đảo trợ động từ sau trạng từ phủ định hoặc hạn định để tạo nhấn mạnh trang trọng.",
+  "learningObjectiveEn": "Use subject–auxiliary inversion after negative or restrictive adverbials for formal emphasis.",
+  "form": {
+    "patterns": [
+      "negative adverbial + auxiliary + subject + main verb",
+      "not until + clause + auxiliary + subject + verb"
+    ],
+    "morphologyNotes": [
+      "When a negative or restrictive adverbial is fronted, place the auxiliary before the subject in the main clause."
+    ]
+  },
+  "meaning": {
+    "uses": ["Emphasise the exceptional nature of an event.", "Create formal rhetorical focus."]
+  },
+  "usageConstraints": [
+    "The structure must be motivated by meaning, information flow, stance, or register rather than complexity alone."
+  ],
+  "relationships": {
+    "prerequisites": ["PAST_PERFECT_SEQUENCE", "MODAL_DEDUCTION_PRESENT_PAST"],
+    "buildsOn": ["PAST_PERFECT_SEQUENCE", "MODAL_DEDUCTION_PRESENT_PAST"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "INVERSION_NEGATIVE_ADVERBIALS_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "When a negative or restrictive adverbial is fronted, place the auxiliary before the subject in the main clause."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "Never have I seen such a rapid change.",
+      "vietnamese": "Tôi chưa bao giờ chứng kiến sự thay đổi nhanh đến vậy.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu đảo ngữ sau trạng từ phủ định."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "Not until the data was checked did we notice the error.",
+      "vietnamese": "Mãi đến khi dữ liệu được kiểm tra, chúng tôi mới nhận ra lỗi.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu đảo ngữ sau trạng từ phủ định."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "Rarely does the committee reach a unanimous decision.",
+      "vietnamese": "Hiếm khi ủy ban đạt được quyết định nhất trí.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu đảo ngữ sau trạng từ phủ định."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "INVERSION_NEGATIVE_ADVERBIALS_COMMON_ERROR",
+      "incorrect": "Never I have seen this before.",
+      "corrected": "Never have I seen this before.",
+      "explanationVi": "Sau never đứng đầu câu cần đảo have lên trước chủ ngữ.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": [
+      "academic discussion",
+      "professional writing",
+      "formal correspondence",
+      "narrative",
+      "public policy"
+    ],
+    "maximumSentenceWords": 34,
+    "requireExplicitTarget": true,
+    "requireDiscourseMotivation": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "scope",
+      "information structure",
+      "register",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "advanced-content-v4",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

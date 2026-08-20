@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0",
+  "code": "COMPARATIVE_ADJECTIVES",
+  "family": "COMPARISON",
+  "version": 1,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "So sánh hơn với tính từ",
+  "learningObjectiveVi": "So sánh hai người hoặc vật bằng dạng -er hoặc more.",
+  "learningObjectiveEn": "Compare two people or things using -er or more.",
+  "form": {
+    "patterns": ["short adjective-er + than", "more + long adjective + than"],
+    "morphologyNotes": ["Choose -er for most short adjectives and more for most longer adjectives."]
+  },
+  "meaning": {
+    "uses": ["Compare one quality between two entities.", "Describe a change in degree."]
+  },
+  "usageConstraints": ["Choose the form from the intended meaning and sentence context."],
+  "relationships": {
+    "prerequisites": ["BE_PRESENT_AFFIRMATIVE"],
+    "buildsOn": ["BE_PRESENT_AFFIRMATIVE"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "COMPARATIVE_ADJECTIVES_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Choose -er for most short adjectives and more for most longer adjectives."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "My room is smaller than yours.",
+      "vietnamese": "Phòng của tôi nhỏ hơn phòng của bạn.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu so sánh hơn với tính từ."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "This route is more convenient.",
+      "vietnamese": "Tuyến đường này thuận tiện hơn.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu so sánh hơn với tính từ."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Is the train faster than the bus?",
+      "vietnamese": "Tàu có nhanh hơn xe buýt không?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu so sánh hơn với tính từ."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "COMPARATIVE_ADJECTIVES_COMMON_ERROR",
+      "incorrect": "This bag is more cheaper.",
+      "corrected": "This bag is cheaper.",
+      "explanationVi": "Không dùng đồng thời more và đuôi -er.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel"],
+    "maximumSentenceWords": 16,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": ["target form", "meaning preservation", "natural accepted alternatives"],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "foundation-content-v2",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

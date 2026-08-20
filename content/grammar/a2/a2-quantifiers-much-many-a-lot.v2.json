@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_QUANTIFIERS_MUCH_MANY_A_LOT",
+  "family": "DETERMINERS",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Lượng từ Much, Many, A lot of, A few, A little",
+  "learningObjectiveVi": "Hiểu cách dùng Much, Many, A lot of, A few, A little để diễn đạt số lượng và sự khác biệt giữa danh từ đếm được và không đếm được.",
+  "learningObjectiveEn": "Understand the use of quantifiers Much, Many, A lot of, A few, A little and their difference with countable vs uncountable nouns.",
+  "form": {
+    "patterns": [
+      "Pattern 1: MUCH + UNCOUNTABLE_NOUN + VERB (ví dụ: Much water was wasted).",
+      "Pattern 2: MANY + COUNTABLE_NOUN + VERB (ví dụ: Many books were on the shelf).",
+      "Pattern 3: A LOT OF + NOUN (countable or uncountable) + VERB (ví dụ: There are a lot of people.)"
+    ],
+    "morphologyNotes": [
+      "Much dùng với danh từ không đếm được; Many với danh từ đếm được số nhiều; A lot of có thể dùng với cả danh từ đếm được và không đếm được; Trong văn viết trang trọng, dùng 'a lot of' có thể thay bằng 'lots of'."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Diễn đạt số lượng lớn hoặc nhỏ của danh từ không đếm được (much sugar) và đếm được (many books).",
+      "So sánh lượng giữa hai hoặc nhiều đối tượng."
+    ]
+  },
+  "usageConstraints": [
+    "Much được dùng phổ biến ở câu phủ định và nghi vấn; dùng trong câu khẳng định ở phong cách trang trọng ít gặp hơn.",
+    "A lot of ít trang trọng hơn; 'lots of' có ý nhấn mạnh và thân mật hơn."
+  ],
+  "relationships": {
+    "prerequisites": [
+      "COUNTABLE_UNCOUNTABLE_QUANTIFIERS"
+    ],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "R1",
+      "type": "FORM",
+      "description": "Pattern: MUCH + UNCOUNTABLE_NOUN (ví dụ Much water) hoặc MANY + COUNTABLE_NOUN (ví dụ Many books)."
+    },
+    {
+      "code": "R2",
+      "type": "USE",
+      "description": "'A lot of' có thể dùng với cả danh từ đếm được và không đếm được; tránh dùng 'much' với danh từ đếm được số nhiều."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "There is a lot of sugar in the jar.",
+      "vietnamese": "Trong lọ có nhiều đường.",
+      "explanationVi": "A lot of với danh từ không đếm được."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "There isn't much time left.",
+      "vietnamese": " Còn ít thời gian.",
+      "explanationVi": "Much/time đếm được."
+    },
+    {
+      "type": "QUESTION",
+      "english": "How many apples are there on the table?",
+      "vietnamese": "Có bao nhiêu quả táo trên bàn?",
+      "explanationVi": "Many cho danh từ đếm được."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "In a recipe, you can say, 'Add a lot of salt to taste'",
+      "vietnamese": "Trong công thức, có thể nói thêm 'nhiều muối' theo khẩu vị.",
+      "explanationVi": "Dùng trong văn bản nấu ăn."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "There are many cars, but not much fuel.",
+      "vietnamese": "Có rất nhiều ô tô, nhưng không có nhiều nhiên liệu.",
+      "explanationVi": "So sánh số lượng ở hai danh từ."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "CE_MANY_VS_MUCH",
+      "incorrect": "There are much water",
+      "corrected": "There is much water",
+      "explanationVi": "Much với danh từ không đếm được; nước là không đếm được.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "CE_A_LOT_OF_USAGE",
+      "incorrect": "There is alot of people here.",
+      "corrected": "There are a lot of people here.",
+      "explanationVi": "Không viết 'alot'; đúng là 'a lot of'",
+      "severity": "MINOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "Bài tập lượng từ A2",
+      "Giao tiếp A2",
+      "Viết ngắn A2"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "countable vs uncountable noun usage",
+      "correct form of 'a lot of'"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:37:34.901Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

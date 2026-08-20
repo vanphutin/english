@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "1.0",
+  "code": "POSSESSIVE_ADJECTIVES_BASIC",
+  "family": "POSSESSION",
+  "version": 1,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Tính từ sở hữu cơ bản",
+  "learningObjectiveVi": "Dùng my, your, his, her, its, our và their trước danh từ.",
+  "learningObjectiveEn": "Use possessive adjectives before nouns to show possession or relationship.",
+  "form": { "patterns": ["possessive adjective + noun"] },
+  "meaning": { "uses": ["Show who owns something or has a relationship to someone."] },
+  "usageConstraints": ["A noun normally follows the possessive adjective."],
+  "relationships": {
+    "prerequisites": ["SUBJECT_PRONOUNS"],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "POSSESSIVE_BEFORE_NOUN",
+      "type": "HARD_CONSTRAINT",
+      "description": "Place a possessive adjective directly before its noun phrase."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "My name is An.",
+      "vietnamese": "Tên tôi là An.",
+      "explanationVi": "My bổ nghĩa cho name."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "Her brother is tall.",
+      "vietnamese": "Anh trai cô ấy cao.",
+      "explanationVi": "Her bổ nghĩa cho brother."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "Their house is small.",
+      "vietnamese": "Nhà của họ nhỏ.",
+      "explanationVi": "Their thể hiện người sở hữu số nhiều."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "SUBJECT_PRONOUN_FOR_POSSESSIVE",
+      "incorrect": "She brother is tall.",
+      "corrected": "Her brother is tall.",
+      "explanationVi": "Trước danh từ brother cần tính từ sở hữu her.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": { "maximumSentenceWords": 12 },
+  "evaluationPolicy": { "mustCheck": ["possessive form", "noun presence"] },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "contract-fixture",
+    "promptVersion": "grammar-kb-v1",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": ["Independently authored bootstrap fixture."]
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_POSSESSIVE_PRONOUNS",
+  "family": "POSSESSION",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Possessive Pronouns (Mine, Yours)",
+  "learningObjectiveVi": "Hiểu và dùng đúng đại từ sở hữu mine và yours để chỉ sự sở hữu trong câu ở mức A1.",
+  "learningObjectiveEn": "Understand and correctly use the possessive pronouns mine and yours to express ownership in simple sentences at the A1 level.",
+  "form": {
+    "patterns": [
+      "This is mine.",
+      "That bag is yours.",
+      "The red book is mine."
+    ],
+    "morphologyNotes": [
+      "Mine và yours là đại từ sở hữu độc lập, dùng sau động từ be để khẳng định sở hữu (ví dụ: This is mine). Không được dùng trước danh từ để bổ nghĩa; thay vào đó dùng my/yours trước danh từ khi định danh danh từ (ví dụ: my book, your bag)."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Diễn đạt sự sở hữu của một vật được nói đến trong câu (ví dụ: This is mine; That is yours).",
+      "So sánh sở hữu giữa hai người trong giao tiếp để làm rõ ai sở hữu vật gì (mine vs yours)."
+    ]
+  },
+  "usageConstraints": [
+    "Mine và yours thường đứng sau động từ be hoặc là đại từ độc lập; không được đứng trước danh từ để bổ nghĩa.",
+    "Khi muốn mô tả danh từ, dùng tính từ sở hữu my/yours trước danh từ (my book, your bag)."
+  ],
+  "relationships": {
+    "prerequisites": [
+      "POSSESSIVE_ADJECTIVES_BASIC"
+    ],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "POSSESSIVE_PRONOUN_USAGE_BE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Mine and yours must be used as pronoun complements after forms of 'be' (This is mine)."
+    },
+    {
+      "code": "ATTRIBUTIVE_USE",
+      "type": "TENDENCY",
+      "description": "Do not place mine/yours before a noun; use my/yours before the noun when attributing possession."
+    },
+    {
+      "code": "DIFFERENCE_OF_FUNCTION",
+      "type": "FORM",
+      "description": "Mine/yours function as stand-alone possessive pronouns rather than attributive adjectives."
+    },
+    {
+      "code": "MEANING_REPLACEMENT",
+      "type": "MEANING",
+      "description": "Mine/yours replace a noun phrase to avoid repetition (This is mine vs This is my book)."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "This bike is mine.",
+      "vietnamese": "Chiếc xe đạp này là của tôi.",
+      "explanationVi": "Khẳng định sở hữu bằng đại từ sở hữu sau động từ 'be'."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "That bag isn't yours.",
+      "vietnamese": "Cái túi đó không phải của bạn.",
+      "explanationVi": "Phủ định sở hữu bằng dạng phủ định và đại từ sở hữu 'yours'."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Is this pen yours?",
+      "vietnamese": "Cái bút này có phải của bạn không?",
+      "explanationVi": "Đặt câu hỏi về sự sở hữu với đại từ sở hữu 'yours'."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "I thought this key was yours, but it's mine.",
+      "vietnamese": "Tôi nghĩ chìa khóa này là của bạn, nhưng nó là của tôi.",
+      "explanationVi": "Ngữ cảnh đối chiếu sở hữu giữa hai người."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "This book is mine, not yours.",
+      "vietnamese": "Quyển sách này là của tôi, không phải của bạn.",
+      "explanationVi": "So sánh sự sở hữu giữa mine và yours."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "CE01",
+      "incorrect": "This is mine book.",
+      "corrected": "This is my book.",
+      "explanationVi": "Dùng tính từ sở hữu trước danh từ 'my book' thay vì dùng 'mine' trước danh từ; 'mine' dùng sau động từ 'be' hoặc làm chủ ngữ.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "CE02",
+      "incorrect": "That is yours car.",
+      "corrected": "That is your car.",
+      "explanationVi": "'yours' là đại từ sở hữu, không đứng trước danh từ; dùng 'your' để bổ nghĩa danh từ.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "A1_POSSESSIVE_PRONOUNS",
+      "POSSESSION_LESSON_A1"
+    ],
+    "maximumSentenceWords": 15,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "pattern_completeness",
+      "meaning_accuracy",
+      "usage_constraints_alignment"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "secondary-authoring",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T00:00:00.000Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

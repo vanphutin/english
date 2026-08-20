@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_MODAL_CAN_ABILITY",
+  "family": "MODAL_VERBS",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Động từ khuyết thiếu Can chỉ khả năng",
+  "learningObjectiveVi": "Hiểu và dùng đúng động từ khuyết thiếu can để diễn đạt khả năng ở hiện tại.",
+  "learningObjectiveEn": "Understand and use the modal can to express present ability accurately.",
+  "form": {
+    "patterns": [
+      "Subject + can + base verb. (ví dụ: I can swim.)",
+      "Can + subject + base verb? (ví dụ: Can you swim?)"
+    ],
+    "morphologyNotes": [
+      "Can đi kèm động từ gốc, không có 'to'.",
+      "Can diễn tả khả năng ở hiện tại; dùng với chủ ngữ số ít/ nhiều."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Nói về khả năng của người hoặc vật ở hiện tại.",
+      "Có thể dùng để nhận xét khả năng của ai đó trong tình huống cụ thể."
+    ]
+  },
+  "usageConstraints": [
+    "Không dùng can cho quá khứ; dùng could hoặc was able to để diễn đạt quá khứ.",
+    "Trong văn bản trang trọng, có thể dùng 'be able to' thay cho can."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A1_CAN_FORM",
+      "type": "FORM",
+      "description": "Cấu trúc khẳng định: S + can + base verb (ví dụ: I can swim)."
+    },
+    {
+      "code": "A1_CAN_MEANING_PRESENT",
+      "type": "MEANING",
+      "description": "Khả năng ở hiện tại; không phải nghĩa cho khả năng quá khứ hoặc xin phép."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I can swim.",
+      "vietnamese": "Tôi có thể bơi.",
+      "explanationVi": "Khẳng định khả năng bơi ở hiện tại."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "She can't swim yet.",
+      "vietnamese": "Cô ấy chưa thể bơi.",
+      "explanationVi": "Dạng phủ định cho khả năng ở hiện tại."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Can you swim?",
+      "vietnamese": "Bạn có thể bơi không?",
+      "explanationVi": "Hỏi về khả năng ở hiện tại."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "In class, he said he can ride a bike.",
+      "vietnamese": "Trong lớp, anh ấy nói anh ấy có thể đi xe đạp.",
+      "explanationVi": "Khám phá cách dùng can trong ngữ cảnh thảo luận kỹ năng."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "I can run, but I cannot swim yet.",
+      "vietnamese": "Tôi có thể chạy, nhưng vẫn chưa thể bơi.",
+      "explanationVi": "So sánh khả năng giữa hai kỹ năng."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "A1_CAN_ERR1",
+      "incorrect": "You can to swim.",
+      "corrected": "You can swim.",
+      "explanationVi": "Sau can không dùng to.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "A1_CAN_ERR2",
+      "incorrect": "Can he can swim?",
+      "corrected": "Can he swim?",
+      "explanationVi": "Trạng thái thừa động từ can sau can.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "SIMPLE_DIALOGUE",
+      "PRACTICE_SESSION"
+    ],
+    "maximumSentenceWords": 14,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "GRAMMAR",
+      "MEANING",
+      "USAGE"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:32:54.695Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

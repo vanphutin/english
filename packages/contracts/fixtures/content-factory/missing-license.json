@@ -1,0 +1,16 @@
+{
+  "code": "UNLICENSED_MANIFEST",
+  "version": "1.0.0",
+  "title": "Manifest thiếu license",
+  "items": [
+    {
+      "code": "POINT_NO_LICENSE",
+      "family": "PRESENT_TENSE",
+      "cefr": "A1",
+      "titleVi": "Bài học 1",
+      "titleEn": "Lesson 1",
+      "distinctionVi": "Phân biệt A và B",
+      "prerequisites": []
+    }
+  ]
+}

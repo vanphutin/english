@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0",
+  "code": "FIRST_CONDITIONAL",
+  "family": "CONDITIONALS",
+  "version": 1,
+  "cefr": "B1",
+  "status": "DRAFT",
+  "title": "Câu điều kiện loại một",
+  "learningObjectiveVi": "Dùng câu điều kiện loại một cho một điều kiện tương lai có khả năng và kết quả của nó.",
+  "learningObjectiveEn": "Use the first conditional for a possible future condition and its likely result.",
+  "form": {
+    "patterns": ["if + present simple, will + base verb", "will + base verb + if + present simple"],
+    "morphologyNotes": [
+      "Use present simple in the if-clause and will plus a base verb in the result clause."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Predict a likely result of a possible condition.",
+      "State a practical future consequence."
+    ]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["FUTURE_GOING_TO_PLANS", "PRESENT_SIMPLE_AFFIRMATIVE"],
+    "buildsOn": ["FUTURE_GOING_TO_PLANS", "PRESENT_SIMPLE_AFFIRMATIVE"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "FIRST_CONDITIONAL_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use present simple in the if-clause and will plus a base verb in the result clause."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "If it rains, we will stay home.",
+      "vietnamese": "Nếu trời mưa, chúng tôi sẽ ở nhà.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu câu điều kiện loại một."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "You will not improve if you do not practise.",
+      "vietnamese": "Bạn sẽ không tiến bộ nếu không luyện tập.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu câu điều kiện loại một."
+    },
+    {
+      "type": "QUESTION",
+      "english": "What will you do if the shop is closed?",
+      "vietnamese": "Bạn sẽ làm gì nếu cửa hàng đóng cửa?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu câu điều kiện loại một."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "FIRST_CONDITIONAL_COMMON_ERROR",
+      "incorrect": "If it will rain, we will cancel.",
+      "corrected": "If it rains, we will cancel.",
+      "explanationVi": "Trong câu điều kiện loại một, mệnh đề if thường dùng hiện tại đơn.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 22,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

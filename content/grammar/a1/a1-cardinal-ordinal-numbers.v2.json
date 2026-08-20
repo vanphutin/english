@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_CARDINAL_ORDINAL_NUMBERS",
+  "family": "NOUN_PHRASE",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Số đếm và số thứ tự",
+  "learningObjectiveVi": "Hiểu và dùng số đếm (cardinal) và số thứ tự (ordinal) ở mức A1, để đếm và trình bày ngày tháng.",
+  "learningObjectiveEn": "Understand cardinal and ordinal numbers at the A1 level, to count and state dates.",
+  "form": {
+    "patterns": [
+      "There are five apples on the table.",
+      "Today is June 25th.",
+      "I have two dogs.",
+      "The first chapter is easy."
+    ],
+    "morphologyNotes": [
+      "Cardinal numbers từ 1 trở lên được dùng để đếm (one, two, three, ...).",
+      "Ordinal numbers dùng để trình bày thứ tự hoặc ngày tháng (first, second, third; twenty-first)."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Đếm số lượng danh từ (five apples).",
+      "Xác định ngày tháng hoặc vị trí thứ tự trong chuỗi (25th, first)."
+    ]
+  },
+  "usageConstraints": [
+    "Khi đếm, dùng số đếm nguyên (cardinal); khi nói thứ tự hoặc ngày tháng, dùng ordinal.",
+    "Khi viết số ghép như twenty-one, dùng dấu gạch nối."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A1_CARD_CARDINAL_NUM",
+      "type": "FORM",
+      "description": "Cardinal numbers dùng để đếm: one, two, three, ... (ví dụ: five)."
+    },
+    {
+      "code": "A1_CARD_ORDINAL_NUM",
+      "type": "FORM",
+      "description": "Ordinal numbers dùng để thứ tự và ngày tháng: first, second, third; twenty-first, etc."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "There are three apples.",
+      "vietnamese": "Có ba quả táo.",
+      "explanationVi": "Đếm số lượng danh từ với số đếm cardinal."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "There aren't four cars.",
+      "vietnamese": "Không có bốn chiếc ô tô.",
+      "explanationVi": "Phủ định cho cấu trúc có 'there are/there aren’t'."
+    },
+    {
+      "type": "QUESTION",
+      "english": "How many people are there?",
+      "vietnamese": "Có bao nhiêu người?",
+      "explanationVi": "Câu hỏi đếm số lượng bằng cách dùng 'how many'."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "Her birthday is on the twenty-second of June.",
+      "vietnamese": "Sinh nhật của cô ấy là ngày Twenty-second tháng Sáu.",
+      "explanationVi": "Sử dụng số thứ tự để diễn đạt ngày tháng."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "I counted three, but the third one was missing.",
+      "vietnamese": "Tôi đếm được ba cái, nhưng cái thứ ba bị thiếu.",
+      "explanationVi": "So sánh giữa đếm và vị trí thứ tự."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "C_CARD_01",
+      "incorrect": "There is five apples.",
+      "corrected": "There are five apples.",
+      "explanationVi": "Danh từ đếm số nhiều đi với động từ 'are'.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "C_CARD_02",
+      "incorrect": "This is twenty one apples.",
+      "corrected": "This is twenty-one apples.",
+      "explanationVi": "Số ghép như 21 phải có dấu gạch nối ở giữa.",
+      "severity": "MINOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "Counting numbers in daily life",
+      "Dates and events planning"
+    ],
+    "maximumSentenceWords": 14,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "cardinal vs ordinal usage",
+      "hyphenation in compound numbers (twenty-one)",
+      "date/month formatting"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:34:11.710Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

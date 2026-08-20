@@ -1,0 +1,26 @@
+{
+  "code": "DUPLICATE_MANIFEST",
+  "version": "1.0.0",
+  "title": "Duplicate Manifest Test",
+  "license": "PUBLIC_CONTENT",
+  "items": [
+    {
+      "code": "SUBJECT_PRONOUNS",
+      "family": "PRONOUNS",
+      "cefr": "A1",
+      "titleVi": "Đại từ 1",
+      "titleEn": "Pronouns 1",
+      "distinctionVi": "Điểm ngữ pháp 1",
+      "prerequisites": []
+    },
+    {
+      "code": "SUBJECT_PRONOUNS",
+      "family": "PRONOUNS",
+      "cefr": "A1",
+      "titleVi": "Đại từ 2",
+      "titleEn": "Pronouns 2",
+      "distinctionVi": "Điểm ngữ pháp 2",
+      "prerequisites": []
+    }
+  ]
+}

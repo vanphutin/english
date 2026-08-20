@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_VERB_INFINITIVE_TO",
+  "family": "COMPLEMENTATION",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Cấu trúc V + to-Infinitive (want to, decide to)",
+  "learningObjectiveVi": "Hiểu và dùng đúng cấu trúc V + to-Infinitive sau các động từ như want, decide để diễn đạt ý định/ước muốn.",
+  "learningObjectiveEn": "Understand and use the to-infinitive after verbs like want and decide to express intention or desire.",
+  "form": {
+    "patterns": [
+      "I want to learn English.",
+      "She decided to move to a new city.",
+      "They don't want to travel this summer."
+    ],
+    "morphologyNotes": [
+      "to-infinitive sau một số động từ phổ biến (want, decide, plan, need).",
+      "Trong câu phủ định, đặt not giữa trợ động từ và to-infinitive (do/does not want to...)."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Diễn đạt ý định hoặc mong muốn trong hiện tại.",
+      "Nói về quyết định hoặc kế hoạch để làm một việc trong tương lai."
+    ]
+  },
+  "usageConstraints": [
+    "Không phải sau mọi động từ đều dùng to-infinitive; có động từ dùng gerund (V-ing) hoặc bare infinitive tùy ngữ cảnh.",
+    "Sau một số động từ, không dùng dạng -ing; ví dụ: enjoy, mind có quy tắc riêng."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A2_VERB_TO_INF_FORM",
+      "type": "FORM",
+      "description": "Cấu trúc cơ bản: subject + want/decide + to + verb (bare infinitive)."
+    },
+    {
+      "code": "A2_VERB_TO_INF_MEANING",
+      "type": "MEANING",
+      "description": "Biểu đạt ý định/nhu cầu cho hành động sắp tới hoặc trong tương lai gần."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I want to learn English.",
+      "vietnamese": "Tôi muốn học tiếng Anh.",
+      "explanationVi": "Diễn đạt mong muốn ở hiện tại với to-infinitive."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "He decided not to go to the party.",
+      "vietnamese": "Anh ấy quyết định không đi dự tiệc.",
+      "explanationVi": "Dạng 'not to' sau quyết định."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Do you want to travel abroad?",
+      "vietnamese": "Bạn có muốn du lịch nước ngoài không?",
+      "explanationVi": "Hỏi về mong muốn hoặc ý định."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "After saving for months, she decided to buy a car.",
+      "vietnamese": "Sau khi tiết kiệm vài tháng, cô ấy quyết định mua một chiếc ô tô.",
+      "explanationVi": "Mô tả quyết định trong ngữ cảnh cụ thể."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "I want to study now, but I have to work.",
+      "vietnamese": "Tôi muốn học ngay bây giờ, nhưng tôi phải làm việc.",
+      "explanationVi": "Đối chiếu giữa mong muốn và nghĩa vụ."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "V_INF_01",
+      "incorrect": "I want learn English.",
+      "corrected": "I want to learn English.",
+      "explanationVi": "Sau want dùng to + động từ nguyên thể.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "V_INF_02",
+      "incorrect": "He decided to going.",
+      "corrected": "He decided to go.",
+      "explanationVi": "Động từ theo sau to-infinitive phải ở dạng nguyên thể.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "ESL_A2",
+      "VERB_TO_INF"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "form",
+      "meaning",
+      "usage"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:41:40.580Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

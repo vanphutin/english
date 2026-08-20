@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_POSSESSIVE_S",
+  "family": "POSSESSION",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Sở hữu cách ('s)",
+  "learningObjectiveVi": "Nắm vững cách diễn đạt sở hữu bằng 's cho danh từ số ít và sở hữu của danh từ số nhiều (ví dụ John's book, the children's toys) và áp dụng đúng vị trí dấu nháy trong câu.",
+  "learningObjectiveEn": "Understand and use possessive 's for singular nouns and possessive forms for plural nouns (e.g., John's book, the children's toys) and apply correct apostrophe placement in sentences.",
+  "form": {
+    "patterns": [
+      "This is Mary's car.",
+      "The children's toys are new.",
+      "The boys' hats are on the rack."
+    ],
+    "morphologyNotes": [
+      "Dạng sở hữu với 's dùng sau danh từ số ít (John's) và sau danh từ số nhiều khi tượng trưng cho sở hữu (children's). Với danh từ số nhiều kết thúc bằng -s, chỉ thêm dấu nháy ở cuối (boys')."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Diễn đạt vật sở hữu hoặc thuộc sở hữu giữa người; ai sở hữu cái gì.",
+      "Chỉ mối quan hệ sở hữu của nhóm danh từ (the children’s toys)."
+    ]
+  },
+  "usageConstraints": [
+    "Sở hữu với danh từ số ít thêm 's (John's).",
+    "Với danh từ số nhiều kết thúc bằng -s, thêm dấu nháy sau -s (girls' book)."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "POSSESSIVE_FORM",
+      "type": "FORM",
+      "description": "Dạng sở hữu với 's: sau danh từ số ít (John's) hoặc sau danh từ số nhiều (children's; nếu danh từ số nhiều kết thúc bằng -s, đặt dấu nháy sau -s)."
+    },
+    {
+      "code": "APOSTROPHE_PLACEMENT",
+      "type": "TENDENCY",
+      "description": "Vị trí dấu apostrophe cho sở hữu đúng với quy tắc và tránh nhầm lẫn với viết tắt."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "This is Mary's book.",
+      "vietnamese": "Đây là cuốn sách của Mary.",
+      "explanationVi": "Sở hữu với 's dùng cho danh từ số ít."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "This is not Mary's car.",
+      "vietnamese": "Đây không phải là xe của Mary.",
+      "explanationVi": "Dạng phủ định với sở hữu."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Whose book is this?",
+      "vietnamese": "Quyển sách này thuộc về ai?",
+      "explanationVi": "Dành cho hỏi sở hữu."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "The children's toys are on the shelf.",
+      "vietnamese": "Đồ chơi của lũ trẻ đang ở trên giá sách.",
+      "explanationVi": "Chỉ ra sự sở hữu của danh từ số nhiều 'children'."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "John's car is new, but the cars' engines are old.",
+      "vietnamese": "Xe của John mới, nhưng động cơ của các xe lại cũ.",
+      "explanationVi": "So sánh sở hữu giữa danh từ số ít và danh từ số nhiều."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "SINGLE_WITH_PLURAL_OWNER",
+      "incorrect": "This is John's cars.",
+      "corrected": "This is John's car.",
+      "explanationVi": "Sở hữu với danh từ số ít phải dùng 's.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "PUNCTUATION_MISPLACEMENT",
+      "incorrect": "The boys' hats are on the rack",
+      "corrected": "The boys' hats are on the rack.",
+      "explanationVi": "Dấu nháy đặt đúng sau chữ cái cuối cùng của danh từ số nhiều.",
+      "severity": "MINOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "speaking",
+      "writing_basic",
+      "dialogue_practice"
+    ],
+    "maximumSentenceWords": 14,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "correctPossessiveForms",
+      "apostrophePlacement",
+      "naturalness"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:30:47.968Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

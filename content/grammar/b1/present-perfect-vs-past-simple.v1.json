@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PRESENT_PERFECT_VS_PAST_SIMPLE",
+  "family": "TENSE_CONTRAST",
+  "version": 1,
+  "cefr": "B1",
+  "status": "DRAFT",
+  "title": "Hiện tại hoàn thành và quá khứ đơn",
+  "learningObjectiveVi": "Chọn hiện tại hoàn thành cho liên hệ với hiện tại và quá khứ đơn cho thời điểm đã kết thúc.",
+  "learningObjectiveEn": "Choose present perfect for present relevance and past simple for a finished past time.",
+  "form": {
+    "patterns": [
+      "unfinished/current relevance: have/has + past participle",
+      "finished past: past-simple verb"
+    ],
+    "morphologyNotes": [
+      "A finished past-time reference selects past simple; current relevance without such a time may select present perfect."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Contrast unspecified experience with a dated event.",
+      "Contrast unfinished and finished time periods."
+    ]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["PRESENT_PERFECT_EXPERIENCE", "PAST_SIMPLE_QUESTIONS"],
+    "buildsOn": ["PRESENT_PERFECT_EXPERIENCE", "PAST_SIMPLE_QUESTIONS"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PRESENT_PERFECT_VS_PAST_SIMPLE_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "A finished past-time reference selects past simple; current relevance without such a time may select present perfect."
+    }
+  ],
+  "examples": [
+    {
+      "type": "CONTRASTIVE",
+      "english": "I have read that book, but I read it years ago.",
+      "vietnamese": "Tôi đã đọc quyển đó, nhưng tôi đọc nó từ nhiều năm trước.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại hoàn thành và quá khứ đơn."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "She has lost her key, so she cannot get in.",
+      "vietnamese": "Cô ấy làm mất chìa khóa nên giờ không vào được.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại hoàn thành và quá khứ đơn."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "She lost her key yesterday but found it later.",
+      "vietnamese": "Hôm qua cô ấy làm mất chìa khóa nhưng sau đó đã tìm thấy.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại hoàn thành và quá khứ đơn."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PRESENT_PERFECT_VS_PAST_SIMPLE_COMMON_ERROR",
+      "incorrect": "Did you ever visit Japan?",
+      "corrected": "Have you ever visited Japan?",
+      "explanationVi": "Khi hỏi trải nghiệm không có thời điểm kết thúc, dùng hiện tại hoàn thành.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 22,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

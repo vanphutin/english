@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_TOO_ENOUGH_ADJECTIVE",
+  "family": "DETERMINERS",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Cấu trúc Too và Enough với tính từ",
+  "learningObjectiveVi": "Hiểu và vận dụng Too và Enough với tính từ để diễn đạt mức độ quá mức hoặc đủ của một đặc tính, so sánh và kết quả có thể xảy ra.",
+  "learningObjectiveEn": "To correctly use too and enough with adjectives to express excess, sufficiency, and resulting actions.",
+  "form": {
+    "patterns": [
+      "The soup is too hot to eat.",
+      "The room is big enough to accommodate all of us.",
+      "She is too tired to continue.",
+      "We have enough seats to invite everyone."
+    ],
+    "morphologyNotes": [
+      "Too + adj + to + V diễn đạt mức độ quá mức gây cản trở hành động.",
+      "Adj + enough + to + V diễn đạt mức độ đủ để thực hiện hành động."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Diễn đạt mức độ quá mức làm khó thực hiện hành động (too + adj + to + V).",
+      "Diễn đạt mức độ đủ để thực hiện hành động (enough + adj + to + V)."
+    ]
+  },
+  "usageConstraints": [
+    "Too chỉ dùng với tính từ và cần theo sau bởi to + V; không dùng với danh từ ở dạng đơn độc.",
+    "enough thường đi sau tính từ và trước động từ để tạo cấu trúc 'enough to + V'."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A2_TOO_ENOUGH_ADJ_PATTERN",
+      "type": "FORM",
+      "description": "Pattern chuẩn: Too + Adj + to + V và Adj + enough + to + V."
+    },
+    {
+      "code": "A2_TOO_ENOUGH_ADJ_MEANING",
+      "type": "MEANING",
+      "description": "Too diễn đạt sự quá mức khiến việc thực hiện hành động không thể xảy ra; Enough diễn đạt sự đủ để thực hiện hành động."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "The soup is too hot to eat.",
+      "vietnamese": "Món súp quá nóng để ăn.",
+      "explanationVi": "Too + adj + to + V diễn đạt mức độ quá nóng làm khó ăn."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "The bag isn’t heavy enough to lift.",
+      "vietnamese": "Cái túi không đủ nhẹ để nâng dỡ.",
+      "explanationVi": "Enough + adj + to + V diễn đạt mức độ đủ để thực hiện hành động."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Is this coat too small to wear?",
+      "vietnamese": "Cẻ áo khoác này có quá nhỏ để mặc không?",
+      "explanationVi": "Dùng too + adj + to + V để hỏi về mức độ quá nhỏ."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "This chair isn’t sturdy enough to seat many people.",
+      "vietnamese": "Chiếc ghế này không đủ chắc để ngồi được nhiều người.",
+      "explanationVi": "Enough + adj + to + V diễn đạt sự đủ để thực hiện hành động ngồi."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "The jar is too full to add more; however, it is not enough to seal properly.",
+      "vietnamese": "Hũ quá đầy để thêm nữa; tuy nhiên nó không đủ kín để đóng.",
+      "explanationVi": "So sánh hai mức độ exhaustive (too vs enough) với các ngữ cảnh khác nhau."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "TOO_ADJ_MISSING",
+      "incorrect": "This box is too much heavy to lift.",
+      "corrected": "This box is too heavy to lift.",
+      "explanationVi": "Too chỉ đi với adj ở dạng ngắn và sau đó là to + V.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "ENOUGH_ORDER",
+      "incorrect": "The chair is not enough strong to hold.",
+      "corrected": "The chair is not strong enough to hold.",
+      "explanationVi": "Sắp xếp đúng: adj + enough + to + V; not + adj + enough.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "GRAMMAR_EXPLANATION",
+      "EXERCISES"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "grammar correctness",
+      "pragmatic appropriateness"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:43:02.836Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

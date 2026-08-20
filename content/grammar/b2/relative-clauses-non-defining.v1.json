@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0",
+  "code": "RELATIVE_CLAUSES_NON_DEFINING",
+  "family": "RELATIVE_CLAUSES",
+  "version": 1,
+  "cefr": "B2",
+  "status": "DRAFT",
+  "title": "Mệnh đề quan hệ không xác định",
+  "learningObjectiveVi": "Thêm thông tin phụ về một danh từ đã xác định bằng mệnh đề có dấu phẩy.",
+  "learningObjectiveEn": "Add non-essential information about an already identified noun using a comma-marked relative clause.",
+  "form": {
+    "patterns": ["identified noun, who/which + clause, main clause"],
+    "morphologyNotes": [
+      "Set off a non-defining clause with commas and do not replace who or which with that."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Add optional information about a known person.",
+      "Add optional information about a known thing."
+    ]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["RELATIVE_CLAUSES_DEFINING"],
+    "buildsOn": ["RELATIVE_CLAUSES_DEFINING"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "RELATIVE_CLAUSES_NON_DEFINING_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Set off a non-defining clause with commas and do not replace who or which with that."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "My brother, who lives in Perth, is visiting us.",
+      "vietnamese": "Anh trai tôi, người sống ở Perth, đang thăm chúng tôi.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu mệnh đề quan hệ không xác định."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "The museum, which opened last year, is free.",
+      "vietnamese": "Bảo tàng, mở cửa năm ngoái, được vào miễn phí.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu mệnh đề quan hệ không xác định."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "Mai, whose team won, received an award.",
+      "vietnamese": "Mai, người có đội chiến thắng, đã nhận giải.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu mệnh đề quan hệ không xác định."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "RELATIVE_CLAUSES_NON_DEFINING_COMMON_ERROR",
+      "incorrect": "Hanoi, that is the capital, is very busy.",
+      "corrected": "Hanoi, which is the capital, is very busy.",
+      "explanationVi": "Không dùng that trong mệnh đề quan hệ không xác định.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 28,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

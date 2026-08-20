@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PAST_PERFECT_SEQUENCE",
+  "family": "PAST_PERFECT",
+  "version": 1,
+  "cefr": "B2",
+  "status": "DRAFT",
+  "title": "Quá khứ hoàn thành để sắp xếp sự kiện",
+  "learningObjectiveVi": "Dùng quá khứ hoàn thành để làm rõ sự kiện xảy ra trước một mốc quá khứ khác.",
+  "learningObjectiveEn": "Use the past perfect to make clear which event happened before another past reference point.",
+  "form": {
+    "patterns": ["subject + had + past participle + before/by the time + past event"],
+    "morphologyNotes": [
+      "Use had plus a past participle for the earlier event when sequence is not otherwise clear."
+    ]
+  },
+  "meaning": {
+    "uses": ["Mark an earlier past event.", "Explain a past result through an earlier cause."]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["PAST_CONTINUOUS_INTERRUPTED", "PRESENT_PERFECT_VS_PAST_SIMPLE"],
+    "buildsOn": ["PAST_CONTINUOUS_INTERRUPTED", "PRESENT_PERFECT_VS_PAST_SIMPLE"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PAST_PERFECT_SEQUENCE_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use had plus a past participle for the earlier event when sequence is not otherwise clear."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "The train had left before we reached the station.",
+      "vietnamese": "Tàu đã rời đi trước khi chúng tôi đến ga.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu quá khứ hoàn thành để sắp xếp sự kiện."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "She was tired because she had not slept well.",
+      "vietnamese": "Cô ấy mệt vì đã không ngủ ngon.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu quá khứ hoàn thành để sắp xếp sự kiện."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Had you met him before the conference?",
+      "vietnamese": "Bạn đã từng gặp anh ấy trước hội nghị chưa?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu quá khứ hoàn thành để sắp xếp sự kiện."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PAST_PERFECT_SEQUENCE_COMMON_ERROR",
+      "incorrect": "When I arrived, they already left.",
+      "corrected": "When I arrived, they had already left.",
+      "explanationVi": "Sự kiện rời đi xảy ra trước mốc arrived nên dùng had left.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 28,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

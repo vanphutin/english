@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_BASIC_CONNECTORS_AND_BUT",
+  "family": "DISCOURSE_COHESION",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Từ nối cơ bản And, But, Or",
+  "learningObjectiveVi": "Nắm các từ nối cơ bản And/But/Or và cách dùng để nối các ý tưởng đơn giản trong câu.",
+  "learningObjectiveEn": "Learn and use basic connectors And/But/Or to join simple ideas and show alternatives.",
+  "form": {
+    "patterns": [
+      "Subject + verb + object + and + object.",
+      "Subject + verb + object + or + object.",
+      "Subject + be + adjective + but + subject + be + adjective."
+    ],
+    "morphologyNotes": [
+      "Conjunctions: and/ but/ or kết nối hai phần tử bằng cấp độ bình đẳng; dấu phẩy trước 'but' khi hai mệnh đề độc lập đi kèm; 'but' diễn đạt quan hệ đối lập."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Nối các danh từ/đại từ và động từ để kết nối hai ý tưởng; diễn đạt lựa chọn/điều kiện tương tự.",
+      "Dùng để diễn đạt ý đối lập hoặc sự lựa chọn giữa hai khả năng."
+    ]
+  },
+  "usageConstraints": [
+    "Dùng ở thì hiện tại đơn cho các câu gốc; tránh lẫn lộn thì này với thì khác.",
+    "Sử dụng 'or' để trình bày lựa chọn thay thế; dùng ',' trước 'but' khi nối hai mệnh đề độc lập."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "R1",
+      "type": "FORM",
+      "description": "Pattern Subject + verb + object + and/or + object; giữa hai phần nối bằng and/ or cấu trúc tương đồng."
+    },
+    {
+      "code": "R2",
+      "type": "MEANING",
+      "description": "And nối hai thành phần cùng loại; But biểu thị quan hệ đối lập; Or đưa ra lựa chọn."
+    },
+    {
+      "code": "R3",
+      "type": "USE",
+      "description": "Dùng để liên kết hai ý tưởng đơn giản hoặc chọn giữa hai lựa chọn."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I like apples and bananas.",
+      "vietnamese": "Tôi thích táo và chuối.",
+      "explanationVi": "Nối hai danh từ bằng 'and'."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "She doesn't like tea or coffee.",
+      "vietnamese": "Cô ấy không thích trà hoặc cà phê.",
+      "explanationVi": "Dùng 'or' để nêu hai lựa chọn."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Would you like tea or coffee?",
+      "vietnamese": "Bạn thích trà hay cà phê?",
+      "explanationVi": "Đặt câu hỏi cho sự lựa chọn giữa hai đồ uống."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "He is tall, but his brother is short.",
+      "vietnamese": "Anh ấy cao, nhưng anh trai của anh ấy thì thấp.",
+      "explanationVi": "Liên kết hai tính từ ở hai mệnh đề bằng 'but'."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "We can stay here, or we can go there.",
+      "vietnamese": "Chúng ta có thể ở đây, hoặc chúng ta có thể đi đó.",
+      "explanationVi": "Trình bày hai lựa chọn bằng 'or'."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "A1_CONNECT_01",
+      "incorrect": "I like apples and banana.",
+      "corrected": "I like apples and bananas.",
+      "explanationVi": "Danh từ sau 'and' phải ở dạng số nhiều nếu cần.",
+      "severity": "MINOR"
+    },
+    {
+      "code": "A1_CONNECT_02",
+      "incorrect": "She don't like tea or coffee.",
+      "corrected": "She doesn't like tea or coffee.",
+      "explanationVi": "Dạng phủ định của động từ với chủ ngữ số ít ở hiện tại đơn.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "A1 grammar and vocabulary practice",
+      "Elementary English classroom instruction"
+    ],
+    "maximumSentenceWords": 14,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "pattern conformity for And/But/Or",
+      "comma usage before 'but' if joining two independent clauses"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:35:54.634Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

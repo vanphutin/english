@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_FUTURE_WILL_PREDICTIONS",
+  "family": "FUTURE_TENSE",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Tương lai đơn với Will chỉ dự đoán & quyết định tức thì",
+  "learningObjectiveVi": "Sử dụng Will để diễn đạt dự đoán về tương lai và các quyết định tức thì.",
+  "learningObjectiveEn": "Use 'will' to express future predictions and spontaneous decisions.",
+  "form": {
+    "patterns": [
+      "Subject + will + base verb",
+      "Will + subject + base verb",
+      "Subject + will + not + base verb"
+    ],
+    "morphologyNotes": [
+      "Modal auxiliary 'will' chỉ diễn đạt dự đoán hoặc quyết định tức thì; dạng phủ định 'will not' hoặc 'won't'."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Predictions about the future",
+      "Spontaneous decisions or promises in the moment"
+    ]
+  },
+  "usageConstraints": [
+    "Không dùng 'will' cho kế hoạch cố định hoặc lịch trình đã lên trước (dùng 'be going to' hoặc hiện tại tiếp diễn).",
+    "Dùng với động từ nguyên thể cơ bản."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A2_WILL_PREDICTIONS_FORM",
+      "type": "FORM",
+      "description": "Sử dụng đúng mẫu 'will + base verb' cho dự đoán hoặc quyết định tức thì."
+    },
+    {
+      "code": "A2_WILL_PREDICTIONS_MEANING",
+      "type": "MEANING",
+      "description": "Ý nghĩa: diễn đạt tương lai dự đoán dựa trên suy đoán hoặc khả năng."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "It will rain tomorrow.",
+      "vietnamese": "Ngày mai trời sẽ mưa.",
+      "explanationVi": "Dự đoán dựa trên dự báo."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "It won't rain tomorrow.",
+      "vietnamese": "Ngày mai sẽ không mưa.",
+      "explanationVi": "Phủ định dự đoán."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Will it rain tomorrow?",
+      "vietnamese": "Ngày mai có mưa không?",
+      "explanationVi": "Câu hỏi với trợ động từ 'will' ở đầu."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "Based on the forecast, we will start the trip tomorrow.",
+      "vietnamese": "Dựa trên dự báo, chúng ta sẽ bắt đầu chuyến đi vào ngày mai.",
+      "explanationVi": "Sử dụng 'will' cho quyết định dự kiến dựa trên thông tin hiện tại."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "They will join us, but we are going to organize transport separately.",
+      "vietnamese": "Họ sẽ tham gia với chúng ta, nhưng chúng ta sẽ sắp xếp phương tiện riêng.",
+      "explanationVi": "So sánh sự dự đoán/ý định trong tương lai với kế hoạch đã lên."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "A2_WILL_PREDICTIONS_ERROR1",
+      "incorrect": "It will rains tomorrow.",
+      "corrected": "It will rain tomorrow.",
+      "explanationVi": "Sai hình thức động từ sau 'will' (phải ở dạng nguyên thể).",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "A2_WILL_PREDICTIONS_ERROR2",
+      "incorrect": "It wont rain tomorrow.",
+      "corrected": "It won't rain tomorrow.",
+      "explanationVi": "Vi phạm viết tắt; phải 'will not' hoặc 'won't'.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "Giao tiếp hằng ngày",
+      "Bài tập ngữ pháp",
+      "Luyện nói căn bản"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "modalUse",
+      "sentenceAgreement",
+      "negation"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:39:07.041Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

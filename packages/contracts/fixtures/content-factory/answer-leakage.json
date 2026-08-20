@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.0",
+  "batchId": "9c44bb2c-dcb1-44de-9dfa-6e9e9c171e1a",
+  "grammarPointCode": "BE_PRESENT_AFFIRMATIVE",
+  "grammarPointVersion": 1,
+  "grammarPointHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "policyVersion": "content-factory-v1",
+  "seed": "leak-test-seed",
+  "exercises": [
+    {
+      "contentKey": "LEAK_TEST_001",
+      "activityType": "COMPLETE_SENTENCE",
+      "topicCode": "STUDY",
+      "contextVi": "Điền từ đúng (nhập: 'is')",
+      "instructionVi": "Hoàn thành câu: She ____ a student.",
+      "targetNecessity": "Dùng động từ be ở hiện tại với chủ ngữ ngôi thứ ba số ít.",
+      "semanticRequirements": ["Chủ ngữ là she", "Nghề nghiệp là student"],
+      "allowedAnswers": ["is"],
+      "forbiddenMeaningChanges": [],
+      "hints": ["Đáp án là is"],
+      "variationGroup": "BE_PRESENT_STUDY",
+      "semanticHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "difficulty": 1,
+      "validationNotes": []
+    }
+  ],
+  "provenance": {
+    "origin": "AI_DRAFT",
+    "provider": "test",
+    "model": "test-model",
+    "promptVersion": "test-v1",
+    "generatedAt": "2026-08-18T00:00:00.000Z"
+  }
+}

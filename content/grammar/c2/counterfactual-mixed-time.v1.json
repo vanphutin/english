@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "1.0",
+  "code": "COUNTERFACTUAL_MIXED_TIME",
+  "family": "COUNTERFACTUALITY",
+  "version": 1,
+  "cefr": "C2",
+  "status": "DRAFT",
+  "title": "Phản thực phức hợp qua nhiều mốc thời gian",
+  "learningObjectiveVi": "Xây dựng quan hệ phản thực có nguyên nhân và hệ quả trải qua nhiều mốc thời gian mà không mất logic.",
+  "learningObjectiveEn": "Construct counterfactual relations whose causes and consequences span multiple time frames without losing temporal logic.",
+  "form": {
+    "patterns": [
+      "past counterfactual cause + present/future counterfactual consequence",
+      "present state condition + past counterfactual consequence"
+    ],
+    "morphologyNotes": [
+      "Each clause must use the form appropriate to its own time reference, not a mechanically matched conditional pattern."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Trace a current consequence to an unreal past cause.",
+      "Explain an unreal past outcome through a persistent present trait."
+    ]
+  },
+  "usageConstraints": [
+    "The structure must be motivated by meaning, information flow, stance, or register rather than complexity alone."
+  ],
+  "relationships": {
+    "prerequisites": ["MIXED_CONDITIONAL_PAST_PRESENT", "FUTURE_PERFECT"],
+    "buildsOn": ["MIXED_CONDITIONAL_PAST_PRESENT", "FUTURE_PERFECT"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "COUNTERFACTUAL_MIXED_TIME_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Each clause must use the form appropriate to its own time reference, not a mechanically matched conditional pattern."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "If the team had invested earlier, it would be leading the market now.",
+      "vietnamese": "Nếu đội ngũ đầu tư sớm hơn, giờ họ đã dẫn đầu thị trường.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu phản thực phức hợp qua nhiều mốc thời gian."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "If she were less cautious, she might have accepted the offer yesterday.",
+      "vietnamese": "Nếu cô ấy bớt thận trọng, có lẽ hôm qua cô ấy đã nhận lời.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu phản thực phức hợp qua nhiều mốc thời gian."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "Had the warning been clearer, we would not be facing this delay next week.",
+      "vietnamese": "Nếu cảnh báo rõ hơn, tuần tới chúng ta đã không phải đối mặt sự chậm trễ này.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu phản thực phức hợp qua nhiều mốc thời gian."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "COUNTERFACTUAL_MIXED_TIME_COMMON_ERROR",
+      "incorrect": "If I were more careful, I would not lose it yesterday.",
+      "corrected": "If I were more careful, I would not have lost it yesterday.",
+      "explanationVi": "Kết quả quá khứ phản thực cần would have cộng quá khứ phân từ.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": [
+      "academic discussion",
+      "professional writing",
+      "formal correspondence",
+      "narrative",
+      "public policy"
+    ],
+    "maximumSentenceWords": 42,
+    "requireExplicitTarget": true,
+    "requireDiscourseMotivation": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "scope",
+      "information structure",
+      "register",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "advanced-content-v4",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

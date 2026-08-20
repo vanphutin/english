@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_IMPERATIVES_BASIC",
+  "family": "CLAUSE_STRUCTURE",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Câu mệnh lệnh cơ bản",
+  "learningObjectiveVi": "Nắm vững cách dùng câu mệnh lệnh cơ bản để cho lời chỉ dẫn ngắn gọn trong giao tiếp hàng ngày, cùng với dạng phủ định và lựa chọn lời lịch sự.",
+  "learningObjectiveEn": "Master the basic imperative forms to give short commands in everyday conversations, including negative imperatives and polite forms.",
+  "form": {
+    "patterns": [
+      "Close the door.",
+      "Don't run in the corridor.",
+      "Sit down, please."
+    ],
+    "morphologyNotes": [
+      "Sự ngầm hiểu chủ ngữ 'you'; động từ ở dạng nguyên thể và không có chủ ngữ explicit.",
+      "Dạng phủ định dùng 'don't' + động từ gốc."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Giao tiếp đưa ra mệnh lệnh ngắn gọn cho người nghe.",
+      "Yêu cầu hành động của người nghe, hoặc khuyến khích lịch sự."
+    ]
+  },
+  "usageConstraints": [
+    "Dùng trong ngôn ngữ nói thông thường hoặc hướng dẫn ngắn; tránh dùng trong văn bản trang trọng.",
+    "Khi nói lịch sự, thêm 'please' hoặc 'could you' để làm dịu mệnh lệnh."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "IMPERATIVE_FORM",
+      "type": "FORM",
+      "description": "Câu mệnh lệnh trực tiếp omits explicit subject; động từ ở dạng nguyên thể."
+    },
+    {
+      "code": "POLITENESS_MODIFIER",
+      "type": "TENDENCY",
+      "description": "Để lịch sự, dùng 'please' hoặc 'could you' với câu imperatives."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "Close the door.",
+      "vietnamese": "Đóng cửa lại.",
+      "explanationVi": "Câu mệnh lệnh ngắn gọn, với chủ ngữ được ngầm hiểu là 'you'."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "Don't run in the corridor.",
+      "vietnamese": "Đừng chạy ở hành lang.",
+      "explanationVi": "Dạng phủ định bằng 'don't' + cơ bản động từ."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Could you help me, please?",
+      "vietnamese": "Bạn có thể giúp tôi được không?",
+      "explanationVi": "Dạng câu yêu cầu lịch sự với động từ khởi đầu bằng 'Could you'."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "In class, the teacher says, 'Open your books to page 20'.",
+      "vietnamese": "Trong lớp, thầy cô nói: 'Mở sách ra trang 20'.",
+      "explanationVi": "Ví dụ trong ngữ cảnh giảng dạy, câu imperatives được dùng để hướng dẫn."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "Sit down.",
+      "vietnamese": "Ngồi xuống.",
+      "explanationVi": "Dạng trực tiếp; để lịch sự, nói 'Please sit down' hoặc 'Could you sit down?'."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "IMPERATIVE_SONG",
+      "incorrect": "Sit down!, Please.",
+      "corrected": "Please sit down.",
+      "explanationVi": "Dùng 'Please' để lịch sự; kết hợp đúng sắp xếp.",
+      "severity": "MINOR"
+    },
+    {
+      "code": "MISSING_SUBJECT",
+      "incorrect": "Open the door.",
+      "corrected": "Open the door (you).",
+      "explanationVi": "Trong imperatives, chủ ngữ 'you' bị ngầm hiểu.",
+      "severity": "MINOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "spoken_english",
+      "beginner_writing",
+      "daily_dialogue"
+    ],
+    "maximumSentenceWords": 14,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "imperativeForm",
+      "politeness",
+      "naturalness"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:30:47.970Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

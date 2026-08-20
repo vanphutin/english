@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "1.0",
+  "code": "END_WEIGHT_INFORMATION_PACKAGING",
+  "family": "INFORMATION_STRUCTURE",
+  "version": 1,
+  "cefr": "C2",
+  "status": "DRAFT",
+  "title": "End-weight và đóng gói thông tin",
+  "learningObjectiveVi": "Sắp xếp cấu trúc để thành phần dài, mới hoặc phức tạp nằm cuối câu, giúp câu dễ xử lý mà không đổi nghĩa.",
+  "learningObjectiveEn": "Arrange clauses so long, new, or complex constituents occur late, improving processing without changing meaning.",
+  "form": {
+    "patterns": [
+      "anticipatory it + verb + extraposed clause",
+      "light subject + verb + heavy complement"
+    ],
+    "morphologyNotes": [
+      "Extraposition must retain the semantic role of the delayed clause and avoid an ambiguous anticipatory pronoun."
+    ]
+  },
+  "meaning": {
+    "uses": ["Delay a heavy clause.", "Move from given information to new complex information."]
+  },
+  "usageConstraints": [
+    "The structure must be motivated by meaning, information flow, stance, or register rather than complexity alone."
+  ],
+  "relationships": {
+    "prerequisites": ["PSEUDO_CLEFT_NUANCE", "FRONTING_TOPICALISATION"],
+    "buildsOn": ["PSEUDO_CLEFT_NUANCE", "FRONTING_TOPICALISATION"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "END_WEIGHT_INFORMATION_PACKAGING_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Extraposition must retain the semantic role of the delayed clause and avoid an ambiguous anticipatory pronoun."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "It became clear that the original estimate was unrealistic.",
+      "vietnamese": "Dần rõ rằng ước tính ban đầu không thực tế.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu end-weight và đóng gói thông tin."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "It surprised us that so few participants withdrew.",
+      "vietnamese": "Việc rất ít người tham gia rút lui khiến chúng tôi bất ngờ.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu end-weight và đóng gói thông tin."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "A question arose as to whether the evidence was admissible.",
+      "vietnamese": "Một câu hỏi nảy sinh về việc liệu bằng chứng có được chấp nhận không.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu end-weight và đóng gói thông tin."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "END_WEIGHT_INFORMATION_PACKAGING_COMMON_ERROR",
+      "incorrect": "That the plan failed is clear to everyone now.",
+      "corrected": "It is now clear to everyone that the plan failed.",
+      "explanationVi": "Đưa mệnh đề dài ra cuối giúp câu cân đối hơn trong ngữ cảnh này.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": [
+      "academic discussion",
+      "professional writing",
+      "formal correspondence",
+      "narrative",
+      "public policy"
+    ],
+    "maximumSentenceWords": 42,
+    "requireExplicitTarget": true,
+    "requireDiscourseMotivation": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "scope",
+      "information structure",
+      "register",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "advanced-content-v4",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "1.0",
+  "code": "NARRATIVE_TENSE_MIXING",
+  "family": "NARRATIVE_DISCOURSE",
+  "version": 1,
+  "cefr": "C1",
+  "status": "DRAFT",
+  "title": "Phối hợp thì trong tường thuật",
+  "learningObjectiveVi": "Phối hợp past simple, past continuous và past perfect để phân tầng sự kiện, bối cảnh và hồi tưởng.",
+  "learningObjectiveEn": "Coordinate past simple, past continuous, and past perfect to layer events, background, and flashback.",
+  "form": {
+    "patterns": [
+      "background: was/were + verb-ing",
+      "main events: past simple",
+      "earlier events: had + past participle"
+    ],
+    "morphologyNotes": [
+      "Tense shifts must follow changes in temporal viewpoint rather than vary only for stylistic effect."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Control foreground and background in a narrative.",
+      "Move to an earlier time without losing sequence."
+    ]
+  },
+  "usageConstraints": [
+    "The structure must be motivated by meaning, information flow, stance, or register rather than complexity alone."
+  ],
+  "relationships": {
+    "prerequisites": ["PAST_CONTINUOUS_INTERRUPTED", "PAST_PERFECT_SEQUENCE"],
+    "buildsOn": ["PAST_CONTINUOUS_INTERRUPTED", "PAST_PERFECT_SEQUENCE"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "NARRATIVE_TENSE_MIXING_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Tense shifts must follow changes in temporal viewpoint rather than vary only for stylistic effect."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "The wind was rising as we reached the house.",
+      "vietnamese": "Gió đang mạnh lên khi chúng tôi đến ngôi nhà.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu phối hợp thì trong tường thuật."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "I recognised the room because I had seen it in a photograph.",
+      "vietnamese": "Tôi nhận ra căn phòng vì đã thấy nó trong ảnh.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu phối hợp thì trong tường thuật."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "While everyone was sleeping, the alarm went off.",
+      "vietnamese": "Trong khi mọi người đang ngủ, chuông báo động vang lên.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu phối hợp thì trong tường thuật."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "NARRATIVE_TENSE_MIXING_COMMON_ERROR",
+      "incorrect": "I had opened the door and was entered the room.",
+      "corrected": "I opened the door and entered the room.",
+      "explanationVi": "Các sự kiện chính nối tiếp nhau dùng quá khứ đơn.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": [
+      "academic discussion",
+      "professional writing",
+      "formal correspondence",
+      "narrative",
+      "public policy"
+    ],
+    "maximumSentenceWords": 34,
+    "requireExplicitTarget": true,
+    "requireDiscourseMotivation": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "scope",
+      "information structure",
+      "register",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "advanced-content-v4",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

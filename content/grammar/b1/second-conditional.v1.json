@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "1.0",
+  "code": "SECOND_CONDITIONAL",
+  "family": "CONDITIONALS",
+  "version": 1,
+  "cefr": "B1",
+  "status": "DRAFT",
+  "title": "Câu điều kiện loại hai",
+  "learningObjectiveVi": "Dùng câu điều kiện loại hai cho tình huống giả định hoặc khó xảy ra ở hiện tại và tương lai.",
+  "learningObjectiveEn": "Use the second conditional for hypothetical or unlikely present and future situations.",
+  "form": {
+    "patterns": ["if + past simple, would + base verb"],
+    "morphologyNotes": [
+      "Use a past form in the if-clause and would plus a base verb in the result clause."
+    ]
+  },
+  "meaning": {
+    "uses": ["Imagine an unreal present situation.", "Discuss an unlikely future possibility."]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["FIRST_CONDITIONAL"],
+    "buildsOn": ["FIRST_CONDITIONAL"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "SECOND_CONDITIONAL_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use a past form in the if-clause and would plus a base verb in the result clause."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "If I had more time, I would learn Spanish.",
+      "vietnamese": "Nếu có thêm thời gian, tôi sẽ học tiếng Tây Ban Nha.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu câu điều kiện loại hai."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "She would travel more if flights were cheaper.",
+      "vietnamese": "Cô ấy sẽ đi du lịch nhiều hơn nếu vé máy bay rẻ hơn.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu câu điều kiện loại hai."
+    },
+    {
+      "type": "QUESTION",
+      "english": "What would you do if you found a wallet?",
+      "vietnamese": "Bạn sẽ làm gì nếu nhặt được ví?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu câu điều kiện loại hai."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "SECOND_CONDITIONAL_COMMON_ERROR",
+      "incorrect": "If I would have time, I would help.",
+      "corrected": "If I had time, I would help.",
+      "explanationVi": "Không dùng would trong mệnh đề if chuẩn của loại hai.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 22,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

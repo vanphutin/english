@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_ADVERBS_OF_FREQUENCY",
+  "family": "TIME_ADVERBS",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Trạng từ chỉ tần suất (always, usually)",
+  "learningObjectiveVi": "Sử dụng trạng từ chỉ tần suất (always, usually, often, sometimes, rarely, never) với thì hiện tại đơn để diễn đạt thói quen và lịch trình hàng ngày.",
+  "learningObjectiveEn": "Use frequency adverbs (always, usually, often, sometimes, rarely, never) with the present simple to express habits and daily routines.",
+  "form": {
+    "patterns": [
+      "I always drink coffee in the morning.",
+      "She usually goes to bed by 11 pm.",
+      "Do you often eat out on weekends?"
+    ],
+    "morphologyNotes": [
+      "Trong tiếng Anh hiện tại đơn, trạng từ chỉ tần suất (always, usually, often, sometimes, rarely, never) thường đứng trước động từ chính. Trong câu có trợ động từ, trạng từ có thể đứng sau trợ động từ hoặc sau 'not' (ví dụ: I do not usually drink coffee; Do you usually go to work?)."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Diễn đạt mức độ lặp lại hoặc thói quen (ví dụ: I always eat breakfast).",
+      "Mô tả lịch trình hoặc thói quen hàng ngày (ví dụ: She often goes to the gym)."
+    ]
+  },
+  "usageConstraints": [
+    "Trong câu khẳng định, trạng từ thường đứng trước động từ chính (hoặc sau trợ động từ nếu có).",
+    "Trong câu phủ định và câu hỏi, trạng từ thường đứng sau trợ động từ (do/does/am/is/are) hoặc sau 'not' (not usually)."
+  ],
+  "relationships": {
+    "prerequisites": [
+      "PRESENT_SIMPLE_AFFIRMATIVE"
+    ],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "POS_ADVERB_FREQUENCY",
+      "type": "FORM",
+      "description": "Vị trí trạng từ chỉ tần suất (always, usually, often, sometimes, rarely, never) phải đúng: trước động từ chính trong câu khẳng định; sau trợ động từ hoặc sau 'not' trong câu phủ định hoặc nghi vấn."
+    },
+    {
+      "code": "MEANING_ADVERB_FREQUENCY",
+      "type": "MEANING",
+      "description": "Diễn đạt tần suất của một hành động hoặc thói quen; không thay đổi nghĩa khi dùng các từ đồng nghĩa như 'every day' hoặc 'to some extent' nếu nghĩa tương tự."
+    },
+    {
+      "code": "USE_CONTEXT_ADVERB",
+      "type": "USE",
+      "description": "Sử dụng cho thói quen và lịch trình hằng ngày; hạn chế sử dụng với các động từ ngữ nghĩa bất động (stative) khi nhấn mạnh thói quen."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I always brush my teeth before bed.",
+      "vietnamese": "Tôi luôn đánh răng trước khi đi ngủ.",
+      "explanationVi": "Cấu trúc: Subject + adverb of frequency + verb. Trạng từ 'always' đứng trước động từ chính 'brush'."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "She does not usually drink coffee in the morning.",
+      "vietnamese": "Cô ấy thường không uống cà phê vào buổi sáng.",
+      "explanationVi": "Trong câu phủ định, động từ phụ 'does' đi trước, trạng từ 'usually' đứng sau 'not' và trước động từ chính."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Do you often eat out on weekends?",
+      "vietnamese": "Bạn có thường ăn ngoài vào cuối tuần không?",
+      "explanationVi": "Trong câu hỏi, trợ động từ 'do/does' đứng trước chủ ngữ; trạng từ theo sau trợ động từ."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "On weekdays, I usually start work at nine.",
+      "vietnamese": "Vào các ngày trong tuần, tôi thường bắt đầu làm việc lúc chín giờ.",
+      "explanationVi": "Sử dụng trạng từ để nhấn mạnh thói quen trong ngữ cảnh cụ thể."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "I usually drink tea in the morning, whereas he rarely drinks tea.",
+      "vietnamese": "Tôi thường uống trà vào buổi sáng, trong khi anh ấy hiếm khi uống trà.",
+      "explanationVi": "So sánh hai thói quen khác nhau bằng cách dùng các trạng từ tần suất 'usually' và 'rarely'."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "E1",
+      "incorrect": "I am usually coffee every morning.",
+      "corrected": "I usually drink coffee every morning.",
+      "explanationVi": "Lỗi dùng động từ 'be' với trạng từ tần suất. Với thói quen, động từ phải ở dạng cơ bản (base verb).",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "E2",
+      "incorrect": "He always go to work.",
+      "corrected": "He always goes to work.",
+      "explanationVi": "Động từ ở ngôi thứ ba số ít cần thêm '-s'.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "BEGINNER_ENGLISH_ADVERBS",
+      "PRESENT_SIMPLE_EXPLORATION"
+    ],
+    "maximumSentenceWords": 14,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "placementOfAdverbs",
+      "tenseConsistency"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:18:52.638Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

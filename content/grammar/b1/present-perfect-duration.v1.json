@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PRESENT_PERFECT_DURATION",
+  "family": "PRESENT_PERFECT",
+  "version": 1,
+  "cefr": "B1",
+  "status": "DRAFT",
+  "title": "Hiện tại hoàn thành với for và since",
+  "learningObjectiveVi": "Dùng hiện tại hoàn thành với for hoặc since cho trạng thái bắt đầu trước đây và còn tiếp tục.",
+  "learningObjectiveEn": "Use the present perfect with for or since for a state continuing from the past until now.",
+  "form": {
+    "patterns": [
+      "subject + have/has + past participle + for + duration",
+      "subject + have/has + past participle + since + starting point"
+    ],
+    "morphologyNotes": [
+      "Use for with a duration and since with a starting point when the situation continues now."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Express a continuing state over a duration.",
+      "Mark the starting point of a continuing situation."
+    ]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["PRESENT_PERFECT_EXPERIENCE"],
+    "buildsOn": ["PRESENT_PERFECT_EXPERIENCE"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PRESENT_PERFECT_DURATION_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use for with a duration and since with a starting point when the situation continues now."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "We have lived here for six years.",
+      "vietnamese": "Chúng tôi đã sống ở đây được sáu năm.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại hoàn thành với for và since."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "Lan has known him since 2020.",
+      "vietnamese": "Lan đã biết anh ấy từ năm 2020.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại hoàn thành với for và since."
+    },
+    {
+      "type": "QUESTION",
+      "english": "How long have you worked here?",
+      "vietnamese": "Bạn đã làm ở đây bao lâu rồi?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại hoàn thành với for và since."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PRESENT_PERFECT_DURATION_COMMON_ERROR",
+      "incorrect": "I have lived here since three years.",
+      "corrected": "I have lived here for three years.",
+      "explanationVi": "Three years là một khoảng thời gian nên dùng for.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 22,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

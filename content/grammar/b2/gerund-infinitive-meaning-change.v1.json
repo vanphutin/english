@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "1.0",
+  "code": "GERUND_INFINITIVE_MEANING_CHANGE",
+  "family": "VERB_COMPLEMENTATION",
+  "version": 1,
+  "cefr": "B2",
+  "status": "DRAFT",
+  "title": "Gerund và infinitive làm thay đổi nghĩa",
+  "learningObjectiveVi": "Phân biệt các nghĩa khác nhau khi một số động từ đi với V-ing hoặc to-infinitive.",
+  "learningObjectiveEn": "Distinguish changes in meaning when selected verbs take an -ing form or a to-infinitive.",
+  "form": {
+    "patterns": [
+      "remember/forget + verb-ing: recall a past event",
+      "remember/forget + to + verb: remember a required action",
+      "stop + verb-ing vs stop + to + verb"
+    ],
+    "morphologyNotes": [
+      "Select the complement from the intended meaning rather than treating -ing and to-infinitive as interchangeable."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Contrast remembering an event with remembering a task.",
+      "Contrast ending an activity with pausing to perform another."
+    ]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["PRESENT_CONTINUOUS_NOW"],
+    "buildsOn": ["PRESENT_CONTINUOUS_NOW"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "GERUND_INFINITIVE_MEANING_CHANGE_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Select the complement from the intended meaning rather than treating -ing and to-infinitive as interchangeable."
+    }
+  ],
+  "examples": [
+    {
+      "type": "CONTRASTIVE",
+      "english": "I remember meeting her, but I forgot to ask her name.",
+      "vietnamese": "Tôi nhớ đã gặp cô ấy nhưng quên hỏi tên.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu gerund và infinitive làm thay đổi nghĩa."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "He stopped smoking last year.",
+      "vietnamese": "Anh ấy đã bỏ hút thuốc năm ngoái.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu gerund và infinitive làm thay đổi nghĩa."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "He stopped to answer the phone.",
+      "vietnamese": "Anh ấy dừng lại để nghe điện thoại.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu gerund và infinitive làm thay đổi nghĩa."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "GERUND_INFINITIVE_MEANING_CHANGE_COMMON_ERROR",
+      "incorrect": "Remember locking the door tonight.",
+      "corrected": "Remember to lock the door tonight.",
+      "explanationVi": "Một việc cần nhớ làm trong tương lai dùng remember to lock.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 28,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

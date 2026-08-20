@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "1.0",
+  "code": "SUBJECT_PRONOUNS",
+  "family": "PRONOUNS",
+  "version": 1,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Đại từ nhân xưng làm chủ ngữ",
+  "learningObjectiveVi": "Chọn đúng I, you, he, she, it, we hoặc they làm chủ ngữ.",
+  "learningObjectiveEn": "Choose the correct English subject pronoun for a person or thing.",
+  "form": { "patterns": ["subject pronoun + verb"] },
+  "meaning": { "uses": ["Refer to people or things without repeating a noun."] },
+  "usageConstraints": ["Choose pronouns by person, number, and where relevant gender."],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PRONOUN_SUBJECT_POSITION",
+      "type": "FORM",
+      "description": "A subject pronoun normally appears before the finite verb."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I am Lan.",
+      "vietnamese": "Tôi là Lan.",
+      "explanationVi": "I chỉ người nói."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "She is my sister.",
+      "vietnamese": "Cô ấy là chị tôi.",
+      "explanationVi": "She thay cho một người nữ."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "Nam and Minh are here. They are ready.",
+      "vietnamese": "Nam và Minh ở đây. Họ đã sẵn sàng.",
+      "explanationVi": "They thay cho nhiều người."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "OBJECT_AS_SUBJECT",
+      "incorrect": "Me am ready.",
+      "corrected": "I am ready.",
+      "explanationVi": "Vị trí chủ ngữ cần I, không dùng me.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": { "maximumSentenceWords": 12 },
+  "evaluationPolicy": { "mustCheck": ["pronoun reference"] },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "contract-fixture",
+    "promptVersion": "grammar-kb-v1",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": ["Independently authored bootstrap fixture."]
+  }
+}

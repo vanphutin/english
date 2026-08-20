@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PRESENT_SIMPLE_AFFIRMATIVE",
+  "family": "PRESENT_SIMPLE",
+  "version": 1,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Hiện tại đơn: câu khẳng định",
+  "learningObjectiveVi": "Dùng hiện tại đơn để nói về thói quen và sự thật, với đuôi -s khi cần.",
+  "learningObjectiveEn": "Use the present simple for routines and facts, including third-person singular agreement.",
+  "form": {
+    "patterns": ["I/you/we/they + base verb", "he/she/it + verb-s/es"],
+    "morphologyNotes": ["Add -s or -es to the main verb with a third-person singular subject."]
+  },
+  "meaning": {
+    "uses": ["Describe routines and repeated actions.", "State general facts."]
+  },
+  "usageConstraints": ["Choose the form from the intended meaning and sentence context."],
+  "relationships": {
+    "prerequisites": ["SUBJECT_PRONOUNS"],
+    "buildsOn": ["SUBJECT_PRONOUNS"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PRESENT_SIMPLE_AFFIRMATIVE_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Add -s or -es to the main verb with a third-person singular subject."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I walk to work every day.",
+      "vietnamese": "Tôi đi bộ đến chỗ làm mỗi ngày.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại đơn: câu khẳng định."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "Mai studies English at night.",
+      "vietnamese": "Mai học tiếng Anh vào buổi tối.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại đơn: câu khẳng định."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "Water boils at 100 degrees Celsius.",
+      "vietnamese": "Nước sôi ở 100 độ C.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại đơn: câu khẳng định."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PRESENT_SIMPLE_AFFIRMATIVE_COMMON_ERROR",
+      "incorrect": "She work on Saturdays.",
+      "corrected": "She works on Saturdays.",
+      "explanationVi": "Chủ ngữ she cần động từ thêm -s.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel"],
+    "maximumSentenceWords": 12,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": ["target form", "meaning preservation", "natural accepted alternatives"],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "foundation-content-v2",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

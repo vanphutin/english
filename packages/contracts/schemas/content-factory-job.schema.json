@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://english.local/schemas/content-factory-job.schema.json",
+  "title": "Content factory job envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "runId",
+    "jobId",
+    "purpose",
+    "target",
+    "state",
+    "attempt",
+    "idempotencyKey",
+    "inputHash",
+    "policyVersions",
+    "budget",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "runId": { "type": "string", "format": "uuid" },
+    "jobId": { "type": "string", "format": "uuid" },
+    "purpose": {
+      "enum": [
+        "PLAN_MANIFEST",
+        "AUTHOR_GRAMMAR",
+        "AUTHOR_EXERCISES",
+        "VALIDATE",
+        "REVIEW",
+        "BUILD_FIXTURES",
+        "PUBLISH"
+      ]
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "version"],
+      "properties": {
+        "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+        "version": { "type": "integer", "minimum": 1 },
+        "batchId": { "type": "string", "format": "uuid" }
+      }
+    },
+    "state": {
+      "enum": [
+        "QUEUED",
+        "CLAIMED",
+        "GENERATING",
+        "GENERATED",
+        "VALIDATING",
+        "IN_REVIEW",
+        "READY_FOR_APPROVAL",
+        "APPROVED",
+        "PUBLISHING",
+        "SUCCEEDED",
+        "CHANGES_REQUESTED",
+        "RETRY_WAIT",
+        "QUARANTINED",
+        "REJECTED",
+        "CANCELLED",
+        "FAILED"
+      ]
+    },
+    "attempt": { "type": "integer", "minimum": 1, "maximum": 3 },
+    "idempotencyKey": { "type": "string", "minLength": 16, "maxLength": 160 },
+    "inputHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "outputHash": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" },
+    "policyVersions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["factory", "schema", "prompt"],
+      "properties": {
+        "factory": { "const": "content-factory-v1" },
+        "schema": { "type": "string" },
+        "prompt": { "type": "string" }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["maxRequests", "maxInputTokens", "maxOutputTokens", "maxEstimatedCost"],
+      "properties": {
+        "maxRequests": { "type": "integer", "minimum": 1 },
+        "maxInputTokens": { "type": "integer", "minimum": 1 },
+        "maxOutputTokens": { "type": "integer", "minimum": 1 },
+        "maxEstimatedCost": { "type": "number", "minimum": 0 }
+      }
+    },
+    "lease": {
+      "type": ["object", "null"],
+      "required": ["workerId", "expiresAt"],
+      "properties": {
+        "workerId": { "type": "string" },
+        "expiresAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "normalizedErrorCode": { "type": ["string", "null"], "pattern": "^[A-Z][A-Z0-9_]+$" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" }
+  }
+}

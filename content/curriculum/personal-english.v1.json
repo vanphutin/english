@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PERSONAL_ENGLISH",
+  "title": "Lộ trình ngữ pháp tiếng Anh cá nhân",
+  "version": 1,
+  "levels": [
+    {
+      "code": "LEVEL_A1_FOUNDATIONS",
+      "cefr": "A1",
+      "title": "Nền tảng A1",
+      "unlockPolicy": { "requiredMasteryPercent": 80, "minimumPointScore": 60 },
+      "units": [
+        {
+          "code": "A1_U01_SUBJECT_AND_BE",
+          "title": "Chủ ngữ và động từ be",
+          "items": [
+            {
+              "grammarPointCode": "SUBJECT_PRONOUNS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "BE_PRESENT_AFFIRMATIVE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        },
+        {
+          "code": "A1_U02_BE_FORMS",
+          "title": "Phủ định và câu hỏi với be",
+          "items": [
+            {
+              "grammarPointCode": "BE_PRESENT_NEGATIVE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "BE_PRESENT_QUESTIONS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        },
+        {
+          "code": "A1_U03_POSSESSION",
+          "title": "Diễn đạt sở hữu cơ bản",
+          "items": [
+            {
+              "grammarPointCode": "POSSESSIVE_ADJECTIVES_BASIC",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

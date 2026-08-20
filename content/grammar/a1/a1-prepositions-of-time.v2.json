@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_PREPOSITIONS_OF_TIME",
+  "family": "PREPOSITIONS",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Giới từ chỉ thời gian (at, in, on)",
+  "learningObjectiveVi": "Hiểu và áp dụng đúng giới từ chỉ thời gian at, in, on trong các ngữ cảnh A1; phân biệt khi dùng từng giới từ.",
+  "learningObjectiveEn": "Understand and correctly use the time prepositions at, in, on in common A1 contexts; distinguish their proper usage.",
+  "form": {
+    "patterns": [
+      "Subject + verb + at + exact time (I arrive at 6:00 PM).",
+      "Subject + verb + on + day/date (We meet on Friday; The letter was sent on July 4th).",
+      "Subject + verb + in + month/year/season/part of day (She was born in July; in 2020; in the morning)."
+    ],
+    "morphologyNotes": [
+      "at dùng cho thời điểm chính xác (at 7:00, at noon, at night).",
+      "on dùng cho ngày hoặc ngày tháng (on Monday, on 12 June, on July 4th).",
+      "in dùng cho tháng, năm, mùa và phần of the day (in July, in 2020, in the morning)."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Chỉ thời gian chính xác hoặc điểm thời gian cụ thể (at 5:00 PM).",
+      "Chỉ ngày hoặc ngày tháng (on Monday; on July 4th).",
+      "Chỉ thời gian không xác định trong phạm vi rộng (in the morning; in July; in 2020)."
+    ]
+  },
+  "usageConstraints": [
+    "Không dùng 'at' cho các ngày hoặc ngày tháng; dùng 'on'",
+    "Không dùng 'in' cho thời điểm chính xác; dùng 'at' cho thời điểm cụ thể",
+    "Dùng 'in' cho tháng, năm, mùa và phần của ngày (morning/afternoon/evening)"
+  ],
+  "relationships": {
+    "prerequisites": [
+      "PRESENT_SIMPLE_AFFIRMATIVE"
+    ],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A1_AT_FOR_EXACT_TIME",
+      "type": "HARD_CONSTRAINT",
+      "description": "Dùng 'at' cho thời điểm chính xác (at 5 PM, at noon, at 08:00)."
+    },
+    {
+      "code": "A1_ON_FOR_DAYS_DATES",
+      "type": "HARD_CONSTRAINT",
+      "description": "Dùng 'on' cho ngày và ngày tháng (on Monday, on July 4th)."
+    },
+    {
+      "code": "A1_IN_FOR_MONTHS_YEARS",
+      "type": "FORM",
+      "description": "Dùng 'in' cho tháng, năm, mùa và phần của ngày (in July, in 2020, in the morning)."
+    },
+    {
+      "code": "A1_NO_OMIT_PREP",
+      "type": "TENDENCY",
+      "description": "Không bỏ giới từ khi diễn đạt thời gian một cách chính xác."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I arrive at 6:30 PM.",
+      "vietnamese": "Tôi đến lúc 6:30 tối.",
+      "explanationVi": "Cấu trúc S + arrive + at + thời gian chính xác."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "She does not leave at 7:15 AM.",
+      "vietnamese": "Cô ấy không rời đi lúc 7:15 sáng.",
+      "explanationVi": "Phủ định với trợ động từ và giới từ thời gian; dùng 'at' cho thời điểm."
+    },
+    {
+      "type": "QUESTION",
+      "english": "What time do we meet on Friday?",
+      "vietnamese": "Chúng ta gặp nhau lúc mấy giờ vào thứ Sáu?",
+      "explanationVi": "Dạng hỏi thời gian với What time và dùng 'on' cho ngày."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "We usually have a meeting in July and sometimes start at 9 AM.",
+      "vietnamese": "Chúng ta thường có cuộc họp vào tháng 7 và đôi khi bắt đầu lúc 9 giờ sáng.",
+      "explanationVi": "Kết hợp 'in' cho tháng và 'at' cho thời gian cụ thể trong câu ngữ cảnh."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "We meet on Monday. (correct) / We meet in Monday. (incorrect)",
+      "vietnamese": "Chúng ta gặp vào thứ Hai. (đúng) / Chúng ta gặp ở Thứ Hai. (sai)",
+      "explanationVi": "Giới từ cho ngày (on) khác với giới từ cho tháng/ngày (in)."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "ERR_AT_FOR_DATE",
+      "incorrect": "I will arrive in 5 PM.",
+      "corrected": "I will arrive at 5 PM.",
+      "explanationVi": "Dùng giới từ sai với thời gian cụ thể; 'at' là đúng cho giờ.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "ERR_MISSING_ON_FOR_DAY",
+      "incorrect": "We meet Friday.",
+      "corrected": "We meet on Friday.",
+      "explanationVi": "Ngày trong tuần phải đi với 'on'.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "A1",
+      "Giao tiếp cơ bản - thời gian"
+    ],
+    "maximumSentenceWords": 14,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "patternAccuracy",
+      "exampleRelevance",
+      "translationConsistency"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:19:47.143Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

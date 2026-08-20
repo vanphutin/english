@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PRAGMATIC_SOFTENING_IMPLICATION",
+  "family": "PRAGMATICS",
+  "version": 1,
+  "cefr": "C2",
+  "status": "DRAFT",
+  "title": "Giảm nhẹ và hàm ý trong tương tác",
+  "learningObjectiveVi": "Dùng câu hỏi gián tiếp, understatement và điều kiện hóa để giảm áp lực hoặc tạo hàm ý phù hợp ngữ cảnh.",
+  "learningObjectiveEn": "Use indirect questions, understatement, and conditional framing to soften imposition or create context-appropriate implication.",
+  "form": {
+    "patterns": [
+      "I was wondering if/whether + clause",
+      "it might be worth + verb-ing",
+      "if you could + base verb, that would be + adjective"
+    ],
+    "morphologyNotes": [
+      "Softening must leave the intended request or evaluation recoverable and must not create deceptive ambiguity."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Make a high-imposition request tactfully.",
+      "Offer criticism or advice without unnecessary bluntness."
+    ]
+  },
+  "usageConstraints": [
+    "The structure must be motivated by meaning, information flow, stance, or register rather than complexity alone."
+  ],
+  "relationships": {
+    "prerequisites": ["ADVANCED_HEDGING", "REPORTED_SPEECH_QUESTIONS"],
+    "buildsOn": ["ADVANCED_HEDGING", "REPORTED_SPEECH_QUESTIONS"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PRAGMATIC_SOFTENING_IMPLICATION_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Softening must leave the intended request or evaluation recoverable and must not create deceptive ambiguity."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I was wondering whether you might have time to review this.",
+      "vietnamese": "Tôi muốn hỏi liệu bạn có thời gian xem lại việc này không.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu giảm nhẹ và hàm ý trong tương tác."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "It might be worth reconsidering the final section.",
+      "vietnamese": "Có lẽ đáng để xem xét lại phần cuối.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu giảm nhẹ và hàm ý trong tương tác."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "If you could send it today, that would be extremely helpful.",
+      "vietnamese": "Nếu bạn có thể gửi hôm nay thì sẽ rất hữu ích.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu giảm nhẹ và hàm ý trong tương tác."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PRAGMATIC_SOFTENING_IMPLICATION_COMMON_ERROR",
+      "incorrect": "I wonder if you send this now.",
+      "corrected": "I was wondering if you could send this now.",
+      "explanationVi": "Dùng past progressive và could để giảm mức áp đặt của yêu cầu.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": [
+      "academic discussion",
+      "professional writing",
+      "formal correspondence",
+      "narrative",
+      "public policy"
+    ],
+    "maximumSentenceWords": 42,
+    "requireExplicitTarget": true,
+    "requireDiscourseMotivation": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "scope",
+      "information structure",
+      "register",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "advanced-content-v4",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

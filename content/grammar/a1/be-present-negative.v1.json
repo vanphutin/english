@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "1.0",
+  "code": "BE_PRESENT_NEGATIVE",
+  "family": "BE_PRESENT",
+  "version": 1,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Động từ be ở hiện tại: câu phủ định",
+  "learningObjectiveVi": "Dùng am not, is not và are not để phủ định trạng thái hiện tại.",
+  "learningObjectiveEn": "Use am not, is not, and are not for present negative statements.",
+  "form": { "patterns": ["subject + am/is/are + not + complement"] },
+  "meaning": { "uses": ["State that a present identity, quality, or location is not true."] },
+  "usageConstraints": [],
+  "relationships": {
+    "prerequisites": ["BE_PRESENT_AFFIRMATIVE"],
+    "buildsOn": ["SUBJECT_PRONOUNS"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "BE_NEGATIVE_NOT_POSITION",
+      "type": "HARD_CONSTRAINT",
+      "description": "Place not immediately after the present form of be."
+    }
+  ],
+  "examples": [
+    {
+      "type": "NEGATIVE",
+      "english": "I am not busy.",
+      "vietnamese": "Tôi không bận.",
+      "explanationVi": "Not đứng sau am."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "He is not at home.",
+      "vietnamese": "Anh ấy không ở nhà.",
+      "explanationVi": "Not đứng sau is."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "They are not late.",
+      "vietnamese": "Họ không muộn.",
+      "explanationVi": "They đi với are not."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "BE_NEGATIVE_MISSING_BE",
+      "incorrect": "She not tired.",
+      "corrected": "She is not tired.",
+      "explanationVi": "Câu cần dạng be phù hợp trước not.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": { "maximumSentenceWords": 12 },
+  "evaluationPolicy": { "mustCheck": ["be agreement", "not position"] },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "contract-fixture",
+    "promptVersion": "grammar-kb-v1",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": ["Independently authored bootstrap fixture."]
+  }
+}

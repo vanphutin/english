@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "1.0",
+  "code": "CLEFT_SENTENCES_FOCUS",
+  "family": "INFORMATION_STRUCTURE",
+  "version": 1,
+  "cefr": "C1",
+  "status": "DRAFT",
+  "title": "Câu chẻ để tạo trọng tâm",
+  "learningObjectiveVi": "Dùng it-cleft và wh-cleft để đặt trọng tâm rõ ràng vào thành phần quan trọng.",
+  "learningObjectiveEn": "Use it-clefts and wh-clefts to place explicit focus on an important constituent.",
+  "form": {
+    "patterns": [
+      "it + be + focused element + that/who + clause",
+      "what + clause + be + focused element"
+    ],
+    "morphologyNotes": [
+      "The cleft clause must preserve the proposition of its neutral counterpart while changing information focus."
+    ]
+  },
+  "meaning": {
+    "uses": ["Correct or contrast one element.", "Organise new information as the focus."]
+  },
+  "usageConstraints": [
+    "The structure must be motivated by meaning, information flow, stance, or register rather than complexity alone."
+  ],
+  "relationships": {
+    "prerequisites": ["RELATIVE_CLAUSES_DEFINING"],
+    "buildsOn": ["RELATIVE_CLAUSES_DEFINING"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "CLEFT_SENTENCES_FOCUS_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "The cleft clause must preserve the proposition of its neutral counterpart while changing information focus."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "It was Lan who discovered the mistake.",
+      "vietnamese": "Chính Lan là người phát hiện lỗi.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu câu chẻ để tạo trọng tâm."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "What we need is a practical solution.",
+      "vietnamese": "Điều chúng ta cần là một giải pháp thực tế.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu câu chẻ để tạo trọng tâm."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "It is the timing that concerns me, not the cost.",
+      "vietnamese": "Chính thời điểm làm tôi lo, không phải chi phí.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu câu chẻ để tạo trọng tâm."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "CLEFT_SENTENCES_FOCUS_COMMON_ERROR",
+      "incorrect": "It was Lan which called me.",
+      "corrected": "It was Lan who called me.",
+      "explanationVi": "Khi thành phần được nhấn mạnh là người, dùng who hoặc that.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": [
+      "academic discussion",
+      "professional writing",
+      "formal correspondence",
+      "narrative",
+      "public policy"
+    ],
+    "maximumSentenceWords": 34,
+    "requireExplicitTarget": true,
+    "requireDiscourseMotivation": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "scope",
+      "information structure",
+      "register",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "advanced-content-v4",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

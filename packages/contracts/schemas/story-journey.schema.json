@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://english.local/schemas/story-journey.schema.json",
+  "title": "Story Journey",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "series",
+    "status",
+    "completedSceneCount",
+    "totalSceneCount",
+    "currentScene",
+    "memoryFacts"
+  ],
+  "properties": {
+    "series": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "code", "title", "description", "cefr"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "code": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "cefr": { "enum": ["A1", "A2", "B1", "B2", "C1", "C2"] }
+      }
+    },
+    "status": { "enum": ["ACTIVE", "COMPLETED"] },
+    "completedSceneCount": { "type": "integer", "minimum": 0 },
+    "totalSceneCount": { "type": "integer", "minimum": 1 },
+    "currentScene": { "oneOf": [{ "$ref": "#/$defs/scene" }, { "type": "null" }] },
+    "memoryFacts": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["key", "value"],
+        "properties": {
+          "key": { "type": "string", "maxLength": 64 },
+          "value": { "type": "string", "maxLength": 160 }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "scene": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "code",
+        "chapterTitle",
+        "title",
+        "narrativeVi",
+        "dialogue",
+        "choices",
+        "hasDefaultContinuation",
+        "hasLearningAction",
+        "exerciseId"
+      ],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "code": { "type": "string" },
+        "chapterTitle": { "type": "string" },
+        "title": { "type": "string" },
+        "narrativeVi": { "type": "string" },
+        "dialogue": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["speaker", "text"],
+            "properties": { "speaker": { "type": "string" }, "text": { "type": "string" } }
+          }
+        },
+        "choices": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "code", "labelVi"],
+            "properties": {
+              "id": { "type": "string", "format": "uuid" },
+              "code": { "type": "string" },
+              "labelVi": { "type": "string" }
+            }
+          }
+        },
+        "hasDefaultContinuation": { "type": "boolean" },
+        "hasLearningAction": { "type": "boolean" },
+        "exerciseId": { "type": ["string", "null"], "format": "uuid" }
+      }
+    }
+  }
+}

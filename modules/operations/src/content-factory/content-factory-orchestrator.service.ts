@@ -1,0 +1,425 @@
+import {
+  Prisma,
+  type Prisma as PrismaTypes,
+  type ContentFactoryJobPurpose,
+  type ContentFactoryJobState,
+  type PrismaClient,
+} from '@prisma/client';
+import {
+  ContentFactoryValidator,
+  generateDryRunReport,
+  type ContentFactoryStatus,
+} from '@english/contracts';
+import { canTransitionState, isTerminalState } from './job-state-machine.js';
+import { computeIdempotencyKey, computeSha256 } from './idempotency-lease-manager.js';
+import { ManifestPlanner } from './manifest-planner.js';
+import { ContentFactoryStorageRepository } from './storage-repository.js';
+
+export interface StartRunParams {
+  policyVersion?: string;
+  maxRequests?: number;
+  maxInputTokens?: number;
+  maxOutputTokens?: number;
+  maxEstimatedCost?: number;
+}
+
+export interface EnqueueJobParams {
+  runId: string;
+  purpose: ContentFactoryJobPurpose;
+  targetCode: string;
+  targetVersion?: number;
+  inputContent: string;
+  policyVersions?: {
+    factory: 'content-factory-v1';
+    schema: string;
+    prompt: string;
+  };
+  budget?: {
+    maxRequests: number;
+    maxInputTokens: number;
+    maxOutputTokens: number;
+    maxEstimatedCost: number;
+  };
+}
+
+export class ContentFactoryOrchestratorService {
+  private validator: ContentFactoryValidator;
+  private storageRepo: ContentFactoryStorageRepository;
+
+  constructor(
+    private prisma: PrismaClient,
+    storageDir?: string,
+  ) {
+    this.validator = new ContentFactoryValidator();
+    this.storageRepo = new ContentFactoryStorageRepository(storageDir);
+  }
+
+  public async startRun(params?: StartRunParams) {
+    const run = await this.prisma.contentFactoryRun.create({
+      data: {
+        policyVersion: params?.policyVersion ?? 'content-factory-v1',
+        status: 'DRAFT ONLY',
+        maxRequests: params?.maxRequests ?? 100,
+        maxInputTokens: params?.maxInputTokens ?? 500000,
+        maxOutputTokens: params?.maxOutputTokens ?? 200000,
+        maxEstimatedCost: params?.maxEstimatedCost ?? 10.0,
+      },
+    });
+
+    return run;
+  }
+
+  public async enqueueJob(params: EnqueueJobParams) {
+    const run = await this.prisma.contentFactoryRun.findUnique({
+      where: { id: params.runId },
+    });
+    if (!run) {
+      throw new Error(`ContentFactoryRun with ID ${params.runId} not found`);
+    }
+
+    const inputHash = computeSha256(params.inputContent);
+    const targetVersion = params.targetVersion ?? 1;
+    const policyVersion = params.policyVersions?.factory ?? 'content-factory-v1';
+    const attempt = 1;
+
+    const idempotencyKey = computeIdempotencyKey({
+      purpose: params.purpose,
+      inputHash,
+      targetCode: params.targetCode,
+      targetVersion,
+      policyVersion,
+      attempt,
+    });
+
+    // Idempotency check: if job with identical idempotencyKey exists, return existing job
+    const existingJob = await this.prisma.contentFactoryJob.findUnique({
+      where: { idempotencyKey },
+    });
+
+    if (existingJob) {
+      return { job: existingJob, isDuplicate: true };
+    }
+
+    // Save input content artifact
+    const inputFilename = `job_${params.targetCode}_att${attempt}_input.json`;
+    const inputRef = this.storageRepo.saveArtifact(
+      params.runId,
+      inputFilename,
+      params.inputContent,
+    );
+
+    const defaultPolicyVersions = params.policyVersions ?? {
+      factory: 'content-factory-v1',
+      schema: '1.0',
+      prompt: 'v1.0.0',
+    };
+
+    const defaultBudget = params.budget ?? {
+      maxRequests: 5,
+      maxInputTokens: 20000,
+      maxOutputTokens: 10000,
+      maxEstimatedCost: 0.5,
+    };
+
+    const newJob = await this.prisma.contentFactoryJob.create({
+      data: {
+        runId: params.runId,
+        purpose: params.purpose,
+        targetCode: params.targetCode,
+        targetVersion,
+        state: 'QUEUED',
+        attempt,
+        idempotencyKey,
+        inputHash,
+        policyVersionsJson: defaultPolicyVersions,
+        budgetJson: defaultBudget,
+        artifacts: {
+          create: {
+            runId: params.runId,
+            artifactPath: inputRef.artifactPath,
+            artifactType: 'INPUT_SNAPSHOT',
+            contentHash: inputRef.contentHash,
+            storageUri: inputRef.storageUri,
+          },
+        },
+      },
+      include: { artifacts: true },
+    });
+
+    return { job: newJob, isDuplicate: false };
+  }
+
+  public async claimNextJob(workerId: string, runId?: string, leaseMinutes = 5) {
+    const now = new Date();
+    const leaseExpiresAt = new Date(now.getTime() + leaseMinutes * 60 * 1000);
+
+    const runFilter = runId ? Prisma.sql`AND "run_id" = ${runId}::uuid` : Prisma.empty;
+    // Row locking makes competing workers skip an already claimed candidate instead of double-running it.
+    const claimed = await this.prisma.$queryRaw<Array<{ id: string }>>(Prisma.sql`
+      UPDATE "content_factory_jobs"
+      SET "state" = 'CLAIMED', "worker_id" = ${workerId}, "lease_expires_at" = ${leaseExpiresAt}, "updated_at" = ${now}
+      WHERE "id" = (
+        SELECT "id" FROM "content_factory_jobs"
+        WHERE ("state" = 'QUEUED' OR ("state" = 'CLAIMED' AND "lease_expires_at" <= ${now}))
+        ${runFilter}
+        ORDER BY "created_at" ASC
+        FOR UPDATE SKIP LOCKED
+        LIMIT 1
+      )
+      RETURNING "id"
+    `);
+    if (!claimed[0]) return null;
+    return this.prisma.contentFactoryJob.findUnique({ where: { id: claimed[0].id } });
+  }
+
+  /**
+   * Atomically advance a job's state. Uses a conditional UPDATE that verifies
+   * worker ownership and lease validity in the same SQL statement, preventing
+   * the TOCTOU race where a lease could expire between the check and the update.
+   *
+   * Invariant: only the lease-holding worker with an unexpired lease may advance
+   * an active job. Terminal states release the lease.
+   */
+  public async advanceJobState(
+    jobId: string,
+    workerId: string,
+    targetState: ContentFactoryJobState,
+    outputContent?: string,
+    normalizedErrorCode?: string,
+  ) {
+    // Pre-read for state-machine validation and artifact storage (read-only context)
+    const job = await this.prisma.contentFactoryJob.findUnique({
+      where: { id: jobId },
+      include: { run: true },
+    });
+
+    if (!job) throw new Error(`Job ${jobId} not found`);
+
+    if (!canTransitionState(job.state, targetState)) {
+      throw new Error(`Invalid state transition from ${job.state} to ${targetState}`);
+    }
+
+    let outputHash: string | undefined = undefined;
+
+    if (outputContent) {
+      outputHash = computeSha256(outputContent);
+      const outputFilename = `job_${job.targetCode}_att${job.attempt}_output.json`;
+      const outputRef = this.storageRepo.saveArtifact(job.runId, outputFilename, outputContent);
+
+      await this.prisma.contentFactoryArtifact.create({
+        data: {
+          runId: job.runId,
+          jobId: job.id,
+          artifactPath: outputRef.artifactPath,
+          artifactType: 'OUTPUT_SNAPSHOT',
+          contentHash: outputRef.contentHash,
+          storageUri: outputRef.storageUri,
+        },
+      });
+    }
+
+    const clearLease = isTerminalState(targetState);
+    const now = new Date();
+
+    // Atomic conditional update: verify worker ownership + unexpired lease in SQL.
+    // This closes the TOCTOU gap where another worker could reclaim the job
+    // between a JavaScript-side lease check and the subsequent update.
+    const affected = await this.prisma.$executeRaw`
+      UPDATE "content_factory_jobs"
+      SET "state" = ${targetState}::"ContentFactoryJobState",
+          "output_hash" = COALESCE(${outputHash ?? null}, "output_hash"),
+          "normalized_error_code" = COALESCE(${normalizedErrorCode ?? null}, "normalized_error_code"),
+          "lease_expires_at" = CASE WHEN ${clearLease} THEN NULL ELSE "lease_expires_at" END,
+          "updated_at" = ${now}
+      WHERE "id" = ${jobId}::uuid
+        AND "worker_id" = ${workerId}
+        AND "lease_expires_at" > ${now}
+    `;
+
+    if (affected === 0) {
+      throw new Error(
+        `Worker ${workerId} does not hold an active lease for job ${jobId} ` +
+          `(lease may have expired or job was reclaimed)`,
+      );
+    }
+
+    return this.prisma.contentFactoryJob.findUniqueOrThrow({ where: { id: jobId } });
+  }
+
+  public async validateManifestJob(jobId: string, workerId: string) {
+    const job = await this.prisma.contentFactoryJob.findUnique({
+      where: { id: jobId },
+      include: { artifacts: true },
+    });
+
+    if (!job) throw new Error(`Job ${jobId} not found`);
+
+    const inputArtifact = job.artifacts.find(
+      (a: { artifactType: string }) => a.artifactType === 'INPUT_SNAPSHOT',
+    );
+    if (!inputArtifact) throw new Error(`Job ${jobId} has no input snapshot artifact`);
+
+    const inputContent = this.storageRepo.readArtifact(
+      job.runId,
+      `job_${job.targetCode}_att${job.attempt}_input.json`,
+    );
+    if (!inputContent) throw new Error(`Could not read input artifact for job ${jobId}`);
+
+    const manifestData: unknown = JSON.parse(inputContent);
+    const validationResult = this.validator.validateManifestArtifact(
+      manifestData,
+      inputArtifact.artifactPath,
+    );
+    const validationJson = JSON.stringify(validationResult);
+    const validationHash = computeSha256(validationJson);
+    await this.prisma.contentValidationRun.upsert({
+      where: {
+        jobId_artifactHash_validatorVersion: {
+          jobId,
+          artifactHash: inputArtifact.contentHash,
+          validatorVersion: 'CF0-v2',
+        },
+      },
+      create: {
+        runId: job.runId,
+        jobId,
+        artifactHash: inputArtifact.contentHash,
+        validatorVersion: 'CF0-v2',
+        passed: validationResult.valid,
+        reportJson: validationResult as unknown as PrismaTypes.InputJsonValue,
+        reportHash: validationHash,
+      },
+      update: {},
+    });
+
+    const reportStatus: ContentFactoryStatus = validationResult.valid
+      ? 'READY FOR OWNER APPROVAL'
+      : 'DRAFT ONLY';
+    const reportText = generateDryRunReport({
+      runId: job.runId,
+      phase: 'CF1',
+      manifestHash: job.inputHash,
+      validationResult,
+      status: reportStatus,
+    });
+
+    // Save validation report artifact
+    this.storageRepo.saveArtifact(job.runId, `validation_report_${job.targetCode}.md`, reportText);
+
+    await this.advanceJobState(jobId, workerId, 'VALIDATING');
+
+    const nextState: ContentFactoryJobState = validationResult.valid
+      ? 'READY_FOR_APPROVAL'
+      : 'QUARANTINED';
+    const result = await this.advanceJobState(
+      jobId,
+      workerId,
+      nextState,
+      validationJson,
+      validationResult.valid ? undefined : validationResult.findings[0]?.code,
+    );
+    if (validationResult.valid)
+      await this.prisma.contentFactoryRun.update({
+        where: { id: job.runId },
+        data: { status: 'READY FOR OWNER APPROVAL', manifestHash: job.inputHash },
+      });
+    return result;
+  }
+
+  public async getApprovalScopeHash(runId: string): Promise<string> {
+    const jobs = await this.prisma.contentFactoryJob.findMany({
+      where: { runId },
+      orderBy: [{ targetCode: 'asc' }, { targetVersion: 'asc' }],
+    });
+    if (!jobs.length || jobs.some((job) => job.state !== 'READY_FOR_APPROVAL'))
+      throw new Error('RUN_NOT_READY_FOR_OWNER_APPROVAL');
+    return computeSha256(
+      JSON.stringify(
+        jobs.map((job) => ({
+          code: job.targetCode,
+          version: job.targetVersion,
+          hash: job.outputHash ?? job.inputHash,
+        })),
+      ),
+    );
+  }
+
+  public async recordOwnerApproval(params: {
+    runId: string;
+    approvedBy: string;
+    rationale: string;
+    expectedScopeHash: string;
+    confirmation: string;
+  }) {
+    const { runId, approvedBy, rationale, expectedScopeHash, confirmation } = params;
+    const run = await this.prisma.contentFactoryRun.findUnique({
+      where: { id: runId },
+      include: { jobs: true },
+    });
+
+    if (!run) throw new Error(`Run ${runId} not found`);
+
+    const scopeHash = await this.getApprovalScopeHash(runId);
+    if (scopeHash !== expectedScopeHash || confirmation !== `APPROVE:${scopeHash}`)
+      throw new Error('OWNER_APPROVAL_HASH_MISMATCH');
+    const approvalHash = computeSha256(`${runId}:${approvedBy}:${scopeHash}:${rationale}`);
+    const requestHash = computeSha256(
+      JSON.stringify({ runId, approvedBy, rationale, expectedScopeHash, confirmation }),
+    );
+
+    const approval = await this.prisma.contentFactoryApproval.create({
+      data: {
+        runId,
+        approvedBy,
+        scopeHash,
+        approvalHash,
+        rationale,
+        requestHash,
+        decisionSource: 'OWNER_CLI',
+      },
+    });
+
+    await this.prisma.contentFactoryRun.update({
+      where: { id: runId },
+      data: { status: 'OWNER APPROVED', manifestHash: scopeHash },
+    });
+
+    return approval;
+  }
+
+  public async planManifest(runId: string, workerId = 'worker-manifest-planner') {
+    const planner = new ManifestPlanner();
+    const plannerResult = planner.generateFullAutonomousManifest();
+
+    const manifestContent = JSON.stringify(plannerResult.manifest, null, 2);
+
+    const manifestRef = this.storageRepo.saveArtifact(
+      runId,
+      'autonomous_manifest_draft.json',
+      manifestContent,
+    );
+
+    const enqueueRes = await this.enqueueJob({
+      runId,
+      purpose: 'PLAN_MANIFEST',
+      targetCode: plannerResult.manifest.manifestCode,
+      inputContent: manifestContent,
+    });
+
+    await this.claimNextJob(workerId, runId);
+    const validationJob = await this.validateManifestJob(enqueueRes.job.id, workerId);
+
+    return {
+      runId,
+      plannerResult,
+      validationJob,
+      manifestRef,
+    };
+  }
+
+  // runPilotA1 and runBulkGeneration were removed.
+  // They used placeholder template generation that violated provenance/audit
+  // requirements and bypassed the job state machine.
+  // Real implementation requires CF3 provider-backed authoring pipeline.
+  // See contracts/content-factory/02-authoring-contract.md
+}

@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_WOULD_LIKE_WANT",
+  "family": "COMPLEMENTATION",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Muốn / Muốn xin lịch sự với Would like",
+  "learningObjectiveVi": "Hiểu cách dùng lịch sự của 'would like' và cách diễn đạt mong muốn với 'want to' ở mức A1.",
+  "learningObjectiveEn": "Understand polite usage of would like and how to express desires with want to at the A1 level.",
+  "form": {
+    "patterns": [
+      "I would like to order a coffee.",
+      "He would like to speak with the manager.",
+      "I want to learn English."
+    ],
+    "morphologyNotes": [
+      "Would like là cách lịch sự để diễn đạt mong muốn hoặc lời đề nghị; sau 'would like' là động từ nguyên thể có 'to'."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Diễn đạt mong muốn lịch sự (would like to + V).",
+      "Diễn đạt mong muốn hoặc kế hoạch ngắn hạn (want to + V)."
+    ]
+  },
+  "usageConstraints": [
+    "Không dùng cấu trúc 'would like' mà bỏ 'to' sau động từ (ví dụ sai: I would like going).",
+    "Có thể dùng 'would like' hoặc 'want to' tùy tính chất lịch sự; tránh lẫn lộn giữa hai form trong ngữ cảnh lịch sự."
+  ],
+  "relationships": {
+    "prerequisites": [
+      "A1_LIKE_ING"
+    ],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A1_WL_WT_FORM",
+      "type": "FORM",
+      "description": "Would like to + verb diễn đạt mong muốn lịch sự; want to + verb diễn đạt mong muốn cơ bản."
+    },
+    {
+      "code": "A1_WL_WT_NEG",
+      "type": "FORM",
+      "description": "Phủ định: would not like to + verb (hoặc wouldn't like to)."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I would like to order a coffee.",
+      "vietnamese": "Tôi muốn gọi một ly cà phê.",
+      "explanationVi": "Diễn đạt mong muốn lịch sự khi dùng trong quầy phục vụ hoặc đặt hàng."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "I would not like to go there.",
+      "vietnamese": "Tôi không muốn đi đến đó.",
+      "explanationVi": "Phủ định mong muốn lịch sự."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Would you like to join us for dinner?",
+      "vietnamese": "Bạn có muốn tham gia với chúng tôi ăn tối không?",
+      "explanationVi": "Dạng hỏi lịch sự để mời hoặc đề nghị."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "If you have time, I would like to invite you to the meeting.",
+      "vietnamese": "Nếu bạn có thời gian, tôi muốn mời bạn tham dự cuộc họp.",
+      "explanationVi": "Ví dụ dùng trong lời mời ở ngữ cảnh làm việc."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "I want to learn English, but I would like to practice speaking first.",
+      "vietnamese": "Tôi muốn học tiếng Anh, nhưng tôi muốn luyện nói trước.",
+      "explanationVi": "So sánh giữa mong muốn chung và mong muốn cụ thể/mức độ ưu tiên."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "C_WL_WT_01",
+      "incorrect": "I would like coffee.",
+      "corrected": "I would like to have a coffee.",
+      "explanationVi": "Cụm 'would like' thường theo sau bởi danh từ được bổ nghĩa hoặc động từ ở dạng to-infinitive; thêm từ 'to have' hoặc 'some' cho tự nhiên.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "C_WL_WT_02",
+      "incorrect": "I would likes to go.",
+      "corrected": "I would like to go.",
+      "explanationVi": "Sau chủ ngữ 'I' và 'would', động từ để sau phải ở dạng nguyên thể: 'like' không có 's'.",
+      "severity": "MINOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "A1 polite requests and offers",
+      "Ordering and invitations",
+      "Basic planning conversations"
+    ],
+    "maximumSentenceWords": 14,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "correct use of would like to vs want to",
+      "politeness register",
+      "to-infinitive after would like / want to"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:34:11.709Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PASSIVE_ADVANCED_FORMS",
+  "family": "PASSIVE_VOICE",
+  "version": 1,
+  "cefr": "B2",
+  "status": "DRAFT",
+  "title": "Bị động với modal và thể hoàn thành",
+  "learningObjectiveVi": "Dùng bị động với modal hoặc perfect để giữ đúng thời gian và sắc thái nghĩa.",
+  "learningObjectiveEn": "Use passive forms with modals or perfect aspect while preserving time and modality.",
+  "form": {
+    "patterns": [
+      "modal + be + past participle",
+      "have/has been + past participle",
+      "modal + have been + past participle"
+    ],
+    "morphologyNotes": ["Keep the complete auxiliary chain before the past participle."]
+  },
+  "meaning": {
+    "uses": [
+      "Express modal meaning with an affected subject.",
+      "Report a completed action whose agent is secondary."
+    ]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["PASSIVE_PRESENT_PAST", "PRESENT_PERFECT_EXPERIENCE"],
+    "buildsOn": ["PASSIVE_PRESENT_PAST", "PRESENT_PERFECT_EXPERIENCE"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PASSIVE_ADVANCED_FORMS_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Keep the complete auxiliary chain before the past participle."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "The form must be submitted today.",
+      "vietnamese": "Biểu mẫu phải được nộp hôm nay.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu bị động với modal và thể hoàn thành."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "The road has been repaired.",
+      "vietnamese": "Con đường đã được sửa.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu bị động với modal và thể hoàn thành."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "The error could have been prevented.",
+      "vietnamese": "Lỗi đó lẽ ra có thể được ngăn chặn.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu bị động với modal và thể hoàn thành."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PASSIVE_ADVANCED_FORMS_COMMON_ERROR",
+      "incorrect": "The work must completed today.",
+      "corrected": "The work must be completed today.",
+      "explanationVi": "Bị động sau modal cần be trước quá khứ phân từ.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 28,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

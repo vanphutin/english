@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://english.local/schemas/content-review-report.schema.json",
+  "title": "Independent content review report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "artifactCode",
+    "artifactVersion",
+    "artifactHash",
+    "reviewer",
+    "decision",
+    "confidence",
+    "scores",
+    "findings",
+    "reviewedAt"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "artifactCode": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+    "artifactVersion": { "type": "integer", "minimum": 1 },
+    "artifactHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "reviewer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "model", "promptVersion", "runId"],
+      "properties": {
+        "provider": { "type": "string" },
+        "model": { "type": "string" },
+        "promptVersion": { "type": "string" },
+        "runId": { "type": "string", "format": "uuid" }
+      }
+    },
+    "decision": { "enum": ["PASS", "CHANGES_REQUESTED", "ESCALATE", "REJECT"] },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "correctness",
+        "specificity",
+        "examples",
+        "vietnamesePedagogy",
+        "cefrFit",
+        "evaluatorReadiness",
+        "originalityDiversity",
+        "provenanceCompleteness",
+        "total"
+      ],
+      "properties": {
+        "correctness": { "type": "number", "minimum": 0, "maximum": 30 },
+        "specificity": { "type": "number", "minimum": 0, "maximum": 15 },
+        "examples": { "type": "number", "minimum": 0, "maximum": 15 },
+        "vietnamesePedagogy": { "type": "number", "minimum": 0, "maximum": 10 },
+        "cefrFit": { "type": "number", "minimum": 0, "maximum": 10 },
+        "evaluatorReadiness": { "type": "number", "minimum": 0, "maximum": 10 },
+        "originalityDiversity": { "type": "number", "minimum": 0, "maximum": 5 },
+        "provenanceCompleteness": { "type": "number", "minimum": 0, "maximum": 5 },
+        "total": { "type": "number", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "findings": { "type": "array", "items": { "$ref": "#/$defs/finding" } },
+    "reviewedAt": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "severity",
+        "artifactPath",
+        "messageVi",
+        "evidence",
+        "suggestedAction",
+        "origin",
+        "validatorVersion",
+        "resolutionStatus"
+      ],
+      "properties": {
+        "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+        "severity": { "enum": ["INFO", "WARNING", "ERROR", "BLOCKING"] },
+        "artifactPath": { "type": "string" },
+        "messageVi": { "type": "string", "minLength": 5 },
+        "evidence": { "type": "string" },
+        "suggestedAction": { "type": "string" },
+        "origin": { "enum": ["DETERMINISTIC", "AI_REVIEW"] },
+        "validatorVersion": { "type": "string" },
+        "resolutionStatus": { "enum": ["OPEN", "FIXED", "ACCEPTED_WITH_RATIONALE"] }
+      }
+    }
+  }
+}

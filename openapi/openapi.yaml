@@ -1,0 +1,1112 @@
+openapi: 3.1.0
+info:
+  title: English Grammar Learning API
+  version: 0.1.0
+  description: Contract-first local API. Feature operations remain contract-only until their roadmap phase.
+  license:
+    name: Private personal use
+    identifier: UNLICENSED
+servers:
+  - url: http://localhost:3001/api/v1
+security:
+  - sessionCookie: []
+paths:
+  /me/consistency-calendar:
+    get:
+      operationId: getConsistencyCalendar
+      tags: [engagement]
+      summary: Get the non-punitive 28-day learning calendar
+      responses:
+        '200': { description: 'Meaningful, rest, and empty days with rhythm summary' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /me/consistency-calendar/rest-days:
+    post:
+      operationId: markRestDay
+      tags: [engagement]
+      summary: Mark a rest day without overwriting learning evidence
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [date]
+              properties: { date: { type: string, format: date } }
+      responses:
+        '201': { description: Updated calendar }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /me/daily-surprise:
+    get:
+      operationId: getDailySurprise
+      tags: [engagement]
+      summary: Get today's deterministic optional surprise
+      responses:
+        '200': { description: Published content for the current CEFR level }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /me/interests:
+    get:
+      operationId: getInterests
+      tags: [engagement]
+      summary: Get approved and selected topic preferences
+      responses:
+        '200': { description: Ordered preferences }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+    put:
+      operationId: replaceInterests
+      tags: [engagement]
+      summary: Replace up to five approved topic preferences
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [topicCodes]
+              properties:
+                topicCodes: { type: array, maxItems: 5, uniqueItems: true, items: { type: string } }
+      responses:
+        '200': { description: Updated ordered preferences }
+        '400': { $ref: '#/components/responses/BadRequest' }
+  /me/achievements:
+    get:
+      operationId: getAchievements
+      tags: [engagement]
+      summary: Derive and list meaningful achievements
+      responses:
+        '200': { description: Granted and locked achievements }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /me/weekly-reflections:
+    get:
+      operationId: getWeeklyReflection
+      tags: [engagement]
+      summary: Generate a traceable current-week reflection
+      responses:
+        '200': { description: Fact-grounded claims and next focus }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /auth/login:
+    post:
+      security: []
+      operationId: login
+      tags: [identity]
+      summary: Log in with the local account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [username, password]
+              properties:
+                username: { type: string, pattern: '^[a-zA-Z0-9_-]+$', maxLength: 64 }
+                password: { type: string, minLength: 8, maxLength: 200 }
+      responses:
+        '200': { description: Authenticated; sets HttpOnly session cookie }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /auth/logout:
+    post:
+      operationId: logout
+      tags: [identity]
+      summary: Invalidate the current session
+      responses:
+        '204': { description: Session invalidated }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /auth/me:
+    get:
+      operationId: getCurrentUser
+      tags: [identity]
+      summary: Get the authenticated local user
+      responses:
+        '200': { description: Current user }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /curriculum:
+    get:
+      operationId: getActiveCurriculum
+      tags: [curriculum]
+      summary: Get the active immutable curriculum release
+      responses:
+        '200':
+          description: Active curriculum graph with pinned grammar versions
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [code, title, version, levels]
+                properties:
+                  code: { type: string }
+                  title: { type: string }
+                  version: { type: integer, minimum: 1 }
+                  levels: { type: array, items: { type: object } }
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /health:
+    get:
+      security: []
+      operationId: getHealth
+      tags: [system]
+      summary: Check API process health
+      responses:
+        '200':
+          description: API is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /sessions:
+    post:
+      operationId: startSession
+      tags: [sessions]
+      summary: Start a learning session
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartSessionRequest'
+      responses:
+        '201':
+          description: Session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionView'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '503':
+          description: No active curriculum or matching published exercises exist
+  /me/daily-choices:
+    get:
+      operationId: getDailyChoices
+      tags: [sessions]
+      summary: Get server-owned learning choices for the learner's current day
+      responses:
+        '200':
+          description: Up to three choices; learning targets remain server selected
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 3
+                items: { $ref: '#/components/schemas/DailyChoice' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /me/error-notebook:
+    get:
+      operationId: getErrorNotebook
+      tags: [engagement]
+      summary: Rebuild and return the owner's recurring error projection
+      responses:
+        '200':
+          description: Deterministic error-pattern projection with owner-only excerpts
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorNotebookView' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /me/error-notebook/{patternId}/practice:
+    post:
+      operationId: practiceErrorPattern
+      tags: [engagement]
+      summary: Start an idempotent focused session for an owned error pattern
+      parameters:
+        - name: patternId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '201':
+          description: Focused remediation session created or safely replayed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SessionView' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+  /curriculum-units/{unitId}/challenge:
+    post:
+      operationId: startUnitChallenge
+      tags: [engagement]
+      summary: Start a multi-target challenge for a current-level unit
+      parameters:
+        - name: unitId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '201':
+          description: Challenge and session created or replayed safely
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UnitChallengePlan' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+  /unit-challenges/{challengeId}:
+    get:
+      operationId: getUnitChallenge
+      tags: [engagement]
+      summary: Get owner-only per-target challenge results
+      parameters:
+        - name: challengeId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Auditable challenge projection
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UnitChallengeView' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /unit-challenges/{challengeId}/remediation:
+    post:
+      operationId: remediateUnitChallenge
+      tags: [engagement]
+      summary: Start focused practice for challenge targets needing practice
+      parameters:
+        - name: challengeId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '201':
+          description: Focused remediation session
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SessionView' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+  /me/story:
+    get:
+      operationId: getStoryJourney
+      tags: [engagement]
+      summary: Get or start the owner A1 story journey
+      responses:
+        '200':
+          description: Current versioned scene and bounded story memory
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StoryJourneyView' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /me/story/scenes/{sceneId}/choices:
+    post:
+      operationId: chooseStoryBranch
+      tags: [engagement]
+      summary: Record one allowed branch choice idempotently
+      parameters:
+        - name: sceneId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [choiceId]
+              properties:
+                choiceId: { type: string, format: uuid }
+      responses:
+        '201':
+          description: Updated story journey
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StoryJourneyView' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+  /me/story/scenes/{sceneId}/continue:
+    post:
+      operationId: continueStoryScene
+      tags: [engagement]
+      summary: Continue or finish a linear scene idempotently
+      parameters:
+        - name: sceneId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '201':
+          description: Updated story journey
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StoryJourneyView' }
+        '409': { $ref: '#/components/responses/Conflict' }
+  /me/story/scenes/{sceneId}/practice:
+    post:
+      operationId: practiceStoryScene
+      tags: [engagement]
+      summary: Start the exact published exercise pinned to the current scene
+      parameters:
+        - name: sceneId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '201':
+          description: Story-linked focused session
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SessionView' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /sessions/{sessionId}/next:
+    get:
+      operationId: getNextSessionExercise
+      tags: [sessions]
+      summary: Get the next safe exercise presentation
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Exercise presentation without hidden evaluator data
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ExercisePresentation' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /sessions/{sessionId}:
+    get:
+      operationId: getSession
+      tags: [sessions]
+      summary: Resume an owned learning session from its bounded state snapshot
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Session state and current safe exercise presentation
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SessionStateView' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /sessions/{sessionId}/complete:
+    post:
+      operationId: completeSession
+      tags: [sessions]
+      summary: Complete a session after every item is completed
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '200':
+          description: Immutable session summary
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SessionSummaryView' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+  /grammar-points/{code}:
+    get:
+      operationId: getPublishedGrammarPoint
+      tags: [grammar-knowledge-base]
+      summary: Get the latest published grammar point version
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema: { type: string, pattern: '^[A-Z][A-Z0-9_]+$' }
+      responses:
+        '200':
+          description: Published grammar point
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PublishedGrammarPoint' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /session-items/{itemId}/attempts:
+    post:
+      operationId: submitAttempt
+      tags: [attempts]
+      summary: Submit a new immutable attempt
+      parameters:
+        - $ref: '#/components/parameters/ItemId'
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitAttemptRequest'
+      responses:
+        '202':
+          description: Attempt accepted for asynchronous evaluation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttemptAccepted'
+        '409':
+          $ref: '#/components/responses/Conflict'
+  /session-items/{itemId}/hints:
+    get:
+      operationId: listRevealedVocabularyHints
+      tags: [vocabulary-assistant]
+      summary: List the current learner's persisted hint reveals for a session item
+      parameters:
+        - $ref: '#/components/parameters/ItemId'
+      responses:
+        '200':
+          description: Revealed hints in progressive order
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 20
+                items: { $ref: '#/components/schemas/VocabularyHintView' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /session-items/{itemId}/hints/next:
+    post:
+      operationId: revealNextVocabularyHint
+      tags: [vocabulary-assistant]
+      summary: Persist and return the next safe vocabulary hint
+      parameters:
+        - $ref: '#/components/parameters/ItemId'
+      responses:
+        '200':
+          description: Newly revealed hint
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/VocabularyHintView' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /attempts/{attemptId}:
+    get:
+      operationId: getAttempt
+      tags: [attempts]
+      summary: Read an owned attempt and its effective evaluation
+      parameters:
+        - name: attemptId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Attempt state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttemptView'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /me/mastery:
+    get:
+      operationId: listMyMastery
+      tags: [learning]
+      summary: List bounded mastery projections for the current learner
+      parameters:
+        - name: dueBefore
+          in: query
+          required: false
+          schema: { type: string, format: date-time }
+      responses:
+        '200':
+          description: Mastery projections
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 100
+                items: { $ref: '#/components/schemas/MasteryView' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /me/progress:
+    get:
+      operationId: getMyProgress
+      tags: [learning]
+      summary: Get current curriculum progress and the recommended next action
+      responses:
+        '200':
+          description: Progress snapshot, or null before a published curriculum exists
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ProgressView'
+                  - type: 'null'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: english_session
+  parameters:
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 8
+        maxLength: 128
+    ItemId:
+      name: itemId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    Unauthorized:
+      description: Authentication is required or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+    BadRequest:
+      description: Malformed request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+    Conflict:
+      description: Conflicting state or reused idempotency key with a different payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+    NotFound:
+      description: Resource was not found or is not owned by the current user
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+  schemas:
+    PublishedGrammarPoint:
+      type: object
+      additionalProperties: false
+      required: [code, family, version, cefr, title, learningObjectiveVi]
+      properties:
+        code: { type: string }
+        family: { type: string }
+        version: { type: integer, minimum: 1 }
+        cefr: { type: string, enum: [A1, A2, B1, B2, C1, C2] }
+        title: { type: string }
+        learningObjectiveVi: { type: string }
+    HealthResponse:
+      type: object
+      additionalProperties: false
+      required: [status, service, timestamp]
+      properties:
+        status: { type: string, const: ok }
+        service: { type: string, const: api }
+        timestamp: { type: string, format: date-time }
+    StartSessionRequest:
+      type: object
+      additionalProperties: false
+      required: [mode]
+      properties:
+        mode: { type: string, enum: [DAILY, FOCUSED, REVIEW] }
+        grammarPointIds:
+          type: array
+          maxItems: 20
+          items: { type: string, format: uuid }
+        targetMinutes: { type: integer, minimum: 2, maximum: 30, default: 10 }
+    DailyChoice:
+      type: object
+      additionalProperties: false
+      required: [type, titleVi, descriptionVi, estimatedMinutes, action]
+      properties:
+        type:
+          type: string
+          enum: [CONTINUE_JOURNEY, REPAIR_WEAKNESS, QUICK_CHALLENGE]
+        titleVi: { type: string }
+        descriptionVi: { type: string }
+        estimatedMinutes: { type: integer, minimum: 2, maximum: 30 }
+        action:
+          type: object
+          additionalProperties: false
+          required: [mode, targetMinutes]
+          properties:
+            mode: { type: string, enum: [DAILY, REVIEW] }
+            targetMinutes: { type: integer, minimum: 2, maximum: 30 }
+    ErrorNotebookView:
+      type: object
+      additionalProperties: false
+      required: [policyVersion, patterns]
+      properties:
+        policyVersion: { type: string, const: error-pattern-v1 }
+        patterns:
+          type: array
+          items: { $ref: '#/components/schemas/LearnerErrorPatternView' }
+    LearnerErrorPatternView:
+      type: object
+      additionalProperties: false
+      required:
+        [
+          id,
+          grammarPointId,
+          grammarCode,
+          grammarTitle,
+          category,
+          code,
+          state,
+          occurrenceCount,
+          firstSeenAt,
+          lastSeenAt,
+          representative,
+        ]
+      properties:
+        id: { type: string, format: uuid }
+        grammarPointId: { type: string, format: uuid }
+        grammarCode: { type: string }
+        grammarTitle: { type: string }
+        category: { type: string }
+        code: { type: string }
+        state: { type: string, enum: [ACTIVE, IMPROVING, RESOLVED, RECURRED] }
+        occurrenceCount: { type: integer, minimum: 1 }
+        firstSeenAt: { type: string, format: date-time }
+        lastSeenAt: { type: string, format: date-time }
+        representative:
+          type: object
+          additionalProperties: false
+          required: [answer, feedbackVi, correctedAnswer]
+          properties:
+            answer: { type: string }
+            feedbackVi: { type: string }
+            correctedAnswer: { type: [string, 'null'] }
+    UnitChallengePlan:
+      type: object
+      additionalProperties: false
+      required: [challengeId, sessionId]
+      properties:
+        challengeId: { type: string, format: uuid }
+        sessionId: { type: string, format: uuid }
+    UnitChallengeView:
+      type: object
+      additionalProperties: false
+      required:
+        [
+          id,
+          unitId,
+          unitTitle,
+          sessionId,
+          status,
+          policyVersion,
+          startedAt,
+          completedAt,
+          targets,
+          remediationGrammarPointIds,
+        ]
+      properties:
+        id: { type: string, format: uuid }
+        unitId: { type: string, format: uuid }
+        unitTitle: { type: string }
+        sessionId: { type: string, format: uuid }
+        status: { type: string, enum: [ACTIVE, COMPLETED] }
+        policyVersion: { type: string, const: unit-challenge-v1 }
+        startedAt: { type: string, format: date-time }
+        completedAt: { type: [string, 'null'], format: date-time }
+        targets:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required:
+              [
+                grammarPointId,
+                grammarCode,
+                grammarTitle,
+                outcome,
+                disposition,
+                attemptId,
+                reasonCodes,
+              ]
+            properties:
+              grammarPointId: { type: string, format: uuid }
+              grammarCode: { type: string }
+              grammarTitle: { type: string }
+              outcome: { type: string, enum: [PASSED, NEEDS_PRACTICE, NO_EVIDENCE] }
+              disposition: { type: [string, 'null'] }
+              attemptId: { type: [string, 'null'], format: uuid }
+              reasonCodes: { type: array, items: { type: string } }
+        remediationGrammarPointIds:
+          type: array
+          uniqueItems: true
+          items: { type: string, format: uuid }
+    StoryJourneyView:
+      type: object
+      additionalProperties: false
+      required: [series, status, completedSceneCount, totalSceneCount, currentScene, memoryFacts]
+      properties:
+        series:
+          type: object
+          additionalProperties: false
+          required: [id, code, title, description, cefr]
+          properties:
+            id: { type: string, format: uuid }
+            code: { type: string }
+            title: { type: string }
+            description: { type: string }
+            cefr: { type: string, enum: [A1, A2, B1, B2, C1, C2] }
+        status: { type: string, enum: [ACTIVE, COMPLETED] }
+        completedSceneCount: { type: integer, minimum: 0 }
+        totalSceneCount: { type: integer, minimum: 1 }
+        currentScene: { type: [object, 'null'] }
+        memoryFacts:
+          type: array
+          maxItems: 20
+          items:
+            type: object
+            additionalProperties: false
+            required: [key, value]
+            properties:
+              key: { type: string, maxLength: 64 }
+              value: { type: string, maxLength: 160 }
+    ExercisePresentation:
+      type: object
+      additionalProperties: false
+      required:
+        [
+          sessionItemId,
+          exerciseId,
+          type,
+          contextVi,
+          instructionVi,
+          sourceTextVi,
+          promptPayload,
+          targets,
+          attemptLimit,
+        ]
+      properties:
+        sessionItemId: { type: string, format: uuid }
+        exerciseId: { type: string, format: uuid }
+        type: { type: string }
+        contextVi: { type: string }
+        instructionVi: { type: string }
+        sourceTextVi: { type: string }
+        promptPayload: { type: object }
+        targets:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required:
+              [
+                code,
+                title,
+                cefr,
+                learningObjectiveVi,
+                formPatterns,
+                meaningUses,
+                usageNotes,
+                rules,
+                examples,
+              ]
+            properties:
+              code: { type: string }
+              title: { type: string }
+              cefr: { type: string, enum: [A1, A2, B1, B2, C1, C2] }
+              learningObjectiveVi: { type: string }
+              formPatterns:
+                type: array
+                items: { type: string }
+              meaningUses:
+                type: array
+                items: { type: string }
+              usageNotes:
+                type: array
+                items: { type: string }
+              rules:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: false
+                  required: [code, type, description]
+                  properties:
+                    code: { type: string }
+                    type: { type: string }
+                    description: { type: string }
+              examples:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: false
+                  required: [type, english, vietnamese, explanationVi]
+                  properties:
+                    type: { type: string }
+                    english: { type: string }
+                    vietnamese: { type: string }
+                    explanationVi: { type: string }
+        attemptLimit: { type: integer, minimum: 1 }
+        grammarPointIds:
+          type: array
+          maxItems: 20
+          uniqueItems: true
+          items: { type: string, format: uuid }
+        targetMinutes: { type: integer, minimum: 5, maximum: 60, default: 10 }
+    SessionView:
+      type: object
+      additionalProperties: false
+      required: [id, status, mode, startedAt]
+      properties:
+        id: { type: string, format: uuid }
+        status: { type: string, enum: [ACTIVE, COMPLETED, ABANDONED] }
+        mode: { type: string, enum: [DAILY, FOCUSED, REVIEW] }
+        startedAt: { type: string, format: date-time }
+    SessionProgress:
+      type: object
+      additionalProperties: false
+      required: [total, completed, remaining]
+      properties:
+        total: { type: integer, minimum: 0 }
+        completed: { type: integer, minimum: 0 }
+        remaining: { type: integer, minimum: 0 }
+    SessionSummaryView:
+      type: object
+      additionalProperties: false
+      required:
+        [
+          sessionId,
+          totalItems,
+          completedItems,
+          acceptedItems,
+          retryItems,
+          durationSeconds,
+          completedAt,
+        ]
+      properties:
+        sessionId: { type: string, format: uuid }
+        totalItems: { type: integer, minimum: 0 }
+        completedItems: { type: integer, minimum: 0 }
+        acceptedItems: { type: integer, minimum: 0 }
+        retryItems: { type: integer, minimum: 0 }
+        durationSeconds: { type: integer, minimum: 0 }
+        completedAt: { type: string, format: date-time }
+    SessionStateView:
+      type: object
+      additionalProperties: false
+      required: [id, status, mode, startedAt, completedAt, progress, currentItem, summary]
+      properties:
+        id: { type: string, format: uuid }
+        status: { type: string, enum: [ACTIVE, COMPLETED, ABANDONED] }
+        mode: { type: string, enum: [DAILY, FOCUSED, REVIEW] }
+        startedAt: { type: string, format: date-time }
+        completedAt: { type: [string, 'null'], format: date-time }
+        progress: { $ref: '#/components/schemas/SessionProgress' }
+        currentItem:
+          oneOf:
+            - $ref: '#/components/schemas/ExercisePresentation'
+            - type: 'null'
+        summary:
+          oneOf:
+            - $ref: '#/components/schemas/SessionSummaryView'
+            - type: 'null'
+    SubmitAttemptRequest:
+      type: object
+      additionalProperties: false
+      required: [answer]
+      properties:
+        answer: { type: string, minLength: 1, maxLength: 2000 }
+        clientSubmittedAt: { type: string, format: date-time }
+    AttemptAccepted:
+      type: object
+      additionalProperties: false
+      required: [attemptId, status]
+      properties:
+        attemptId: { type: string, format: uuid }
+        status:
+          type: string
+          enum: [SUBMITTED, EVALUATING, EVALUATED, NEEDS_REVIEW, FAILED]
+        evaluation: { $ref: '#/components/schemas/EvaluationView' }
+        pollAfterMs: { type: integer, minimum: 250, maximum: 10000 }
+    AttemptView:
+      type: object
+      additionalProperties: false
+      required: [attemptId, status]
+      properties:
+        attemptId: { type: string, format: uuid }
+        status:
+          type: string
+          enum: [SUBMITTED, EVALUATING, EVALUATED, NEEDS_REVIEW, FAILED]
+        evaluation:
+          $ref: '#/components/schemas/EvaluationView'
+    VocabularyHintView:
+      type: object
+      additionalProperties: false
+      required: [id, level, textVi, lemma, partOfSpeech, revealedAt, hasMore]
+      properties:
+        id: { type: string, format: uuid }
+        level: { type: integer, minimum: 1, maximum: 3 }
+        textVi: { type: string }
+        lemma: { type: [string, 'null'] }
+        partOfSpeech: { type: [string, 'null'] }
+        revealedAt: { type: string, format: date-time }
+        hasMore: { type: boolean }
+    EvaluationView:
+      type: object
+      additionalProperties: false
+      required: [disposition, dimensions, feedbackVi, findings, canRetry]
+      properties:
+        disposition:
+          type: string
+          enum: [ACCEPT, ACCEPT_WITH_FEEDBACK, RETRY, SYSTEM_REVIEW]
+        dimensions:
+          type: object
+          additionalProperties: false
+          required: [targetGrammar, meaning, otherGrammar]
+          properties:
+            targetGrammar: { $ref: '#/components/schemas/DimensionStatus' }
+            meaning: { $ref: '#/components/schemas/DimensionStatus' }
+            otherGrammar: { $ref: '#/components/schemas/DimensionStatus' }
+        feedbackVi: { type: string }
+        findings:
+          type: array
+          items: { $ref: '#/components/schemas/EvaluationFinding' }
+        correctedAnswer: { type: string }
+        canRetry: { type: boolean }
+    DimensionStatus:
+      type: string
+      enum: [PASS, MINOR_ISSUES, FAIL, UNCERTAIN]
+    EvaluationFinding:
+      type: object
+      additionalProperties: false
+      required: [category, severity, messageVi]
+      properties:
+        category:
+          type: string
+          enum: [TARGET_GRAMMAR, OTHER_GRAMMAR, MEANING, VOCABULARY, SPELLING, PUNCTUATION, STYLE]
+        severity: { type: string, enum: [INFO, MINOR, MAJOR, BLOCKING] }
+        messageVi: { type: string }
+        suggestedFix: { type: string }
+    MasteryView:
+      type: object
+      additionalProperties: false
+      required:
+        [
+          grammarPointId,
+          code,
+          title,
+          band,
+          masteryScore,
+          retentionScore,
+          confidence,
+          evidenceCount,
+          nextReviewAt,
+        ]
+      properties:
+        grammarPointId: { type: string, format: uuid }
+        code: { type: string }
+        title: { type: string }
+        band:
+          type: string
+          enum: [UNSEEN, LEARNING, PRACTICING, MASTERED, REVIEW_DUE, AT_RISK]
+        masteryScore: { type: number, minimum: 0, maximum: 100 }
+        retentionScore: { type: number, minimum: 0, maximum: 100 }
+        confidence: { type: number, minimum: 0, maximum: 1 }
+        evidenceCount: { type: integer, minimum: 0 }
+        nextReviewAt: { type: [string, 'null'], format: date-time }
+    ProgressView:
+      type: object
+      additionalProperties: false
+      required:
+        [
+          curriculum,
+          currentLevel,
+          requiredPoints,
+          masteredPoints,
+          learningPoints,
+          unseenPoints,
+          dueReviewPoints,
+          progressPercent,
+          roadmap,
+          nextAction,
+        ]
+      properties:
+        curriculum:
+          type: object
+          additionalProperties: false
+          required: [code, version]
+          properties:
+            code: { type: string }
+            version: { type: integer, minimum: 1 }
+        currentLevel:
+          type: object
+          additionalProperties: false
+          required: [id, code, cefr, title]
+          properties:
+            id: { type: string, format: uuid }
+            code: { type: string }
+            cefr: { type: string, enum: [A1, A2, B1, B2, C1, C2] }
+            title: { type: string }
+        requiredPoints: { type: integer, minimum: 0 }
+        masteredPoints: { type: integer, minimum: 0 }
+        learningPoints: { type: integer, minimum: 0 }
+        unseenPoints: { type: integer, minimum: 0 }
+        dueReviewPoints: { type: integer, minimum: 0 }
+        progressPercent: { type: integer, minimum: 0, maximum: 100 }
+        roadmap:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [id, code, cefr, title, status, progressPercent, units]
+            properties:
+              id: { type: string, format: uuid }
+              code: { type: string }
+              cefr: { type: string, enum: [A1, A2, B1, B2, C1, C2] }
+              title: { type: string }
+              status: { type: string, enum: [COMPLETED, CURRENT, LOCKED] }
+              progressPercent: { type: integer, minimum: 0, maximum: 100 }
+              units:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: false
+                  required: [id, title, grammarPoints]
+                  properties:
+                    id: { type: string, format: uuid }
+                    title: { type: string }
+                    grammarPoints:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required: [code, title]
+                        properties:
+                          code: { type: string }
+                          title: { type: string }
+        nextAction:
+          type: object
+          required: [type]
+          properties:
+            type: { type: string, enum: [RESUME_SESSION, START_REVIEW, START_DAILY] }
+            sessionId: { type: string, format: uuid }
+    ErrorEnvelope:
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          required: [code, message, requestId]
+          properties:
+            code: { type: string, pattern: '^[A-Z][A-Z0-9_]+$' }
+            message: { type: string }
+            requestId: { type: string, format: uuid }
+            details:
+              type: array
+              items:
+                type: object
+                additionalProperties: false
+                required: [reason]
+                properties:
+                  field: { type: string }
+                  reason: { type: string }

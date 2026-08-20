@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_OBJECT_PRONOUNS",
+  "family": "PRONOUNS",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Object Pronouns",
+  "learningObjectiveVi": "Nhận diện và dùng đúng đại từ tân ngữ (me, him, her, us, them, it, you) ở vai trò tân ngữ trực tiếp và sau giới từ trong các câu cơ bản.",
+  "learningObjectiveEn": "Recognize and correctly use object pronouns (me, him, her, us, them, it, you) as direct objects and after prepositions in simple sentences.",
+  "form": {
+    "patterns": [
+      "Pattern 1: Subject + verb + object pronoun (e.g., She likes me).",
+      "Pattern 2: Subject + verb + object pronoun (e.g., They know you).",
+      "Pattern 3: Verb + object pronoun + prepositional phrase (e.g., Give it to her).",
+      "Pattern 4: S + V + object pronoun + and + object pronoun (e.g., I told them about you)."
+    ],
+    "morphologyNotes": [
+      "Đại từ tân ngữ (me, you, him, her, it, us, them) dùng làm tân ngữ của động từ hoặc làm tân ngữ của giới từ.",
+      "Khi có giới từ trước hoặc sau động từ, chọn dạng tân ngữ phù hợp để tránh nhầm lẫn (to me, with you, for them...)."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Dùng làm tân ngữ trực tiếp sau động từ (She loves me).",
+      "Dùng làm tân ngữ của giới từ sau động từ hoặc sau giới từ (I give it to her)."
+    ]
+  },
+  "usageConstraints": [
+    "Không được dùng là chủ ngữ của câu (ví dụ sai: Me runs fast).",
+    "Phải ghép đúng người/ số với động từ và giữ đúng thứ tự khi có nhiều tân ngữ hoặc giới từ."
+  ],
+  "relationships": {
+    "prerequisites": [
+      "SUBJECT_PRONOUNS"
+    ],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "O1_OBJECT_AS_OBJECT",
+      "type": "HARD_CONSTRAINT",
+      "description": "Đại từ tân ngữ phải ở vai trò tân ngữ trong câu; không được dùng như chủ ngữ."
+    },
+    {
+      "code": "O2_PREPOSITIONAL_OBJECT",
+      "type": "USE",
+      "description": "Sau giới từ, dùng đại từ tân ngữ đúng (to me, with you, for him, etc.)."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "She loves me.",
+      "vietnamese": "Cô ấy yêu tôi.",
+      "explanationVi": "Ví dụ mẫu cho tân ngữ trực tiếp."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "He doesn't know her.",
+      "vietnamese": "Anh ấy không biết cô ấy.",
+      "explanationVi": "Dạng phủ định với động từ có tân ngữ."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Do you know them?",
+      "vietnamese": "Bạn có biết họ không?",
+      "explanationVi": "Câu hỏi về tân ngữ ở vị trí tân ngữ."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "I gave it to you after the meeting.",
+      "vietnamese": "Tôi đưa nó cho bạn sau cuộc họp.",
+      "explanationVi": "Ví dụ ngữ cảnh có giới từ sau động từ."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "It belongs to me.",
+      "vietnamese": "Nó thuộc về tôi.",
+      "explanationVi": "So sánh với sai lầm phổ biến dùng 'to I'."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "CE_INVALID_SUBJECT_AS_OBJECT",
+      "incorrect": "She talks to I.",
+      "corrected": "She talks to me.",
+      "explanationVi": "Sau giới từ, dùng đại từ tân ngữ (me), không dùng đại từ chủ ngữ (I).",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "CE_OBJECT_MISMATCH_NUMBER",
+      "incorrect": "They knows me.",
+      "corrected": "They know me.",
+      "explanationVi": "Động từ theo chủ ngữ số nhiều phải ở dạng gốc (know).",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "Giao tiếp căn bản",
+      "Bài tập ngữ pháp",
+      "Kịch bản đời sống"
+    ],
+    "maximumSentenceWords": 50,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "pronounForm",
+      "positionAfterVerb",
+      "prepositionalObjectSupport"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "secondary-authoring",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T00:00:00.000Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

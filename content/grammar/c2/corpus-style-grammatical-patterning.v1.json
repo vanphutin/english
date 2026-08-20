@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "1.0",
+  "code": "CORPUS_STYLE_GRAMMATICAL_PATTERNING",
+  "family": "STYLE",
+  "version": 1,
+  "cefr": "C2",
+  "status": "DRAFT",
+  "title": "Patterning ngữ pháp và phong cách nhất quán",
+  "learningObjectiveVi": "Duy trì song song cấu trúc, nhịp mệnh đề và lựa chọn hữu hạn/phi hữu hạn trong văn bản dài.",
+  "learningObjectiveEn": "Maintain structural parallelism, clause rhythm, and finite/non-finite choices across extended prose.",
+  "form": {
+    "patterns": [
+      "to + verb, to + verb, and to + verb",
+      "verb-ing, verb-ing, and verb-ing",
+      "parallel finite clauses"
+    ],
+    "morphologyNotes": [
+      "Coordinated elements serving the same syntactic function should use parallel structures unless a motivated contrast requires otherwise."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Make coordinated ideas equally interpretable.",
+      "Create deliberate rhythm without sacrificing precision."
+    ]
+  },
+  "usageConstraints": [
+    "The structure must be motivated by meaning, information flow, stance, or register rather than complexity alone."
+  ],
+  "relationships": {
+    "prerequisites": ["ELLIPSIS_SUBSTITUTION", "REGISTER_SHIFT_GRAMMATICAL_CHOICES"],
+    "buildsOn": ["ELLIPSIS_SUBSTITUTION", "REGISTER_SHIFT_GRAMMATICAL_CHOICES"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "CORPUS_STYLE_GRAMMATICAL_PATTERNING_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Coordinated elements serving the same syntactic function should use parallel structures unless a motivated contrast requires otherwise."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "The role involves planning projects, managing budgets, and mentoring staff.",
+      "vietnamese": "Vai trò gồm lập kế hoạch dự án, quản lý ngân sách và hướng dẫn nhân viên.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu patterning ngữ pháp và phong cách nhất quán."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "We aim to reduce waste, to improve access, and to build trust.",
+      "vietnamese": "Chúng tôi hướng tới giảm lãng phí, cải thiện tiếp cận và xây dựng niềm tin.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu patterning ngữ pháp và phong cách nhất quán."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "The policy is clear in purpose, limited in scope, and practical in application.",
+      "vietnamese": "Chính sách rõ về mục đích, giới hạn về phạm vi và thực tế khi áp dụng.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu patterning ngữ pháp và phong cách nhất quán."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "CORPUS_STYLE_GRAMMATICAL_PATTERNING_COMMON_ERROR",
+      "incorrect": "The role involves planning, to manage budgets, and staff mentoring.",
+      "corrected": "The role involves planning projects, managing budgets, and mentoring staff.",
+      "explanationVi": "Các thành phần phối hợp cần có cấu trúc song song.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": [
+      "academic discussion",
+      "professional writing",
+      "formal correspondence",
+      "narrative",
+      "public policy"
+    ],
+    "maximumSentenceWords": 42,
+    "requireExplicitTarget": true,
+    "requireDiscourseMotivation": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "scope",
+      "information structure",
+      "register",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "advanced-content-v4",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0",
+  "code": "THERE_IS_ARE",
+  "family": "EXISTENTIAL_THERE",
+  "version": 1,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "There is/there are để nói sự tồn tại",
+  "learningObjectiveVi": "Dùng there is và there are để nói một hoặc nhiều sự vật tồn tại ở một nơi.",
+  "learningObjectiveEn": "Use there is and there are to say that one or more things exist in a place.",
+  "form": {
+    "patterns": ["there is + singular noun", "there are + plural noun", "is/are there + noun?"],
+    "morphologyNotes": ["Use there is with a singular noun and there are with a plural noun."]
+  },
+  "meaning": {
+    "uses": ["Introduce things in a place or situation.", "Ask whether something exists."]
+  },
+  "usageConstraints": ["Choose the form from the intended meaning and sentence context."],
+  "relationships": {
+    "prerequisites": ["BE_PRESENT_AFFIRMATIVE"],
+    "buildsOn": ["BE_PRESENT_AFFIRMATIVE"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "THERE_IS_ARE_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use there is with a singular noun and there are with a plural noun."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "There is a café near my house.",
+      "vietnamese": "Có một quán cà phê gần nhà tôi.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu there is/there are để nói sự tồn tại."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "There are two books on the desk.",
+      "vietnamese": "Có hai quyển sách trên bàn.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu there is/there are để nói sự tồn tại."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Is there a bank nearby?",
+      "vietnamese": "Có ngân hàng nào gần đây không?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu there is/there are để nói sự tồn tại."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "THERE_IS_ARE_COMMON_ERROR",
+      "incorrect": "There are a park here.",
+      "corrected": "There is a park here.",
+      "explanationVi": "Danh từ số ít a park đi với there is.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel"],
+    "maximumSentenceWords": 12,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": ["target form", "meaning preservation", "natural accepted alternatives"],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "foundation-content-v2",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

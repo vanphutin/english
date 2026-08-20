@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PAST_SIMPLE_NEGATIVE",
+  "family": "PAST_SIMPLE",
+  "version": 1,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Quá khứ đơn: câu phủ định",
+  "learningObjectiveVi": "Dùng did not cộng động từ nguyên mẫu để phủ định hành động quá khứ.",
+  "learningObjectiveEn": "Use did not plus the base verb to negate past actions.",
+  "form": {
+    "patterns": ["subject + did not + base verb + complement"],
+    "morphologyNotes": ["After did not, use the base form of both regular and irregular verbs."]
+  },
+  "meaning": {
+    "uses": ["Say that a past action did not happen.", "Correct an assumption about the past."]
+  },
+  "usageConstraints": ["Choose the form from the intended meaning and sentence context."],
+  "relationships": {
+    "prerequisites": ["PAST_SIMPLE_IRREGULAR"],
+    "buildsOn": ["PAST_SIMPLE_IRREGULAR"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PAST_SIMPLE_NEGATIVE_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "After did not, use the base form of both regular and irregular verbs."
+    }
+  ],
+  "examples": [
+    {
+      "type": "NEGATIVE",
+      "english": "I did not sleep well.",
+      "vietnamese": "Tôi đã không ngủ ngon.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu quá khứ đơn: câu phủ định."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "They did not arrive on time.",
+      "vietnamese": "Họ đã không đến đúng giờ.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu quá khứ đơn: câu phủ định."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "Lan did not take the train yesterday.",
+      "vietnamese": "Hôm qua Lan đã không đi tàu.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu quá khứ đơn: câu phủ định."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PAST_SIMPLE_NEGATIVE_COMMON_ERROR",
+      "incorrect": "He did not went out.",
+      "corrected": "He did not go out.",
+      "explanationVi": "Sau did not, dùng dạng nguyên mẫu go.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel"],
+    "maximumSentenceWords": 16,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": ["target form", "meaning preservation", "natural accepted alternatives"],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "foundation-content-v2",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

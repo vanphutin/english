@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PAST_CONTINUOUS_INTERRUPTED",
+  "family": "PAST_CONTINUOUS",
+  "version": 1,
+  "cefr": "B1",
+  "status": "DRAFT",
+  "title": "Quá khứ tiếp diễn với hành động xen vào",
+  "learningObjectiveVi": "Dùng quá khứ tiếp diễn cho hành động đang diễn ra khi một sự kiện ngắn xen vào.",
+  "learningObjectiveEn": "Use the past continuous for an ongoing background action interrupted by a shorter event.",
+  "form": {
+    "patterns": ["subject + was/were + verb-ing + when + past-simple event"],
+    "morphologyNotes": [
+      "Use past continuous for the ongoing background and past simple for the interrupting event."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Set a past background in progress.",
+      "Show a shorter event interrupting that background."
+    ]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["PAST_SIMPLE_IRREGULAR", "PRESENT_CONTINUOUS_NOW"],
+    "buildsOn": ["PAST_SIMPLE_IRREGULAR", "PRESENT_CONTINUOUS_NOW"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PAST_CONTINUOUS_INTERRUPTED_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use past continuous for the ongoing background and past simple for the interrupting event."
+    }
+  ],
+  "examples": [
+    {
+      "type": "CONTEXTUAL",
+      "english": "I was cooking when the phone rang.",
+      "vietnamese": "Tôi đang nấu ăn thì điện thoại reo.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu quá khứ tiếp diễn với hành động xen vào."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "They were walking home when it started to rain.",
+      "vietnamese": "Họ đang đi bộ về nhà thì trời bắt đầu mưa.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu quá khứ tiếp diễn với hành động xen vào."
+    },
+    {
+      "type": "QUESTION",
+      "english": "What were you doing when I called?",
+      "vietnamese": "Bạn đang làm gì khi tôi gọi?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu quá khứ tiếp diễn với hành động xen vào."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PAST_CONTINUOUS_INTERRUPTED_COMMON_ERROR",
+      "incorrect": "I cooked when the phone was ringing.",
+      "corrected": "I was cooking when the phone rang.",
+      "explanationVi": "Hành động đang diễn ra dùng was cooking; sự kiện xen vào dùng rang.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 22,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

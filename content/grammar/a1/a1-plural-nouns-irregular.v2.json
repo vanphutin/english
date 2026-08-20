@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_PLURAL_NOUNS_IRREGULAR",
+  "family": "NOUN_PHRASE",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Danh từ số nhiều bất quy tắc (men, children)",
+  "learningObjectiveVi": "Hiểu và áp dụng danh từ số nhiều bất quy tắc (man → men, child → children, foot → feet, mouse → mice, tooth → teeth) trong câu nói và câu viết, và ghép động từ phù hợp với số nhiều.",
+  "learningObjectiveEn": "Understand and apply irregular plural nouns (man → men, child → children, foot → feet, mouse → mice, tooth → teeth) in spoken and written English, with correct subject-verb agreement.",
+  "form": {
+    "patterns": [
+      "The man is tall. The men are tall.",
+      "The child has a toy. The children have toys.",
+      "The foot is big. The feet are big."
+    ],
+    "morphologyNotes": [
+      "Irregular plurals do not simply add -s; memorize common pairs and be aware of vowel changes (man→men, child→children, foot→feet, mouse→mice, tooth→teeth). Some nouns have identical plural forms (sheep, fish)."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "To indicate more than one person or object (e.g., There are five men in the room).",
+      "To ensure correct subject-verb agreement (men are, children have).",
+      "To describe groups or compare multiple items in everyday conversation."
+    ]
+  },
+  "usageConstraints": [
+    "Not all nouns ending in -man have -men; memorize common irregulars.",
+    "Some nouns have identical plural forms (sheep) and do not change in plural."
+  ],
+  "relationships": {
+    "prerequisites": [
+      "A1_PLURAL_NOUNS_REGULAR"
+    ],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "IRREGULAR_PLURAL_FORM",
+      "type": "HARD_CONSTRAINT",
+      "description": "Dạng số nhiều bất quy tắc phải đúng (man→men, child→children, foot→feet, mouse→mice, tooth→teeth) trong mọi ví dụ."
+    },
+    {
+      "code": "VERB_AGREEMENT",
+      "type": "FORM",
+      "description": "Động từ phải đi với dạng số nhiều tương ứng với danh từ—sử dụng 'are' với số nhiều, 'is' với số ít."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "The men are tall.",
+      "vietnamese": "Những người đàn ông cao.",
+      "explanationVi": "Danh từ số nhiều 'men' đi với động từ 'are'."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "The children do not have toys.",
+      "vietnamese": "Con cái không có đồ chơi.",
+      "explanationVi": "Chủ ngữ ở số nhiều; phủ định dùng 'do not have'."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Are the feet big?",
+      "vietnamese": "Bàn chân có to không?",
+      "explanationVi": "Đảo ngữ khi đặt câu hỏi với trợ động từ 'are'."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "There are five men in the team.",
+      "vietnamese": "Có năm người đàn ông trong đội.",
+      "explanationVi": "Sử dụng số nhiều bất quy tắc và số nhiều của danh từ để mô tả thành viên đội."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "The men are here, whereas the books are on the table.",
+      "vietnamese": "Những người đàn ông ở đây, trong khi sách ở trên bàn.",
+      "explanationVi": "So sánh danh từ bất quy tắc với danh từ thông thường và vị trí sách."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PLURAL_MISMATCH_VERB",
+      "incorrect": "The men is tall.",
+      "corrected": "The men are tall.",
+      "explanationVi": "Danh từ số nhiều đi với động từ số nhiều.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "SINGULAR_WITH_IRREGULAR",
+      "incorrect": "The child have a toy.",
+      "corrected": "The child has a toy.",
+      "explanationVi": "Danh từ số ít đi với động từ ở dạng số ít (has).",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "speak",
+      "write_beginner",
+      "daily_conversation"
+    ],
+    "maximumSentenceWords": 14,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "correctPluralForms",
+      "subjectVerbAgreement",
+      "naturalness",
+      "exhaustiveness"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:30:47.966Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

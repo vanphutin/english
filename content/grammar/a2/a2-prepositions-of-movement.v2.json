@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_PREPOSITIONS_OF_MOVEMENT",
+  "family": "PREPOSITIONS",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Giới từ chỉ sự chuyển động (into, out of, through)",
+  "learningObjectiveVi": "Hiểu và dùng đúng giới từ chỉ sự chuyển động into, out of, và through trong câu.",
+  "learningObjectiveEn": "Understand and use movement prepositions into, out of, and through correctly in sentences.",
+  "form": {
+    "patterns": [
+      "The cat went into the box.",
+      "She walked out of the room.",
+      "We walked through the park."
+    ],
+    "morphologyNotes": [
+      "into = hướng vào bên trong; out of = hướng ra từ bên trong ra ngoài; through = đi xuyên qua hoặc đi qua phía bên kia của một khu vực.",
+      "Chú ý khác biệt giữa in/out và into/out of: giới từ chỉ vị trí tĩnh (in) khác với chỉ hướng chuyển động (into)."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "into: chuyển động vào bên trong một khu vực.",
+      "out of: rời khỏi một khu vực từ bên trong ra ngoài.",
+      "through: đi xuyên qua một vật thể hoặc một khu vực."
+    ]
+  },
+  "usageConstraints": [
+    "Không dùng để diễn đạt vị trí tĩnh; dùng 'in' hoặc 'inside' cho vị trí cố định.",
+    "Dùng đúng với động từ có ý nghĩa di chuyển. Một số động từ di chuyển không đi với movement prepositions khác."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A2_MOVEMENT_PREP_1",
+      "type": "FORM",
+      "description": "Dạng câu khẳng định: subject + went/walked + preposition + object (into/out of/through + object)."
+    },
+    {
+      "code": "A2_MOVEMENT_PREP_2",
+      "type": "FORM",
+      "description": "Đặt câu hỏi với dạng: Did + subject + verb + preposition + object? (ví dụ: Did you go through the gate?)."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "The bird flew into the tree.",
+      "vietnamese": "Chú chim bay vào trong cây.",
+      "explanationVi": "Chuyển động hướng vào bên trong."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "She didn't go out of the house.",
+      "vietnamese": "Cô ấy đã không đi ra khỏi nhà.",
+      "explanationVi": "Chuyển động ra ngoài với 'out of'."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Did he go through the gate?",
+      "vietnamese": "Anh ấy có đi xuyên qua cổng không?",
+      "explanationVi": "Hỏi về chuyển động xuyên qua một vùng/ngách."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "We walked through the park to reach the lake.",
+      "vietnamese": "Chúng tôi đi xuyên qua công viên để đến hồ.",
+      "explanationVi": "Chuyển động xuyên qua khu vực trong câu ngữ cảnh."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "He went into the room, not onto the roof.",
+      "vietnamese": "Anh ấy đi vào phòng, chứ không lên mái nhà.",
+      "explanationVi": "Khác biệt giữa đi vào (into) và đi lên (onto) một bề mặt."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "P_MOV_01",
+      "incorrect": "She walked in the door.",
+      "corrected": "She walked into the door.",
+      "explanationVi": "In là vị trí tĩnh; into dùng khi có sự chuyển động hướng vào bên trong.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "P_MOV_02",
+      "incorrect": "He comes out off the room.",
+      "corrected": "He comes out of the room.",
+      "explanationVi": "Kết hợp đúng giữa out of; bỏ 'f' sai khi ghép với 'out'.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "ESL_A2",
+      "PREPOSITIONS_MOVEMENT"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "form",
+      "meaning",
+      "usage"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:41:40.579Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

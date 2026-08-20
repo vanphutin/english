@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_LIKE_ING",
+  "family": "COMPLEMENTATION",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Diễn đạt sở thích với Like + V-ing",
+  "learningObjectiveVi": "Hiểu và dùng cấu trúc Like + V-ing để diễn đạt sở thích và thói quen ở trình độ A1.",
+  "learningObjectiveEn": "Understand and use the Like + V-ing structure to talk about likes and everyday habits at the A1 level.",
+  "form": {
+    "patterns": [
+      "I like reading books.",
+      "She likes playing football.",
+      "They don't like waiting."
+    ],
+    "morphologyNotes": [
+      "Lúc nói về sở thích, có thể dùng 'like + V-ing' (ví dụ: reading, playing). Dạng 'like to + V' cũng đúng trong tiếng Anh nhưng ở A1 thường được dùng là 'like + V-ing'."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Diễn đạt sở thích và thú vui chung (I like reading, She likes music).",
+      "Diễn tả thói quen hoặc hoạt động diễn ra thường xuyên (They don’t like waiting; we like watching movies)."
+    ]
+  },
+  "usageConstraints": [
+    "Chủ thể ở ngôi thứ ba số ít cần thêm 's' trong động từ ở Pattern khẳng định (he likes, she likes).",
+    "Chỉ tập trung vào dạng 'like + V-ing' cho bài học này; không dùng 'like to + V' khi ở mức A1 trong nội dung này."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A1_LIKE_ING_FORM",
+      "type": "FORM",
+      "description": "Subject + like + V-ing được dùng để diễn đạt sở thích/hobbies ở mức A1."
+    },
+    {
+      "code": "A1_LIKE_ING_NEGATION",
+      "type": "FORM",
+      "description": "Phủ định: Subject + do/does not + like + V-ing (ví dụ: They don't like waiting)."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I like reading books.",
+      "vietnamese": "Tôi thích đọc sách.",
+      "explanationVi": "Ví dụ khẳng định sở thích với cấu trúc Like + V-ing."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "She does not like playing video games.",
+      "vietnamese": "Cô ấy không thích chơi trò chơi điện tử.",
+      "explanationVi": "Phủ định sở thích bằng 'do/does not like + V-ing'."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Do you like listening to music?",
+      "vietnamese": "Bạn có thích nghe nhạc không?",
+      "explanationVi": "Câu hỏi về sở thích với 'Do/Does you like + V-ing?'."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "In my free time, I like playing basketball.",
+      "vietnamese": "Trong thời gian rảnh, tôi thích chơi bóng rổ.",
+      "explanationVi": "Ví dụ ở ngữ cảnh đời sống hàng ngày."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "I like swimming, but I don’t like running.",
+      "vietnamese": "Tôi thích bơi, nhưng không thích chạy.",
+      "explanationVi": "So sánh hai sở thích khác nhau trong một câu."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "C_LIKE_ING_01",
+      "incorrect": "I like goes reading.",
+      "corrected": "I like reading.",
+      "explanationVi": "Động từ theo sau 'like' ở dạng V-ing không cần 's' hay 'goes'.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "C_LIKE_ING_02",
+      "incorrect": "He like reading.",
+      "corrected": "He likes reading.",
+      "explanationVi": "Chủ ngữ ở ngôi thứ ba số ít cần thêm 's' ở động từ.",
+      "severity": "MINOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "A1 basic conversation about preferences",
+      "Self-introductions and hobbies",
+      "Daily activities discussion"
+    ],
+    "maximumSentenceWords": 14,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "form 'like + V-ing' vs 'like + to + V'",
+      "subject-verb agreement (s/es)",
+      "negation forms with don't/doesn't"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:34:11.708Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

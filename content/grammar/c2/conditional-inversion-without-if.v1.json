@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "1.0",
+  "code": "CONDITIONAL_INVERSION_WITHOUT_IF",
+  "family": "INVERSION",
+  "version": 1,
+  "cefr": "C2",
+  "status": "DRAFT",
+  "title": "Đảo ngữ điều kiện không dùng if",
+  "learningObjectiveVi": "Dùng had, were hoặc should đảo lên trước chủ ngữ để tạo điều kiện trang trọng không có if.",
+  "learningObjectiveEn": "Use inverted had, were, or should to form formal conditional clauses without if.",
+  "form": {
+    "patterns": [
+      "had + subject + past participle, result",
+      "were + subject + complement/to-infinitive, result",
+      "should + subject + base verb, result"
+    ],
+    "morphologyNotes": [
+      "Remove if only when had, were, or should is inverted before the subject and the original conditional meaning remains clear."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Express formal counterfactual conditions.",
+      "State a polite or remote future condition."
+    ]
+  },
+  "usageConstraints": [
+    "The structure must be motivated by meaning, information flow, stance, or register rather than complexity alone."
+  ],
+  "relationships": {
+    "prerequisites": ["THIRD_CONDITIONAL", "INVERSION_NEGATIVE_ADVERBIALS"],
+    "buildsOn": ["THIRD_CONDITIONAL", "INVERSION_NEGATIVE_ADVERBIALS"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "CONDITIONAL_INVERSION_WITHOUT_IF_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Remove if only when had, were, or should is inverted before the subject and the original conditional meaning remains clear."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "Had we known earlier, we would have acted differently.",
+      "vietnamese": "Nếu biết sớm hơn, chúng tôi đã hành động khác.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu đảo ngữ điều kiện không dùng if."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "Were the situation to change, we would review the decision.",
+      "vietnamese": "Nếu tình hình thay đổi, chúng tôi sẽ xem xét lại quyết định.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu đảo ngữ điều kiện không dùng if."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "Should you require assistance, please contact us.",
+      "vietnamese": "Nếu cần hỗ trợ, xin hãy liên hệ.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu đảo ngữ điều kiện không dùng if."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "CONDITIONAL_INVERSION_WITHOUT_IF_COMMON_ERROR",
+      "incorrect": "Had we knew, we would have acted.",
+      "corrected": "Had we known, we would have acted.",
+      "explanationVi": "Sau had đảo ngữ cần quá khứ phân từ known.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": [
+      "academic discussion",
+      "professional writing",
+      "formal correspondence",
+      "narrative",
+      "public policy"
+    ],
+    "maximumSentenceWords": 42,
+    "requireExplicitTarget": true,
+    "requireDiscourseMotivation": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "scope",
+      "information structure",
+      "register",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "advanced-content-v4",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

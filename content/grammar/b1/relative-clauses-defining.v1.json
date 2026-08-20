@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "1.0",
+  "code": "RELATIVE_CLAUSES_DEFINING",
+  "family": "RELATIVE_CLAUSES",
+  "version": 1,
+  "cefr": "B1",
+  "status": "DRAFT",
+  "title": "Mệnh đề quan hệ xác định",
+  "learningObjectiveVi": "Dùng who, which hoặc that để xác định rõ người hoặc vật đang được nói đến.",
+  "learningObjectiveEn": "Use who, which, or that to identify the specific person or thing being discussed.",
+  "form": {
+    "patterns": ["person + who/that + clause", "thing + which/that + clause"],
+    "morphologyNotes": ["Do not separate an essential defining relative clause with commas."]
+  },
+  "meaning": {
+    "uses": [
+      "Identify a person with essential information.",
+      "Identify a thing with essential information."
+    ]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["SUBJECT_PRONOUNS"],
+    "buildsOn": ["SUBJECT_PRONOUNS"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "RELATIVE_CLAUSES_DEFINING_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Do not separate an essential defining relative clause with commas."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "The woman who lives next door is a doctor.",
+      "vietnamese": "Người phụ nữ sống bên cạnh là bác sĩ.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu mệnh đề quan hệ xác định."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I returned the book that you lent me.",
+      "vietnamese": "Tôi đã trả quyển sách bạn cho mượn.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu mệnh đề quan hệ xác định."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Where is the key which opens this door?",
+      "vietnamese": "Chìa khóa mở cửa này ở đâu?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu mệnh đề quan hệ xác định."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "RELATIVE_CLAUSES_DEFINING_COMMON_ERROR",
+      "incorrect": "The man which called is my uncle.",
+      "corrected": "The man who called is my uncle.",
+      "explanationVi": "Dùng who thay vì which để chỉ người.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 22,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

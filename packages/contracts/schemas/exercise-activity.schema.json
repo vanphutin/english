@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://english.local/schemas/exercise-activity.schema.json",
+  "title": "Exercise Activity Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "activityType", "semanticHash", "topicCode", "promptPayload"],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "activityType": {
+      "enum": [
+        "TRANSLATE_CONTEXT",
+        "CORRECT_ERROR",
+        "TRANSFORM_SENTENCE",
+        "COMPLETE_SENTENCE",
+        "ORDER_WORDS",
+        "SELECT_IN_CONTEXT",
+        "GUIDED_WRITING",
+        "MINI_DIALOGUE"
+      ]
+    },
+    "semanticHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "topicCode": {
+      "enum": [
+        "DAILY_LIFE",
+        "FAMILY",
+        "STUDY",
+        "WORK",
+        "TECHNOLOGY",
+        "TRAVEL",
+        "SHOPPING",
+        "HEALTH",
+        "FOOD",
+        "ENTERTAINMENT",
+        "COMMUNITY",
+        "NATURE",
+        "BUSINESS"
+      ]
+    },
+    "promptPayload": {
+      "type": "object",
+      "description": "Presentation-only data; pinned exercise records remain evaluator truth."
+    }
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "1.0",
+  "code": "LITERARY_PAST_FORMS",
+  "family": "NARRATIVE_DISCOURSE",
+  "version": 1,
+  "cefr": "C2",
+  "status": "DRAFT",
+  "title": "Dạng quá khứ trong văn kể giàu phong cách",
+  "learningObjectiveVi": "Dùng past perfect, past progressive và cấu trúc dự phóng quá khứ để điều khiển điểm nhìn và nhịp kể tinh tế.",
+  "learningObjectiveEn": "Use past perfect, past progressive, and future-in-the-past forms to control viewpoint and narrative pacing.",
+  "form": {
+    "patterns": [
+      "was/were to + base verb",
+      "would + base verb for future in the past",
+      "had been + verb-ing"
+    ],
+    "morphologyNotes": [
+      "Future-in-the-past forms must be anchored to a past viewpoint and distinguished from habitual would."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Foreshadow a later event from a past viewpoint.",
+      "Show duration leading up to a narrative moment."
+    ]
+  },
+  "usageConstraints": [
+    "The structure must be motivated by meaning, information flow, stance, or register rather than complexity alone."
+  ],
+  "relationships": {
+    "prerequisites": ["NARRATIVE_TENSE_MIXING", "FUTURE_CONTINUOUS"],
+    "buildsOn": ["NARRATIVE_TENSE_MIXING", "FUTURE_CONTINUOUS"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "LITERARY_PAST_FORMS_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Future-in-the-past forms must be anchored to a past viewpoint and distinguished from habitual would."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "She did not know that the letter would change everything.",
+      "vietnamese": "Cô ấy không biết rằng lá thư sẽ thay đổi mọi thứ.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu dạng quá khứ trong văn kể giàu phong cách."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "They were to meet only once more.",
+      "vietnamese": "Họ rồi sẽ chỉ gặp nhau thêm một lần nữa.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu dạng quá khứ trong văn kể giàu phong cách."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "He had been waiting for hours when the door finally opened.",
+      "vietnamese": "Anh đã đợi nhiều giờ khi cánh cửa cuối cùng mở ra.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu dạng quá khứ trong văn kể giàu phong cách."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "LITERARY_PAST_FORMS_COMMON_ERROR",
+      "incorrect": "She knew the letter will change everything.",
+      "corrected": "She knew the letter would change everything.",
+      "explanationVi": "Từ điểm nhìn quá khứ, tương lai được biểu đạt bằng would.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": [
+      "academic discussion",
+      "professional writing",
+      "formal correspondence",
+      "narrative",
+      "public policy"
+    ],
+    "maximumSentenceWords": 42,
+    "requireExplicitTarget": true,
+    "requireDiscourseMotivation": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "scope",
+      "information structure",
+      "register",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "advanced-content-v4",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

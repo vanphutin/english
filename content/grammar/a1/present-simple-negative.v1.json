@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PRESENT_SIMPLE_NEGATIVE",
+  "family": "PRESENT_SIMPLE",
+  "version": 1,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Hiện tại đơn: câu phủ định",
+  "learningObjectiveVi": "Dùng do not và does not để phủ định thói quen hoặc sự thật.",
+  "learningObjectiveEn": "Use do not and does not to negate routines or facts.",
+  "form": {
+    "patterns": ["I/you/we/they + do not + base verb", "he/she/it + does not + base verb"],
+    "morphologyNotes": ["After does not, use the base form of the main verb without -s."]
+  },
+  "meaning": {
+    "uses": ["Deny a routine.", "State that a general fact is not true."]
+  },
+  "usageConstraints": ["Choose the form from the intended meaning and sentence context."],
+  "relationships": {
+    "prerequisites": ["PRESENT_SIMPLE_AFFIRMATIVE"],
+    "buildsOn": ["PRESENT_SIMPLE_AFFIRMATIVE"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PRESENT_SIMPLE_NEGATIVE_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "After does not, use the base form of the main verb without -s."
+    }
+  ],
+  "examples": [
+    {
+      "type": "NEGATIVE",
+      "english": "I do not eat meat.",
+      "vietnamese": "Tôi không ăn thịt.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại đơn: câu phủ định."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "He does not drive to work.",
+      "vietnamese": "Anh ấy không lái xe đi làm.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại đơn: câu phủ định."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "This shop does not open on Sundays.",
+      "vietnamese": "Cửa hàng này không mở cửa vào Chủ nhật.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại đơn: câu phủ định."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PRESENT_SIMPLE_NEGATIVE_COMMON_ERROR",
+      "incorrect": "She does not likes tea.",
+      "corrected": "She does not like tea.",
+      "explanationVi": "Sau does not, động từ chính trở về dạng nguyên mẫu.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel"],
+    "maximumSentenceWords": 12,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": ["target form", "meaning preservation", "natural accepted alternatives"],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "foundation-content-v2",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

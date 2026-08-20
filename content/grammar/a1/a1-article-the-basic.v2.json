@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A1_ARTICLE_THE_BASIC",
+  "family": "DETERMINERS",
+  "version": 2,
+  "cefr": "A1",
+  "status": "DRAFT",
+  "title": "Mạo từ xác định The cơ bản",
+  "learningObjectiveVi": "Hiểu và áp dụng mạo từ xác định 'the' cho danh từ đếm được và không đếm được ở mức A1; nhận biết khi dùng 'the' để tham chiếu tới một vật được nhắc tới trong ngữ cảnh hoặc một vật duy nhất.",
+  "learningObjectiveEn": "Understand and apply the definite article 'the' for countable and uncountable nouns at the A1 level; recognize when 'the' is used to refer to something mentioned in context or a unique item.",
+  "form": {
+    "patterns": [
+      "The cat is sleeping.",
+      "The books are on the shelf.",
+      "The sun rises in the east."
+    ],
+    "morphologyNotes": [
+      "The + noun can be singular or plural. For most singular countable nouns, use 'the' before the noun; for plural nouns, 'the' is used when referring to specific items known in context. Non-specific/general nouns do not take 'the' (e.g., 'Dogs are friendly.')."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Refer to something known to both speaker and listener (the thing previously mentioned).",
+      "Refer to a unique item or a group treated as a single entity (the sun, the government, the best option)."
+    ]
+  },
+  "usageConstraints": [
+    "Do not use 'the' to talk about things in general or any plural nouns when you mean general statements (e.g., 'Dogs are loyal' not 'The dogs are loyal').",
+    "Do not use with many proper nouns (e.g., 'The Paris' is incorrect; use 'Paris' or 'the city of Paris' when appropriate)."
+  ],
+  "relationships": {
+    "prerequisites": [
+      "A1_ARTICLES_A_AN"
+    ],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "R_THE_DEFINITE_USAGE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use 'the' to refer to specific items that are known to the speaker and listener or have been mentioned in the discourse."
+    },
+    {
+      "code": "R_THE_WITH_UNIQUE_OR_SUPERLATIVE",
+      "type": "FORM",
+      "description": "Use 'the' with unique objects (the sun, the internet) and with superlatives/ordinal phrases (the best, the first)."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "The cat is sleeping on the sofa.",
+      "vietnamese": "Con mèo đang ngủ trên chiếc sofa.",
+      "explanationVi": "Mạo từ 'the' chỉ về con mèo cụ thể mà người nói và người nghe đang nhắc tới."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "There is no milk in the fridge.",
+      "vietnamese": "Trong tủ lạnh không có sữa.",
+      "explanationVi": "Danh từ 'milk' là danh từ không đếm được và mang ý khái quát; ở đây được diễn đạt ở dạng phủ định rộng, không cần mạo từ xác định với danh từ không đếm được khi nói chung."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Is the book on the table?",
+      "vietnamese": "Cuốn sách ở trên bàn phải không?",
+      "explanationVi": "Dùng với danh từ đã được biết đến hoặc hiện diện trong ngữ cảnh."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "In the morning, the sun shines through the window.",
+      "vietnamese": "Vào buổi sáng, mặt trời chiếu qua cửa sổ.",
+      "explanationVi": "Ví dụ ngữ cảnh cho việc dùng 'the' với danh từ duy nhất trong chuỗi sự kiện."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "The water here is clean, but the water there is muddy.",
+      "vietnamese": "Nước ở đây sạch, nước ở đó thì đục.",
+      "explanationVi": "So sánh giữa hai bối cảnh có cùng danh từ không đếm được; dùng 'the' khi đã xác định được nước ở từng vị trí."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "ERR_ARTICLE_GENERAL_WITH_DEFINITE",
+      "incorrect": "Dogs are friendly.",
+      "corrected": "Dogs are friendly.",
+      "explanationVi": "Dùng 'the' trước danh từ số nhiều để nói về một nhóm cụ thể không áp dụng cho ý nghĩa chung.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "ERR_UNCOUNTABLE_WITH_DEFINITE",
+      "incorrect": "The water is essential.",
+      "corrected": "Water is essential.",
+      "explanationVi": "Danh từ không đếm được không nhận số nhiều; không dùng 'the' trong ngữ cảnh chung.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "A1 classroom teaching context",
+      "Self-study materials"
+    ],
+    "maximumSentenceWords": 14,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "grammaticality",
+      "naturalness of usage in context",
+      "correct article usage"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:26:16.886Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

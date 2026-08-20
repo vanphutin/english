@@ -1,0 +1,23 @@
+{
+  "name": "@english/grammar-kb",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "pnpm --filter @english/contracts build && tsc -p tsconfig.build.json",
+    "lint": "eslint src",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@english/contracts": "workspace:*",
+    "@prisma/client": "^6.19.3"
+  },
+  "devDependencies": {
+    "@nestjs/common": "^11.2.1",
+    "@nestjs/testing": "^11.2.1",
+    "vitest": "^4.1.10"
+  }
+}

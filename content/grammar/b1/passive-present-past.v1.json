@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PASSIVE_PRESENT_PAST",
+  "family": "PASSIVE_VOICE",
+  "version": 1,
+  "cefr": "B1",
+  "status": "DRAFT",
+  "title": "Bị động ở hiện tại đơn và quá khứ đơn",
+  "learningObjectiveVi": "Dùng bị động khi hành động hoặc đối tượng quan trọng hơn người thực hiện.",
+  "learningObjectiveEn": "Use present and past simple passive when the action or affected entity matters more than the agent.",
+  "form": {
+    "patterns": ["subject + am/is/are + past participle", "subject + was/were + past participle"],
+    "morphologyNotes": [
+      "Use an agreeing form of be plus a past participle and retain the intended tense in be."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Describe processes and general facts.",
+      "Report a completed action when the agent is secondary or unknown."
+    ]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["BE_PRESENT_AFFIRMATIVE", "PAST_SIMPLE_IRREGULAR"],
+    "buildsOn": ["BE_PRESENT_AFFIRMATIVE", "PAST_SIMPLE_IRREGULAR"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PASSIVE_PRESENT_PAST_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use an agreeing form of be plus a past participle and retain the intended tense in be."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "Coffee is grown in this region.",
+      "vietnamese": "Cà phê được trồng ở vùng này.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu bị động ở hiện tại đơn và quá khứ đơn."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "The bridge was built in 2010.",
+      "vietnamese": "Cây cầu được xây vào năm 2010.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu bị động ở hiện tại đơn và quá khứ đơn."
+    },
+    {
+      "type": "QUESTION",
+      "english": "When was this photo taken?",
+      "vietnamese": "Bức ảnh này được chụp khi nào?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu bị động ở hiện tại đơn và quá khứ đơn."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PASSIVE_PRESENT_PAST_COMMON_ERROR",
+      "incorrect": "The room cleaned yesterday.",
+      "corrected": "The room was cleaned yesterday.",
+      "explanationVi": "Câu bị động quá khứ cần was hoặc were trước quá khứ phân từ.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 22,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

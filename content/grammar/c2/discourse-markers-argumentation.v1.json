@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "1.0",
+  "code": "DISCOURSE_MARKERS_ARGUMENTATION",
+  "family": "DISCOURSE_COHESION",
+  "version": 1,
+  "cefr": "C2",
+  "status": "DRAFT",
+  "title": "Discourse markers trong lập luận phức hợp",
+  "learningObjectiveVi": "Dùng liên kết diễn ngôn để thể hiện chính xác nhượng bộ, giới hạn, hệ quả và chuyển hướng lập luận.",
+  "learningObjectiveEn": "Use discourse markers to signal concession, qualification, consequence, and argumentative redirection precisely.",
+  "form": {
+    "patterns": [
+      "admittedly + concession; nevertheless + counterclaim",
+      "that said + qualification",
+      "by the same token + parallel inference"
+    ],
+    "morphologyNotes": [
+      "A discourse marker must match the logical relation between propositions and cannot substitute for missing reasoning."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Guide readers through a multi-stage argument.",
+      "Mark the logical status of a proposition."
+    ]
+  },
+  "usageConstraints": [
+    "The structure must be motivated by meaning, information flow, stance, or register rather than complexity alone."
+  ],
+  "relationships": {
+    "prerequisites": ["COMPLEX_PREPOSITIONAL_PHRASES", "ADVANCED_HEDGING"],
+    "buildsOn": ["COMPLEX_PREPOSITIONAL_PHRASES", "ADVANCED_HEDGING"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "DISCOURSE_MARKERS_ARGUMENTATION_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "A discourse marker must match the logical relation between propositions and cannot substitute for missing reasoning."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "Admittedly, the sample is small; nevertheless, the pattern is consistent.",
+      "vietnamese": "Phải thừa nhận mẫu nhỏ; tuy vậy, mô hình vẫn nhất quán.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu discourse markers trong lập luận phức hợp."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "The approach is efficient. That said, it is not suitable for every case.",
+      "vietnamese": "Cách tiếp cận hiệu quả. Tuy vậy, nó không phù hợp mọi trường hợp.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu discourse markers trong lập luận phức hợp."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "By the same token, a lower price does not guarantee better value.",
+      "vietnamese": "Tương tự theo logic đó, giá thấp hơn không đảm bảo giá trị tốt hơn.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu discourse markers trong lập luận phức hợp."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "DISCOURSE_MARKERS_ARGUMENTATION_COMMON_ERROR",
+      "incorrect": "The evidence is weak; consequently, the claim may still be true.",
+      "corrected": "The evidence is weak; nevertheless, the claim may still be true.",
+      "explanationVi": "Quan hệ ở đây là nhượng bộ, không phải hệ quả.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": [
+      "academic discussion",
+      "professional writing",
+      "formal correspondence",
+      "narrative",
+      "public policy"
+    ],
+    "maximumSentenceWords": 42,
+    "requireExplicitTarget": true,
+    "requireDiscourseMotivation": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "scope",
+      "information structure",
+      "register",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "advanced-content-v4",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

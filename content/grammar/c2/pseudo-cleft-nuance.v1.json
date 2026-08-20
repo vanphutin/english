@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PSEUDO_CLEFT_NUANCE",
+  "family": "INFORMATION_STRUCTURE",
+  "version": 1,
+  "cefr": "C2",
+  "status": "DRAFT",
+  "title": "Pseudo-cleft và reversed pseudo-cleft",
+  "learningObjectiveVi": "Chọn pseudo-cleft thuận hoặc đảo để kiểm soát nhịp thông tin, tương phản và trọng tâm tinh tế.",
+  "learningObjectiveEn": "Choose regular or reversed pseudo-clefts to control information flow, contrast, and nuanced focus.",
+  "form": {
+    "patterns": [
+      "what-clause + be + focus",
+      "focus + be + what-clause",
+      "the reason why + clause + be + focus"
+    ],
+    "morphologyNotes": [
+      "The focused constituent must be semantically equivalent to the gap in the wh-clause."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Delay a complex focus until clause end.",
+      "Place a contrastive focus first when context supports it."
+    ]
+  },
+  "usageConstraints": [
+    "The structure must be motivated by meaning, information flow, stance, or register rather than complexity alone."
+  ],
+  "relationships": {
+    "prerequisites": ["CLEFT_SENTENCES_FOCUS", "FRONTING_TOPICALISATION"],
+    "buildsOn": ["CLEFT_SENTENCES_FOCUS", "FRONTING_TOPICALISATION"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PSEUDO_CLEFT_NUANCE_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "The focused constituent must be semantically equivalent to the gap in the wh-clause."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "What concerns me most is the lack of evidence.",
+      "vietnamese": "Điều khiến tôi lo nhất là thiếu bằng chứng.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu pseudo-cleft và reversed pseudo-cleft."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "A complete redesign is what the system needs.",
+      "vietnamese": "Một thiết kế lại toàn diện mới là điều hệ thống cần.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu pseudo-cleft và reversed pseudo-cleft."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "The reason why we withdrew was that the risk had increased.",
+      "vietnamese": "Lý do chúng tôi rút lui là rủi ro đã tăng.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu pseudo-cleft và reversed pseudo-cleft."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PSEUDO_CLEFT_NUANCE_COMMON_ERROR",
+      "incorrect": "What she did was resigned.",
+      "corrected": "What she did was resign.",
+      "explanationVi": "Sau what she did was thường dùng động từ nguyên mẫu để nêu hành động trọng tâm.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": [
+      "academic discussion",
+      "professional writing",
+      "formal correspondence",
+      "narrative",
+      "public policy"
+    ],
+    "maximumSentenceWords": 42,
+    "requireExplicitTarget": true,
+    "requireDiscourseMotivation": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "scope",
+      "information structure",
+      "register",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "advanced-content-v4",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

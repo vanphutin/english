@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "1.0",
+  "code": "MANDATIVE_SUBJUNCTIVE",
+  "family": "SUBJUNCTIVE",
+  "version": 1,
+  "cefr": "C1",
+  "status": "DRAFT",
+  "title": "Subjunctive sau yêu cầu và đề xuất",
+  "learningObjectiveVi": "Dùng dạng nguyên mẫu trong mệnh đề that sau động từ hoặc tính từ chỉ yêu cầu, đề xuất và tính cấp thiết.",
+  "learningObjectiveEn": "Use the base-form mandative subjunctive in that-clauses after demands, recommendations, and expressions of urgency.",
+  "form": {
+    "patterns": [
+      "verb/adjective of demand + that + subject + base verb",
+      "it is essential that + subject + base verb"
+    ],
+    "morphologyNotes": [
+      "Use the uninflected base verb in the mandative that-clause, including be for every subject."
+    ]
+  },
+  "meaning": {
+    "uses": ["State a formal recommendation.", "Express a requirement or urgent necessity."]
+  },
+  "usageConstraints": [
+    "The structure must be motivated by meaning, information flow, stance, or register rather than complexity alone."
+  ],
+  "relationships": {
+    "prerequisites": ["REPORTED_SPEECH_STATEMENTS", "MODALS_OBLIGATION_ADVICE"],
+    "buildsOn": ["REPORTED_SPEECH_STATEMENTS", "MODALS_OBLIGATION_ADVICE"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "MANDATIVE_SUBJUNCTIVE_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use the uninflected base verb in the mandative that-clause, including be for every subject."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "They recommended that she apply immediately.",
+      "vietnamese": "Họ đề nghị cô ấy nộp đơn ngay.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu subjunctive sau yêu cầu và đề xuất."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "It is essential that every member be present.",
+      "vietnamese": "Điều thiết yếu là mọi thành viên phải có mặt.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu subjunctive sau yêu cầu và đề xuất."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "The chair insisted that the vote take place today.",
+      "vietnamese": "Chủ tọa yêu cầu cuộc bỏ phiếu diễn ra hôm nay.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu subjunctive sau yêu cầu và đề xuất."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "MANDATIVE_SUBJUNCTIVE_COMMON_ERROR",
+      "incorrect": "They suggested that he applies now.",
+      "corrected": "They suggested that he apply now.",
+      "explanationVi": "Trong mandative subjunctive dùng dạng nguyên mẫu apply.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": [
+      "academic discussion",
+      "professional writing",
+      "formal correspondence",
+      "narrative",
+      "public policy"
+    ],
+    "maximumSentenceWords": 34,
+    "requireExplicitTarget": true,
+    "requireDiscourseMotivation": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "scope",
+      "information structure",
+      "register",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "advanced-content-v4",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

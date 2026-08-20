@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "1.0",
+  "code": "SUPERLATIVE_ADJECTIVES",
+  "family": "COMPARISON",
+  "version": 1,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "So sánh nhất với tính từ",
+  "learningObjectiveVi": "Dùng dạng so sánh nhất để chọn một người hoặc vật nổi bật trong nhóm.",
+  "learningObjectiveEn": "Use the superlative form to identify one member with the highest degree in a group.",
+  "form": {
+    "patterns": [
+      "the + short adjective-est + in/of group",
+      "the most + long adjective + in/of group"
+    ],
+    "morphologyNotes": [
+      "A superlative normally uses the and requires an understood comparison group."
+    ]
+  },
+  "meaning": {
+    "uses": ["Identify an extreme within a group.", "Rank people, places, or things."]
+  },
+  "usageConstraints": ["Choose the form from the intended meaning and sentence context."],
+  "relationships": {
+    "prerequisites": ["COMPARATIVE_ADJECTIVES"],
+    "buildsOn": ["COMPARATIVE_ADJECTIVES"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "SUPERLATIVE_ADJECTIVES_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "A superlative normally uses the and requires an understood comparison group."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "An is the tallest person in the class.",
+      "vietnamese": "An là người cao nhất lớp.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu so sánh nhất với tính từ."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "This is the most useful app on my phone.",
+      "vietnamese": "Đây là ứng dụng hữu ích nhất trên điện thoại của tôi.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu so sánh nhất với tính từ."
+    },
+    {
+      "type": "QUESTION",
+      "english": "What is the busiest day of the week?",
+      "vietnamese": "Ngày nào bận nhất trong tuần?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu so sánh nhất với tính từ."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "SUPERLATIVE_ADJECTIVES_COMMON_ERROR",
+      "incorrect": "She is tallest in her family.",
+      "corrected": "She is the tallest in her family.",
+      "explanationVi": "Dạng so sánh nhất thường cần mạo từ the.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel"],
+    "maximumSentenceWords": 16,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": ["target form", "meaning preservation", "natural accepted alternatives"],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "foundation-content-v2",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

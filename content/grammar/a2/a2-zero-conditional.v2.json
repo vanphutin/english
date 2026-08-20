@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_ZERO_CONDITIONAL",
+  "family": "CONDITIONALS",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Câu điều kiện loại 0 (Sự thật hiển nhiên)",
+  "learningObjectiveVi": "Hiểu và dùng Câu điều kiện loại 0 (present simple + present simple) để diễn đạt sự thật hiển nhiên.",
+  "learningObjectiveEn": "Understand and use the zero conditional (present simple in both clauses) to express general truths.",
+  "form": {
+    "patterns": [
+      "If + subject + present simple, subject + present simple",
+      "If + subject + present simple, does/do + subject + base verb? (question form)"
+    ],
+    "morphologyNotes": [
+      "Trong câu điều kiện loại 0, cả hai mệnh đề đều ở thì hiện tại đơn để nêu sự thật generally true.",
+      "Dạng câu hỏi có sự trợ động từ do/does ở mệnh đề chính cho chủ ngữ ở ngôi thứ ba."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Nêu sự thật hiển nhiên hoặc quy tắc tự nhiên (ví dụ: If you heat ice, it melts).",
+      "Đưa ra quy tắc chung cho các tình huống phổ biến trong đời sống."
+    ]
+  },
+  "usageConstraints": [
+    "Không dùng để nói về tương lai hoặc quá khứ cụ thể.",
+    "Dùng với mệnh đề If ở thì hiện tại đơn và mệnh đề chính ở hiện tại đơn."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "R1",
+      "type": "HARD_CONSTRAINT",
+      "description": "Cấu trúc If + present simple, kết thúc bằng present simple trong mệnh đề chính."
+    },
+    {
+      "code": "R2",
+      "type": "FORM",
+      "description": "Hạn chế dùng thời quá khứ hoặc tương lai trong câu điều kiện loại 0."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "If you heat ice, it melts.",
+      "vietnamese": "Nếu bạn đun nóng đá, nó tan chảy.",
+      "explanationVi": "Cấu trúc câu điều kiện loại 0 diễn đạt sự thật tự nhiên."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "If you don't heat water, it doesn't boil.",
+      "vietnamese": "Nếu bạn không đun nóng nước, nó không sôi.",
+      "explanationVi": "Phủ định với trợ động từ do/does và động từ ở dạng nguyên mẫu."
+    },
+    {
+      "type": "QUESTION",
+      "english": "If you heat ice, does it melt?",
+      "vietnamese": "Nếu bạn đun nóng đá, nó có tan chảy không?",
+      "explanationVi": "Dạng câu hỏi cho một sự thật chung ở thì hiện tại đơn."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "In science class, if you mix acid and water, it releases heat.",
+      "vietnamese": "Trong giờ khoa học, nếu bạn trộn axit với nước, nó tỏa nhiệt.",
+      "explanationVi": "Mô tả quy tắc an toàn/hiện tượng chung trong ngữ cảnh giáo dục."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "Ice melts if heated, whereas rocks crack if heated.",
+      "vietnamese": "Đá tan chảy khi được đun nóng, trong khi đá cuội nứt khi được đun nóng.",
+      "explanationVi": "So sánh hiện tượng tự nhiên ở hai vật liệu khác nhau."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "E1",
+      "incorrect": "If you heat water, it will boil.",
+      "corrected": "If you heat water, it boils.",
+      "explanationVi": "Câu điều kiện loại 0 dùng hiện tại đơn ở cả hai mệnh đề.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "E2",
+      "incorrect": "Ice melts when heat.",
+      "corrected": "Ice melts when heated.",
+      "explanationVi": "Dùng tính từ dạng quá khứ phân từ để mô tả hành động đun nóng.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "Education",
+      "Science",
+      "LanguageLearning"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "structureIfClause",
+      "presentSimpleConsistency",
+      "tenseAppropriateness",
+      "spelling"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:46:11.213Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

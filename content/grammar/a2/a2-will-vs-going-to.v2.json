@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_WILL_VS_GOING_TO",
+  "family": "FUTURE_TENSE",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Phân biệt Will và Be going to",
+  "learningObjectiveVi": "Phân biệt khi nào dùng Will và Be going to cho dự định và dự đoán ở tương lai.",
+  "learningObjectiveEn": "Differentiate when to use will and be going to for future plans and predictions.",
+  "form": {
+    "patterns": [
+      "Will + base verb (spontaneous decisions / predictions)",
+      "Be going to + base verb (plans / intentions)"
+    ],
+    "morphologyNotes": [
+      "Will là động từ khuyết thiếu cho dự đoán/quyết định tức thì; 'be going to' thể hiện kế hoạch hoặc dự đoán dựa trên bằng chứng hiện tại."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Will: spontaneous decisions and future predictions",
+      "Be going to: planned actions and evidence-based predictions"
+    ]
+  },
+  "usageConstraints": [
+    "Dùng 'be going to' cho kế hoạch có sẵn hoặc dự đoán dựa trên bằng chứng.",
+    "Dùng 'will' cho quyết định ngay lúc nói và dự đoán dựa trên cảm tính/không có bằng chứng cụ thể."
+  ],
+  "relationships": {
+    "prerequisites": [
+      "A2_FUTURE_WILL_PREDICTIONS",
+      "FUTURE_GOING_TO_PLANS"
+    ],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A2_WILL_VS_GOING_TO_FORM",
+      "type": "FORM",
+      "description": "Sử dụng đúng dạng 'will + base verb' hoặc 'be going to + base verb' cho từng ngữ cảnh."
+    },
+    {
+      "code": "A2_WILL_VS_GOING_TO_MEANING",
+      "type": "MEANING",
+      "description": "Ý nghĩa: Will cho quyết định/kế hoạch tức thì và dự đoán, 'be going to' cho kế hoạch hoặc dự đoán dựa trên bằng chứng."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I will call you later.",
+      "vietnamese": "Mình sẽ gọi bạn sau.",
+      "explanationVi": "Quyết định tức thì khi nói chuyện."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "I won't call you later.",
+      "vietnamese": "Mình sẽ không gọi bạn sau.",
+      "explanationVi": "Phủ định một quyết định sẽ được thực hiện sau."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Will you call me later?",
+      "vietnamese": "Bạn sẽ gọi mình sau chứ?",
+      "explanationVi": "Câu hỏi về một dự định hoặc quyết định có thể xảy ra."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "I'm going to study tonight.",
+      "vietnamese": "Mình định học tối nay.",
+      "explanationVi": "Đề cập kế hoạch có sẵn (be going to)."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "I will attend the meeting tomorrow, but I am going to submit the report today.",
+      "vietnamese": "Mình sẽ tham dự cuộc họp ngày mai, nhưng mình sẽ nộp báo cáo hôm nay.",
+      "explanationVi": "So sánh sự khác biệt giữa hai hình thức về dự định và kế hoạch."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "A2_WILL_VS_GOING_TO_ERROR1",
+      "incorrect": "I going to study tonight.",
+      "corrected": "I am going to study tonight.",
+      "explanationVi": "Thiếu dạng hiện tại tiếp diễn của 'be' sau chủ ngữ.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "A2_WILL_VS_GOING_TO_ERROR2",
+      "incorrect": "We will going to start soon.",
+      "corrected": "We are going to start soon.",
+      "explanationVi": "Cấu trúc sai: phải dùng 'be going to' ở dạng đúng, không kết hợp với 'will'.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "Giao tiếp hằng ngày",
+      "Bài tập ngữ pháp",
+      "Luyện nói căn bản"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "forms",
+      "tense",
+      "negation"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:39:07.042Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

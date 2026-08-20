@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PRESENT_PERFECT_EXPERIENCE",
+  "family": "PRESENT_PERFECT",
+  "version": 1,
+  "cefr": "B1",
+  "status": "DRAFT",
+  "title": "Hiện tại hoàn thành cho trải nghiệm",
+  "learningObjectiveVi": "Dùng hiện tại hoàn thành để nói về trải nghiệm trước hiện tại mà không nêu thời điểm đã kết thúc.",
+  "learningObjectiveEn": "Use the present perfect for experience before now without a finished past time.",
+  "form": {
+    "patterns": [
+      "subject + have/has + past participle",
+      "have/has + subject + ever + past participle?"
+    ],
+    "morphologyNotes": [
+      "Use have or has plus a past participle and do not combine this meaning with a finished past-time expression."
+    ]
+  },
+  "meaning": {
+    "uses": ["Describe life experience before now.", "Ask whether an experience has ever happened."]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["PAST_SIMPLE_IRREGULAR"],
+    "buildsOn": ["PAST_SIMPLE_IRREGULAR"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PRESENT_PERFECT_EXPERIENCE_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use have or has plus a past participle and do not combine this meaning with a finished past-time expression."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I have visited Singapore twice.",
+      "vietnamese": "Tôi đã đến Singapore hai lần.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại hoàn thành cho trải nghiệm."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "She has never tried skiing.",
+      "vietnamese": "Cô ấy chưa bao giờ thử trượt tuyết.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại hoàn thành cho trải nghiệm."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Have you ever met a famous person?",
+      "vietnamese": "Bạn đã từng gặp người nổi tiếng chưa?",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu hiện tại hoàn thành cho trải nghiệm."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PRESENT_PERFECT_EXPERIENCE_COMMON_ERROR",
+      "incorrect": "I have seen him yesterday.",
+      "corrected": "I saw him yesterday.",
+      "explanationVi": "Yesterday là thời điểm quá khứ đã kết thúc nên dùng quá khứ đơn.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 22,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

@@ -1,0 +1,580 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PERSONAL_ENGLISH",
+  "title": "Lộ trình ngữ pháp tiếng Anh cá nhân",
+  "version": 4,
+  "levels": [
+    {
+      "code": "LEVEL_A1_FOUNDATIONS",
+      "cefr": "A1",
+      "title": "Nền tảng A1",
+      "unlockPolicy": {
+        "requiredMasteryPercent": 80,
+        "minimumPointScore": 60
+      },
+      "units": [
+        {
+          "code": "A1_U01_SUBJECT_AND_BE",
+          "title": "Chủ ngữ, động từ be và sở hữu",
+          "items": [
+            {
+              "grammarPointCode": "SUBJECT_PRONOUNS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "BE_PRESENT_AFFIRMATIVE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "BE_PRESENT_NEGATIVE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "BE_PRESENT_QUESTIONS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "POSSESSIVE_ADJECTIVES_BASIC",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        },
+        {
+          "code": "A1_U02_EXISTENCE_AND_ROUTINES",
+          "title": "Sự tồn tại và thói quen hằng ngày",
+          "items": [
+            {
+              "grammarPointCode": "THERE_IS_ARE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "HAVE_GOT_POSSESSION",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PRESENT_SIMPLE_AFFIRMATIVE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PRESENT_SIMPLE_NEGATIVE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PRESENT_SIMPLE_QUESTIONS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "LEVEL_A2_ELEMENTARY",
+      "cefr": "A2",
+      "title": "Sơ cấp A2",
+      "unlockPolicy": {
+        "requiredMasteryPercent": 80,
+        "minimumPointScore": 60
+      },
+      "units": [
+        {
+          "code": "A2_U01_TIME_AND_ACTION",
+          "title": "Hành động trong quá khứ và hiện tại",
+          "items": [
+            {
+              "grammarPointCode": "PAST_SIMPLE_REGULAR",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PAST_SIMPLE_IRREGULAR",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PAST_SIMPLE_NEGATIVE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PAST_SIMPLE_QUESTIONS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PRESENT_CONTINUOUS_NOW",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PRESENT_SIMPLE_VS_CONTINUOUS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        },
+        {
+          "code": "A2_U02_QUANTITY_COMPARISON_PLANS",
+          "title": "Số lượng, so sánh và dự định",
+          "items": [
+            {
+              "grammarPointCode": "COUNTABLE_UNCOUNTABLE_QUANTIFIERS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "COMPARATIVE_ADJECTIVES",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "SUPERLATIVE_ADJECTIVES",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "FUTURE_GOING_TO_PLANS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "LEVEL_B1_INTERMEDIATE",
+      "cefr": "B1",
+      "title": "Trung cấp B1",
+      "unlockPolicy": {
+        "requiredMasteryPercent": 80,
+        "minimumPointScore": 60
+      },
+      "units": [
+        {
+          "code": "B1_U01_TIME_CONDITIONS",
+          "title": "Thời gian, trải nghiệm và điều kiện",
+          "items": [
+            {
+              "grammarPointCode": "PRESENT_PERFECT_EXPERIENCE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PRESENT_PERFECT_DURATION",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PRESENT_PERFECT_VS_PAST_SIMPLE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PAST_CONTINUOUS_INTERRUPTED",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "FIRST_CONDITIONAL",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        },
+        {
+          "code": "B1_U02_VOICE_CLAUSES_MODALITY",
+          "title": "Modal, bị động và mệnh đề",
+          "items": [
+            {
+              "grammarPointCode": "SECOND_CONDITIONAL",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "MODALS_OBLIGATION_ADVICE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PASSIVE_PRESENT_PAST",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "RELATIVE_CLAUSES_DEFINING",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "REPORTED_SPEECH_STATEMENTS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "LEVEL_B2_UPPER_INTERMEDIATE",
+      "cefr": "B2",
+      "title": "Trung cao cấp B2",
+      "unlockPolicy": {
+        "requiredMasteryPercent": 80,
+        "minimumPointScore": 60
+      },
+      "units": [
+        {
+          "code": "B2_U01_TIME_CONDITIONS",
+          "title": "Thời gian tương lai và điều kiện nâng cao",
+          "items": [
+            {
+              "grammarPointCode": "PAST_PERFECT_SEQUENCE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "FUTURE_CONTINUOUS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "FUTURE_PERFECT",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "THIRD_CONDITIONAL",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "MIXED_CONDITIONAL_PAST_PRESENT",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        },
+        {
+          "code": "B2_U02_VOICE_CLAUSES_MODALITY",
+          "title": "Bị động, tường thuật và sắc thái nghĩa",
+          "items": [
+            {
+              "grammarPointCode": "PASSIVE_ADVANCED_FORMS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "REPORTED_SPEECH_QUESTIONS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "RELATIVE_CLAUSES_NON_DEFINING",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "MODAL_DEDUCTION_PRESENT_PAST",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "GERUND_INFINITIVE_MEANING_CHANGE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "LEVEL_C1_ADVANCED",
+      "cefr": "C1",
+      "title": "Cao cấp C1",
+      "unlockPolicy": {
+        "requiredMasteryPercent": 80,
+        "minimumPointScore": 60
+      },
+      "units": [
+        {
+          "code": "C1_U01_STRUCTURE_AND_STANCE",
+          "title": "Cấu trúc, trọng tâm và lập trường",
+          "items": [
+            {
+              "grammarPointCode": "INVERSION_NEGATIVE_ADVERBIALS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "CLEFT_SENTENCES_FOCUS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PARTICIPLE_CLAUSES",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "NOMINALISATION_FORMAL_STYLE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "MANDATIVE_SUBJUNCTIVE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        },
+        {
+          "code": "C1_U02_DISCOURSE_AND_REGISTER",
+          "title": "Liên kết, tường thuật và văn phong",
+          "items": [
+            {
+              "grammarPointCode": "ADVANCED_HEDGING",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "ELLIPSIS_SUBSTITUTION",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "FRONTING_TOPICALISATION",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "COMPLEX_PREPOSITIONAL_PHRASES",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "NARRATIVE_TENSE_MIXING",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "LEVEL_C2_PROFICIENT",
+      "cefr": "C2",
+      "title": "Thành thạo C2",
+      "unlockPolicy": {
+        "requiredMasteryPercent": 80,
+        "minimumPointScore": 60
+      },
+      "units": [
+        {
+          "code": "C2_U01_STRUCTURE_AND_STANCE",
+          "title": "Cấu trúc phản thực và tổ chức thông tin",
+          "items": [
+            {
+              "grammarPointCode": "CONDITIONAL_INVERSION_WITHOUT_IF",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PSEUDO_CLEFT_NUANCE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "MODALITY_FINE_GRAINED_STANCE",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "COUNTERFACTUAL_MIXED_TIME",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "DISCOURSE_MARKERS_ARGUMENTATION",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "END_WEIGHT_INFORMATION_PACKAGING",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        },
+        {
+          "code": "C2_U02_DISCOURSE_AND_REGISTER",
+          "title": "Diễn ngôn, hàm ý và register",
+          "items": [
+            {
+              "grammarPointCode": "LITERARY_PAST_FORMS",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "EMBEDDED_CLAUSE_COMPLEXITY",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "PRAGMATIC_SOFTENING_IMPLICATION",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "REGISTER_SHIFT_GRAMMATICAL_CHOICES",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "SCOPE_AMBIGUITY_CONTROL",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            },
+            {
+              "grammarPointCode": "CORPUS_STYLE_GRAMMATICAL_PATTERNING",
+              "grammarPointVersion": 1,
+              "role": "REQUIRED",
+              "weight": 1,
+              "minimumEvidenceCount": 5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

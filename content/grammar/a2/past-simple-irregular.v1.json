@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0",
+  "code": "PAST_SIMPLE_IRREGULAR",
+  "family": "PAST_SIMPLE",
+  "version": 1,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Quá khứ đơn với động từ bất quy tắc",
+  "learningObjectiveVi": "Dùng dạng quá khứ bất quy tắc để kể hành động đã hoàn tất.",
+  "learningObjectiveEn": "Use irregular past forms to describe completed actions.",
+  "form": {
+    "patterns": ["subject + irregular past form + complement"],
+    "morphologyNotes": ["Use the established irregular past form rather than adding -ed."]
+  },
+  "meaning": {
+    "uses": ["Report a completed event.", "Narrate a sequence in the past."]
+  },
+  "usageConstraints": ["Choose the form from the intended meaning and sentence context."],
+  "relationships": {
+    "prerequisites": ["PAST_SIMPLE_REGULAR"],
+    "buildsOn": ["PAST_SIMPLE_REGULAR"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "PAST_SIMPLE_IRREGULAR_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use the established irregular past form rather than adding -ed."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I went home early.",
+      "vietnamese": "Tôi đã về nhà sớm.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu quá khứ đơn với động từ bất quy tắc."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "He bought a new laptop.",
+      "vietnamese": "Anh ấy đã mua một chiếc laptop mới.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu quá khứ đơn với động từ bất quy tắc."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "We saw Minh at the station.",
+      "vietnamese": "Chúng tôi đã gặp Minh ở nhà ga.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu quá khứ đơn với động từ bất quy tắc."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "PAST_SIMPLE_IRREGULAR_COMMON_ERROR",
+      "incorrect": "She goed to Da Nang.",
+      "corrected": "She went to Da Nang.",
+      "explanationVi": "Quá khứ của go là went, không phải goed.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel"],
+    "maximumSentenceWords": 16,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": ["target form", "meaning preservation", "natural accepted alternatives"],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "foundation-content-v2",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

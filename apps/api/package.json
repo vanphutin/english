@@ -1,0 +1,44 @@
+{
+  "name": "@english/api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "pnpm build:deps && nest build",
+    "build:deps": "pnpm --filter @english/grammar-kb build && pnpm --filter @english/curriculum build && pnpm --filter @english/identity build && pnpm --filter @english/practice build && pnpm --filter @english/learning build && pnpm --filter @english/evaluation build && pnpm --filter @english/engagement build",
+    "dev": "pnpm build:deps && nest start --watch",
+    "start": "node dist/main.js",
+    "lint": "eslint src test",
+    "test": "vitest run",
+    "typecheck": "pnpm build:deps && tsc --noEmit"
+  },
+  "dependencies": {
+    "@english/curriculum": "workspace:*",
+    "@english/identity": "workspace:*",
+    "@english/grammar-kb": "workspace:*",
+    "@english/practice": "workspace:*",
+    "@english/evaluation": "workspace:*",
+    "@english/engagement": "workspace:*",
+    "@english/learning": "workspace:*",
+    "@nestjs/common": "^11.1.9",
+    "@nestjs/config": "^4.0.2",
+    "@nestjs/core": "^11.1.9",
+    "@nestjs/platform-express": "^11.1.9",
+    "@nestjs/swagger": "^11.2.3",
+    "@prisma/client": "^6.19.3",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
+    "cookie-parser": "^1.4.7",
+    "helmet": "^8.1.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.14",
+    "@nestjs/testing": "^11.1.9",
+    "@types/express": "^5.0.5",
+    "@types/cookie-parser": "^1.4.10",
+    "supertest": "^7.1.4",
+    "vitest": "^4.0.14"
+  }
+}

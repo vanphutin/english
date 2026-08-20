@@ -1,0 +1,215 @@
+{
+  "schemaVersion": "1.0",
+  "manifestCode": "PILOT_A1_C2_MANIFEST",
+  "version": 1,
+  "policyVersion": "content-factory-v1",
+  "status": "DRAFT",
+  "levels": [
+    {
+      "cefr": "A1",
+      "titleVi": "Nền tảng A1",
+      "sortOrder": 1,
+      "units": [
+        {
+          "code": "A1_U01_FOUNDATIONS",
+          "titleVi": "Chủ ngữ và Động từ Be",
+          "sortOrder": 1,
+          "points": [
+            {
+              "code": "A1_U01_SUBJ_PRONOUNS",
+              "family": "PRONOUNS",
+              "canonicalSlug": "a1-subject-pronouns",
+              "titleVi": "Đại từ nhân xưng",
+              "titleEn": "Subject Pronouns",
+              "assessableDistinction": "Phân biệt và sử dụng chính xác I, you, he, she, it, we, they làm chủ ngữ",
+              "communicativeFunctions": ["Giới thiệu bản thân và đối tượng"],
+              "formBoundary": "Chỉ dạng nguyên thể chủ ngữ I/you/he/she/it/we/they",
+              "meaningBoundary": "Đại diện cho ngôi xưng và số ít/số nhiều",
+              "useBoundary": "Đứng ở vị trí chủ ngữ trước động từ chính",
+              "prerequisites": [],
+              "buildsOn": [],
+              "contrastsWith": [],
+              "oftenConfusedWith": [],
+              "vocabularyDomains": ["Giao tiếp hàng ngày"],
+              "rationale": "Nền tảng đầu tiên để xây dựng thành phần chủ ngữ trong câu tiếng Anh",
+              "sortOrder": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "cefr": "A2",
+      "titleVi": "Sơ cấp A2",
+      "sortOrder": 2,
+      "units": [
+        {
+          "code": "A2_U01_PAST_EVENTS",
+          "titleVi": "Quá khứ đơn",
+          "sortOrder": 1,
+          "points": [
+            {
+              "code": "A2_U01_PAST_REGULAR",
+              "family": "PAST_TENSE",
+              "canonicalSlug": "a2-past-regular",
+              "titleVi": "Quá khứ đơn có quy tắc",
+              "titleEn": "Past Simple Regular",
+              "assessableDistinction": "Thêm đuôi -ed vào động từ có quy tắc khi nói về sự việc quá khứ",
+              "communicativeFunctions": ["Kể lại sự việc đã xảy ra"],
+              "formBoundary": "V-ed cho động từ có quy tắc",
+              "meaningBoundary": "Hành động đã hoàn thành trong quá khứ",
+              "useBoundary": "Đi kèm trạng từ thời gian quá khứ",
+              "prerequisites": ["A1_U01_SUBJ_PRONOUNS"],
+              "buildsOn": [],
+              "contrastsWith": [],
+              "oftenConfusedWith": [],
+              "vocabularyDomains": ["Hoạt động hàng ngày"],
+              "rationale": "Giúp học viên diễn đạt thời gian quá khứ đơn giản",
+              "sortOrder": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "cefr": "B1",
+      "titleVi": "Trung cấp B1",
+      "sortOrder": 3,
+      "units": [
+        {
+          "code": "B1_U01_PERFECT_TIME",
+          "titleVi": "Hiện tại hoàn thành",
+          "sortOrder": 1,
+          "points": [
+            {
+              "code": "B1_U01_PERFECT_EXP",
+              "family": "PERFECT_ASPECT",
+              "canonicalSlug": "b1-present-perfect-experience",
+              "titleVi": "Hiện tại hoàn thành chỉ trải nghiệm",
+              "titleEn": "Present Perfect Experience",
+              "assessableDistinction": "Dùng have/has + V3 để diễn tả trải nghiệm sống cho tới hiện tại",
+              "communicativeFunctions": ["Nói về trải nghiệm cá nhân"],
+              "formBoundary": "have/has + past participle",
+              "meaningBoundary": "Trải nghiệm không ghi rõ thời điểm cụ thể",
+              "useBoundary": "Đi kèm ever/never trong câu hỏi và khẳng định",
+              "prerequisites": ["A2_U01_PAST_REGULAR"],
+              "buildsOn": [],
+              "contrastsWith": [],
+              "oftenConfusedWith": [],
+              "vocabularyDomains": ["Du lịch và công việc"],
+              "rationale": "Phát triển khả năng giao tiếp mô tả trải nghiệm sống",
+              "sortOrder": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "cefr": "B2",
+      "titleVi": "Trung cao cấp B2",
+      "sortOrder": 4,
+      "units": [
+        {
+          "code": "B2_U01_FUTURE_ASPECT",
+          "titleVi": "Tương lai nâng cao",
+          "sortOrder": 1,
+          "points": [
+            {
+              "code": "B2_U01_FUTURE_PERFECT",
+              "family": "FUTURE_TENSE",
+              "canonicalSlug": "b2-future-perfect",
+              "titleVi": "Tương lai hoàn thành",
+              "titleEn": "Future Perfect",
+              "assessableDistinction": "Dùng will have + V3 để diễn tả hành động sẽ hoàn tất trước mốc thời gian tương lai",
+              "communicativeFunctions": ["Dự báo mốc hoàn thành công việc"],
+              "formBoundary": "will have + past participle",
+              "meaningBoundary": "Hành động hoàn tất trước một thời điểm tương lai",
+              "useBoundary": "Đi kèm mốc thời gian by the time / by next year",
+              "prerequisites": ["B1_U01_PERFECT_EXP"],
+              "buildsOn": [],
+              "contrastsWith": [],
+              "oftenConfusedWith": [],
+              "vocabularyDomains": ["Kế hoạch dự án"],
+              "rationale": "Giúp diễn đạt mốc thời gian chính xác trong tương lai",
+              "sortOrder": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "cefr": "C1",
+      "titleVi": "Cao cấp C1",
+      "sortOrder": 5,
+      "units": [
+        {
+          "code": "C1_U01_FOCUS_STRUCTURES",
+          "titleVi": "Cấu trúc nhấn mạnh",
+          "sortOrder": 1,
+          "points": [
+            {
+              "code": "C1_U01_INVERSION_NEG",
+              "family": "EMPHASIS",
+              "canonicalSlug": "c1-inversion-negative",
+              "titleVi": "Đảo ngữ với trạng từ phủ định",
+              "titleEn": "Inversion with Negative Adverbials",
+              "assessableDistinction": "Đưa trạng từ phủ định lên đầu câu và đảo trợ động từ lên trước chủ ngữ",
+              "communicativeFunctions": ["Nhấn mạnh mức độ hiếm hoi hoặc trang trọng"],
+              "formBoundary": "Negative Adverb + Auxiliary + Subject + Main Verb",
+              "meaningBoundary": "Nhấn mạnh ý nghĩa phủ định hoặc trang trọng",
+              "useBoundary": "Dùng trong văn viết học thuật hoặc diễn văn",
+              "prerequisites": ["B2_U01_FUTURE_PERFECT"],
+              "buildsOn": [],
+              "contrastsWith": [],
+              "oftenConfusedWith": [],
+              "vocabularyDomains": ["Học thuật và báo chí"],
+              "rationale": "Nâng cao sắc thái biểu cảm và trang trọng trong văn phong C1",
+              "sortOrder": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "cefr": "C2",
+      "titleVi": "Thành thạo C2",
+      "sortOrder": 6,
+      "units": [
+        {
+          "code": "C2_U01_STANCE_MODALITY",
+          "titleVi": "Sắc thái tinh tế",
+          "sortOrder": 1,
+          "points": [
+            {
+              "code": "C2_U01_COND_NO_IF",
+              "family": "COUNTERFACTUAL",
+              "canonicalSlug": "c2-inversion-without-if",
+              "titleVi": "Đảo ngữ câu điều kiện không dùng If",
+              "titleEn": "Conditional Inversion Without If",
+              "assessableDistinction": "Dùng Had/Were/Should đảo lên đầu câu thay thế hoàn toàn cho liên từ If",
+              "communicativeFunctions": ["Tạo văn phong cực kỳ trang trọng và tinh tế"],
+              "formBoundary": "Had/Were/Should + Subject + ...",
+              "meaningBoundary": "Điều kiện phản thực trang trọng",
+              "useBoundary": "Trong văn bản pháp lý, trang trọng cao cấp",
+              "prerequisites": ["C1_U01_INVERSION_NEG"],
+              "buildsOn": [],
+              "contrastsWith": [],
+              "oftenConfusedWith": [],
+              "vocabularyDomains": ["Pháp lý và tranh luận"],
+              "rationale": "Đạt mức độ làm chủ hoàn hảo các biến thể câu điều kiện C2",
+              "sortOrder": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "provider": "openai",
+    "model": "gpt-5-mini",
+    "promptVersion": "v1.0.0",
+    "generatedAt": "2026-08-18T12:00:00Z",
+    "licenseClass": "PUBLIC_CONTENT_ORIGINAL"
+  }
+}

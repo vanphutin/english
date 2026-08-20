@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "1.0",
+  "code": "A2_INDEFINITE_PRONOUNS",
+  "family": "PRONOUNS",
+  "version": 2,
+  "cefr": "A2",
+  "status": "DRAFT",
+  "title": "Đại từ bất định (someone, anything, nowhere)",
+  "learningObjectiveVi": "Hiểu và vận dụng đúng các đại từ bất định như someone, anyone/anybody, anything và nowhere ở câu đơn giản; nhận diện chức năng làm chủ ngữ hoặc tân ngữ và phân biệt với no one/nobody, nothing.",
+  "learningObjectiveEn": "Be able to recognize and use indefinite pronouns such as someone, anyone/anybody, anything, and nowhere in simple sentences; identify their role as subject or object and distinguish from no one/nobody, nothing.",
+  "form": {
+    "patterns": [
+      "1) Someone is waiting at the door.",
+      "2) There is someone in the garden.",
+      "3) Is anyone coming to the party?",
+      "4) I didn’t see anyone in the classroom."
+    ],
+    "morphologyNotes": [
+      "Dạng khẳng định phổ biến dùng someone hoặc somebody. Dạng phủ định hoặc nghi vấn thường dùng anyone/anybody; trạng từ nơi chốn như nowhere được dùng trong ngữ cảnh phủ định hoặc nhấn mạnh sự thiếu vắng (ví dụ: There is nowhere to sit).",
+      "No one và nobody có nghĩa là 'không ai', thường dùng ở vị trí chủ ngữ hoặc sau động từ CBD ở phủ định; không dùng hai từ cùng lúc trong câu (ví dụ: There is no one — đúng).",
+      "Anything và something diễn đạt vật/chuyện bất định; anything thường dùng trong câu hỏi hoặc phủ định, something trong câu khẳng định."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Dùng để nói về người hoặc vật không xác định danh tính hoặc chi tiết được nhắc tới một cách gián tiếp.",
+      "Có thể làm chủ ngữ hoặc tân ngữ trong câu; kết hợp với thành phần tồn tại như 'There is/There isn’t'."
+    ]
+  },
+  "usageConstraints": [
+    "Trong câu khẳng định, ưu tiên dùng someone/somebody; trong câu hỏi hoặc phủ định, ưu tiên dùng anyone/anything khi cần sự linh hoạt.",
+    "Nowhere là trạng từ chỉ vị trí và thường xuất hiện trong ngữ cảnh phủ định; không dùng nowhere trong câu khẳng định để diễn đạt khẳng định.",
+    "Không dùng một đại từ bất định để thay cho danh tính cụ thể khi người nói biết rõ danh tính."
+  ],
+  "relationships": {
+    "prerequisites": [],
+    "buildsOn": [],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "A2_INDEFPRONOUNS_FORM_01",
+      "type": "FORM",
+      "description": "Chọn đúng đại từ bất định theo ngữ cảnh: someone/somebody cho khẳng định, anyone/anybody cho nghi vấn/phủ định; no one/nobody hoặc nowhere cho nhấn mạnh phủ định hoặc chỉ đường."
+    },
+    {
+      "code": "A2_INDEFPRONOUNS_MEANING_01",
+      "type": "MEANING",
+      "description": "Indefinite pronouns đại diện cho người/vật không được xác định; nghĩa và chức năng phải phù hợp với vị trí trong câu (chủ ngữ/tân ngữ)."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "Someone is waiting for you.",
+      "vietnamese": "Có người đang chờ bạn.",
+      "explanationVi": "Someone dùng ở vai trò chủ ngữ trong câu khẳng định, mang nghĩa chưa xác định danh tính người đó."
+    },
+    {
+      "type": "NEGATIVE",
+      "english": "There isn’t anyone at home.",
+      "vietnamese": "Ở nhà không có ai.",
+      "explanationVi": "Dùng anyone để phủ định; 'at home' chỉ nơi chốn, ý nói người không có ở nhà."
+    },
+    {
+      "type": "QUESTION",
+      "english": "Is anyone coming to the party?",
+      "vietnamese": "Có ai đến bữa tiệc không?",
+      "explanationVi": "Dạng nghi vấn kết hợp với đại từ bất định cho câu hỏi về sự có mặt của ai đó."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "If someone calls, please take a message.",
+      "vietnamese": "Nếu có người gọi, làm ơn nhận tin nhắn.",
+      "explanationVi": "Ví dụ trong bối cảnh giao tiếp thường gặp; dùng someone ở vai trò chủ ngữ trong mệnh đề phụ."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "Someone helped me yesterday, but no one helped today.",
+      "vietnamese": "Có người đã giúp tôi hôm qua, nhưng hôm nay không ai giúp.",
+      "explanationVi": "So sánh sự giúp đỡ của người không xác định ở hai thời điểm khác nhau; kết hợp giữa someone và no one."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "ERR_INDEF_01",
+      "incorrect": "I saw anybody in the park.",
+      "corrected": "I saw someone in the park.",
+      "explanationVi": "Trong câu khẳng định, dùng someone/somebody; anybody thường dùng trong nghi vấn hoặc phủ định.",
+      "severity": "MAJOR"
+    },
+    {
+      "code": "ERR_INDEF_02",
+      "incorrect": "There isn't no one at home.",
+      "corrected": "There isn't anyone at home.",
+      "explanationVi": "Double negative làm nghĩa mất hoặc sai; chỉ dùng 'not' với 'anyone'.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "allowedContexts": [
+      "Bài tập ngữ pháp A2",
+      "Hoạt động giao tiếp cơ bản",
+      "Đoạn hội thoại ngắn"
+    ],
+    "maximumSentenceWords": 18,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "correctIndefinitePronounChoice",
+      "subjectVerbAgreement",
+      "naturalnessOfExamples",
+      "appropriateUsageInContext"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "gpt-5-nano",
+    "promptVersion": "cf4-author-v2",
+    "generatedAt": "2026-08-18T08:44:49.627Z",
+    "sourceNotes": [
+      "Independently authored for this personal application."
+    ]
+  },
+  "license": "PUBLIC_CONTENT"
+}

@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "1.0",
+  "code": "MODALITY_FINE_GRAINED_STANCE",
+  "family": "STANCE",
+  "version": 1,
+  "cefr": "C2",
+  "status": "DRAFT",
+  "title": "Modality và stance tinh tế",
+  "learningObjectiveVi": "Kết hợp modal, lexical stance và phạm vi phủ định để thể hiện chính xác cam kết, dè dặt hoặc phản bác.",
+  "learningObjectiveEn": "Combine modal and lexical stance with accurate negation scope to express commitment, reservation, or challenge precisely.",
+  "form": {
+    "patterns": [
+      "stance verb + that-clause",
+      "modal + perfect/progressive infinitive",
+      "negated stance + embedded proposition"
+    ],
+    "morphologyNotes": [
+      "Interpret and place negation according to its intended scope; do not treat all uncertainty markers as interchangeable."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Signal degrees and sources of commitment.",
+      "Distinguish denying certainty from asserting the opposite."
+    ]
+  },
+  "usageConstraints": [
+    "The structure must be motivated by meaning, information flow, stance, or register rather than complexity alone."
+  ],
+  "relationships": {
+    "prerequisites": ["ADVANCED_HEDGING", "MODAL_DEDUCTION_PRESENT_PAST"],
+    "buildsOn": ["ADVANCED_HEDGING", "MODAL_DEDUCTION_PRESENT_PAST"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "MODALITY_FINE_GRAINED_STANCE_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Interpret and place negation according to its intended scope; do not treat all uncertainty markers as interchangeable."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "I do not believe the evidence is conclusive.",
+      "vietnamese": "Tôi không cho rằng bằng chứng mang tính kết luận.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu modality và stance tinh tế."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "The policy may well have contributed to the decline.",
+      "vietnamese": "Chính sách rất có thể đã góp phần vào sự suy giảm.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu modality và stance tinh tế."
+    },
+    {
+      "type": "CONTRASTIVE",
+      "english": "She is bound to have considered the alternative.",
+      "vietnamese": "Chắc hẳn cô ấy đã cân nhắc phương án khác.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu modality và stance tinh tế."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "MODALITY_FINE_GRAINED_STANCE_COMMON_ERROR",
+      "incorrect": "I believe the evidence is not conclusive, necessarily.",
+      "corrected": "I do not necessarily believe the evidence is conclusive.",
+      "explanationVi": "Vị trí necessarily và phủ định làm thay đổi phạm vi nghĩa.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": [
+      "academic discussion",
+      "professional writing",
+      "formal correspondence",
+      "narrative",
+      "public policy"
+    ],
+    "maximumSentenceWords": 42,
+    "requireExplicitTarget": true,
+    "requireDiscourseMotivation": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "scope",
+      "information structure",
+      "register",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "advanced-content-v4",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "1.0",
+  "code": "REPORTED_SPEECH_STATEMENTS",
+  "family": "REPORTED_SPEECH",
+  "version": 1,
+  "cefr": "B1",
+  "status": "DRAFT",
+  "title": "Câu tường thuật cho lời nói",
+  "learningObjectiveVi": "Tường thuật lại một phát biểu với thay đổi ngôi và thời gian phù hợp.",
+  "learningObjectiveEn": "Report a statement with appropriate changes to person and time reference.",
+  "form": {
+    "patterns": [
+      "reporting subject + said (that) + reported clause",
+      "reporting subject + told + object + reported clause"
+    ],
+    "morphologyNotes": [
+      "Use tell with an object; use say without a direct personal object and backshift when the reporting viewpoint is past."
+    ]
+  },
+  "meaning": {
+    "uses": [
+      "Report what somebody said.",
+      "Shift viewpoint when the reporting context requires it."
+    ]
+  },
+  "usageConstraints": [
+    "Choose the form from the intended time, meaning, discourse context, and register."
+  ],
+  "relationships": {
+    "prerequisites": ["PAST_SIMPLE_REGULAR"],
+    "buildsOn": ["PAST_SIMPLE_REGULAR"],
+    "contrastsWith": [],
+    "oftenConfusedWith": []
+  },
+  "rules": [
+    {
+      "code": "REPORTED_SPEECH_STATEMENTS_CORE",
+      "type": "HARD_CONSTRAINT",
+      "description": "Use tell with an object; use say without a direct personal object and backshift when the reporting viewpoint is past."
+    }
+  ],
+  "examples": [
+    {
+      "type": "AFFIRMATIVE",
+      "english": "Mai said that she was tired.",
+      "vietnamese": "Mai nói rằng cô ấy mệt.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu câu tường thuật cho lời nói."
+    },
+    {
+      "type": "AFFIRMATIVE",
+      "english": "He told me that he would call later.",
+      "vietnamese": "Anh ấy bảo tôi rằng anh ấy sẽ gọi sau.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu câu tường thuật cho lời nói."
+    },
+    {
+      "type": "CONTEXTUAL",
+      "english": "They said they had no questions.",
+      "vietnamese": "Họ nói họ không có câu hỏi nào.",
+      "explanationVi": "Ví dụ minh họa đúng mục tiêu câu tường thuật cho lời nói."
+    }
+  ],
+  "commonErrors": [
+    {
+      "code": "REPORTED_SPEECH_STATEMENTS_COMMON_ERROR",
+      "incorrect": "She said me that she was busy.",
+      "corrected": "She told me that she was busy.",
+      "explanationVi": "Khi có tân ngữ me, dùng told thay vì said.",
+      "severity": "MAJOR"
+    }
+  ],
+  "generationPolicy": {
+    "locale": "vi",
+    "allowedContexts": ["daily life", "study", "work", "travel", "public services"],
+    "maximumSentenceWords": 22,
+    "requireExplicitTarget": true
+  },
+  "evaluationPolicy": {
+    "mustCheck": [
+      "target form",
+      "target meaning",
+      "time reference",
+      "meaning preservation",
+      "natural accepted alternatives"
+    ],
+    "referenceAnswersAreNonExhaustive": true
+  },
+  "provenance": {
+    "origin": "AI_GENERATED",
+    "model": "codex-gpt-5-authoring",
+    "promptVersion": "intermediate-content-v3",
+    "generatedAt": "2026-08-16T00:00:00Z",
+    "sourceNotes": [
+      "Independently authored for this personal application; no proprietary curriculum text copied."
+    ]
+  }
+}
