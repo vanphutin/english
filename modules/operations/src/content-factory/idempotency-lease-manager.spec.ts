@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { computeIdempotencyKey } from './idempotency-lease-manager.js';
 
 const base = {
+  runId: '11111111-1111-4111-8111-111111111111',
   purpose: 'AUTHOR_GRAMMAR',
   inputHash: 'a'.repeat(64),
   targetCode: 'A1_TEST_POINT',
@@ -13,7 +14,7 @@ const base = {
 };
 
 describe('Content Factory idempotency key', () => {
-  it('is stable for identical intent', () => {
+  it('is stable for identical intent in the same run', () => {
     expect(computeIdempotencyKey(base)).toBe(computeIdempotencyKey({ ...base }));
   });
 
@@ -21,5 +22,15 @@ describe('Content Factory idempotency key', () => {
     const original = computeIdempotencyKey(base);
     expect(computeIdempotencyKey({ ...base, promptVersion: 'cf3-author-v2' })).not.toBe(original);
     expect(computeIdempotencyKey({ ...base, schemaVersion: '2.0' })).not.toBe(original);
+  });
+
+  it('does not reuse a job identity across different ContentFactoryRuns', () => {
+    const original = computeIdempotencyKey(base);
+    expect(
+      computeIdempotencyKey({
+        ...base,
+        runId: '22222222-2222-4222-8222-222222222222',
+      }),
+    ).not.toBe(original);
   });
 });
