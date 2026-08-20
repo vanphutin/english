@@ -3,3 +3,10 @@ dist/
 .next/
 coverage/
 apps/web/next-env.d.ts
+
+# Machine-authored/hash-managed content artifacts: do not mutate bytes via formatter.
+content/grammar/**/*.v2.json
+content/curriculum/personal-english.v5.json
+
+# Package-manager-owned lockfile.
+pnpm-lock.yaml
