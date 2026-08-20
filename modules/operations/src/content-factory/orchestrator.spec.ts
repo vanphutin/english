@@ -32,27 +32,23 @@ describe('ContentFactoryOrchestratorService (Phase CF1 Durable Orchestration)', 
     }
   });
 
-  it('guarantees idempotency on duplicate job enqueue requests', async () => {
-    const inputContent = JSON.stringify({ code: 'PILOT_POINT_1', license: 'PUBLIC_CONTENT' });
-
-    const res1 = await orchestrator.enqueueJob({
+  it('guarantees idempotency when identical enqueue requests race', async () => {
+    const request = {
       runId: testRunId,
-      purpose: 'PLAN_MANIFEST',
+      purpose: 'PLAN_MANIFEST' as const,
       targetCode: 'PILOT_POINT_1',
-      inputContent,
-    });
+      inputContent: JSON.stringify({ code: 'PILOT_POINT_1', license: 'PUBLIC_CONTENT' }),
+    };
 
-    const res2 = await orchestrator.enqueueJob({
-      runId: testRunId,
-      purpose: 'PLAN_MANIFEST',
-      targetCode: 'PILOT_POINT_1',
-      inputContent,
-    });
+    const [res1, res2] = await Promise.all([
+      orchestrator.enqueueJob(request),
+      orchestrator.enqueueJob(request),
+    ]);
 
-    expect(res1.isDuplicate).toBe(false);
-    expect(res2.isDuplicate).toBe(true);
     expect(res1.job.id).toBe(res2.job.id);
     expect(res1.job.idempotencyKey).toBe(res2.job.idempotencyKey);
+    expect([res1.isDuplicate, res2.isDuplicate].filter(Boolean)).toHaveLength(1);
+    expect(await prisma.contentFactoryJob.count({ where: { runId: testRunId } })).toBe(1);
   });
 
   it('allows only one worker to atomically claim a queued job', async () => {
@@ -70,6 +66,29 @@ describe('ContentFactoryOrchestratorService (Phase CF1 Durable Orchestration)', 
 
     expect(claims.filter(Boolean)).toHaveLength(1);
     expect(claims.filter((claim) => claim === null)).toHaveLength(1);
+  });
+
+  it('claims the requested job instead of an unrelated older queued job', async () => {
+    const first = await orchestrator.enqueueJob({
+      runId: testRunId,
+      purpose: 'PLAN_MANIFEST',
+      targetCode: 'OLDER_JOB',
+      inputContent: JSON.stringify({ code: 'OLDER_JOB', license: 'PUBLIC_CONTENT' }),
+    });
+    const second = await orchestrator.enqueueJob({
+      runId: testRunId,
+      purpose: 'PLAN_MANIFEST',
+      targetCode: 'TARGET_JOB',
+      inputContent: JSON.stringify({ code: 'TARGET_JOB', license: 'PUBLIC_CONTENT' }),
+    });
+
+    const claimed = await orchestrator.claimJob(second.job.id, 'worker-target', 5);
+    const untouched = await prisma.contentFactoryJob.findUnique({ where: { id: first.job.id } });
+
+    expect(claimed?.id).toBe(second.job.id);
+    expect(claimed?.workerId).toBe('worker-target');
+    expect(untouched?.state).toBe('QUEUED');
+    expect(untouched?.workerId).toBeNull();
   });
 
   it('reclaims an expired active lease instead of leaving GENERATING work stuck', async () => {
