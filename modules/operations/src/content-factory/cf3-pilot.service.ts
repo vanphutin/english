@@ -1,24 +1,23 @@
-import type { ContentFactoryJobState, PrismaClient } from '@prisma/client';
+import type { PrismaClient } from '@prisma/client';
 import { ContentFactoryValidator } from '@english/contracts';
 import { canTransitionState } from './job-state-machine.js';
 import { computeSha256 } from './idempotency-lease-manager.js';
 import {
   CF3_GRAMMAR_AUTHOR_PROMPT_VERSION,
-  LessonGenerator,
-  type GrammarPointBundleSpec,
+  type LessonGenerator,
   type PilotGrammarTarget,
 } from './lesson-generator.js';
 import {
   CF3_EXERCISE_AUTHOR_PROMPT_VERSION,
-  ExerciseFactory,
+  type ExerciseFactory,
   type ExercisePreflightEvidence,
 } from './exercise-factory.js';
-import { IndependentContentReviewer } from './independent-reviewer.js';
-import { ContentReviewRunRepository } from './review-run-repository.js';
-import { ContentValidationRunRepository } from './validation-run-repository.js';
+import type { IndependentContentReviewer } from './independent-reviewer.js';
+import type { ContentReviewRunRepository } from './review-run-repository.js';
+import type { ContentValidationRunRepository } from './validation-run-repository.js';
 import type { Cf3ManifestApprovalGate } from './cf3-manifest-approval-gate.js';
-import { ContentFactoryStorageRepository } from './storage-repository.js';
-import { ContentFactoryOrchestratorService } from './content-factory-orchestrator.service.js';
+import type { ContentFactoryStorageRepository } from './storage-repository.js';
+import type { ContentFactoryOrchestratorService } from './content-factory-orchestrator.service.js';
 
 const GRAMMAR_VALIDATOR_VERSION = 'CF3-GRAMMAR-v1';
 const EXERCISE_VALIDATOR_VERSION = 'CF3-EXERCISE-v1';
@@ -88,6 +87,11 @@ export class Cf3PilotService {
     workerPrefix?: string;
   }): Promise<Cf3PilotReadinessReport> {
     this.assertPilotScope(params.targets);
+    const exerciseCount = params.exerciseCount ?? 12;
+    if (exerciseCount < 12 || exerciseCount > 30) {
+      throw new Error('EXERCISE_COUNT_MUST_BE_12_TO_30');
+    }
+
     const run = await this.prisma.contentFactoryRun.findUnique({ where: { id: params.runId } });
     if (!run) throw new Error('CF3_RUN_NOT_FOUND');
     await this.manifestGate.assertApprovedTargets({
@@ -96,7 +100,6 @@ export class Cf3PilotService {
     });
 
     const targetVersion = params.targetVersion ?? 1;
-    const exerciseCount = params.exerciseCount ?? 12;
     const workerPrefix = params.workerPrefix ?? 'cf3-pilot';
     const points: Cf3PilotPointResult[] = [];
 
@@ -289,11 +292,7 @@ export class Cf3PilotService {
         return result;
       }
 
-      await this.orchestrator.advanceJobState(
-        reviewJob.job.id,
-        reviewWorker,
-        'READY_FOR_APPROVAL',
-      );
+      await this.orchestrator.advanceJobState(reviewJob.job.id, reviewWorker, 'READY_FOR_APPROVAL');
       await this.orchestrator.advanceJobState(
         grammarJob.job.id,
         grammarWorker,
@@ -445,7 +444,7 @@ export class Cf3PilotService {
     for (const job of [...jobs].reverse()) {
       const current = await this.prisma.contentFactoryJob.findUnique({ where: { id: job.id } });
       if (!current || current.workerId !== job.workerId) continue;
-      if (!canTransitionState(current.state as ContentFactoryJobState, 'QUARANTINED')) continue;
+      if (!canTransitionState(current.state, 'QUARANTINED')) continue;
       await this.orchestrator
         .advanceJobState(job.id, job.workerId, 'QUARANTINED', undefined, errorCode)
         .catch(() => undefined);
