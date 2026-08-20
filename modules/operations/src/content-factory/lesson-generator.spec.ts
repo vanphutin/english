@@ -118,9 +118,9 @@ describe('LessonGenerator CF3 pilot', () => {
 
     expect(bundles).toHaveLength(3);
     expect(provider.requests).toHaveLength(3);
-    expect(provider.requests.every((request) => Object.hasOwn(request as object, 'manifestItem'))).toBe(
-      true,
-    );
+    expect(
+      provider.requests.every((request) => Object.hasOwn(request as object, 'manifestItem')),
+    ).toBe(true);
     expect(bundles.every((bundle) => bundle.cefr === 'A1' && bundle.status === 'DRAFT')).toBe(true);
     expect(bundles.every((bundle) => bundle.commonErrors.length >= 3)).toBe(true);
     expect(bundles[0]?.code).toBe('A1_PILOT_ONE');
