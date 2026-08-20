@@ -34,6 +34,9 @@ export default tseslint.config(
   },
   {
     files: ['**/*.spec.ts', '**/*.test.ts'],
-    rules: { '@typescript-eslint/no-unsafe-assignment': 'off' },
+    rules: {
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/require-await': 'off',
+    },
   },
 );
