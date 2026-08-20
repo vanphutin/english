@@ -30,6 +30,8 @@ class FakeAuthorProvider implements ContentFactoryJsonProvider {
   public readonly model = 'fake-author-model';
   public readonly requests: unknown[] = [];
 
+  constructor(private readonly commonErrorCount = 3) {}
+
   async generateJson(request: Parameters<ContentFactoryJsonProvider['generateJson']>[0]) {
     const input = JSON.parse(request.input) as { manifestItem: PilotGrammarTarget };
     this.requests.push(input);
@@ -54,7 +56,11 @@ class FakeAuthorProvider implements ContentFactoryJsonProvider {
         oftenConfusedWith: [],
       },
       rules: [
-        { code: `${point.code}_FORM`, type: 'FORM', description: 'Use am with I and is with he or she.' },
+        {
+          code: `${point.code}_FORM`,
+          type: 'FORM',
+          description: 'Use am with I and is with he or she.',
+        },
       ],
       examples: [
         {
@@ -76,17 +82,18 @@ class FakeAuthorProvider implements ContentFactoryJsonProvider {
           explanationVi: 'Đưa are lên trước chủ ngữ you để hỏi.',
         },
       ],
-      commonErrors: [
-        {
-          code: `${point.code}_ERR_1`,
-          incorrect: 'I is a student.',
-          corrected: 'I am a student.',
-          explanationVi: 'I phải đi với am.',
-          severity: 'MAJOR',
-        },
-      ],
+      commonErrors: Array.from({ length: this.commonErrorCount }, (_, index) => ({
+        code: `${point.code}_ERR_${index + 1}`,
+        incorrect: index === 0 ? 'I is a student.' : `Incorrect be form ${index + 1}.`,
+        corrected: index === 0 ? 'I am a student.' : `Correct be form ${index + 1}.`,
+        explanationVi: `Lỗi độc lập số ${index + 1} về cách chọn dạng động từ be.`,
+        severity: 'MAJOR',
+      })),
       generationPolicy: { allowedContexts: ['PEOPLE'], requireExplicitTarget: true },
-      evaluationPolicy: { mustCheck: ['subject-be agreement'], referenceAnswersAreNonExhaustive: true },
+      evaluationPolicy: {
+        mustCheck: ['subject-be agreement'],
+        referenceAnswersAreNonExhaustive: true,
+      },
       provenance: {
         origin: 'AI_GENERATED',
         model: 'dishonest-model-label',
@@ -114,6 +121,7 @@ describe('LessonGenerator CF3 pilot', () => {
       true,
     );
     expect(bundles.every((bundle) => bundle.cefr === 'A1' && bundle.status === 'DRAFT')).toBe(true);
+    expect(bundles.every((bundle) => bundle.commonErrors.length >= 3)).toBe(true);
     expect(bundles[0]?.code).toBe('A1_PILOT_ONE');
     expect(bundles[0]?.provenance.model).toBe('fake-author-model');
     expect(bundles[0]?.provenance.promptVersion).toBe('cf3-grammar-author-v1');
@@ -151,5 +159,17 @@ describe('LessonGenerator CF3 pilot', () => {
       ]),
     ).rejects.toThrow('CF3_PILOT_TARGETS_MUST_BE_UNIQUE');
     expect(provider.requests).toHaveLength(0);
+  });
+
+  it('rejects superficially valid bundles without three distinct common errors', async () => {
+    const generator = new LessonGenerator(new FakeAuthorProvider(1));
+
+    await expect(
+      generator.generatePilotA1Packages([
+        target('A1_ERROR_ONE'),
+        target('A1_ERROR_TWO'),
+        target('A1_ERROR_THREE'),
+      ]),
+    ).rejects.toThrow('CF3_COMMON_ERRORS_INSUFFICIENT:A1_ERROR_ONE');
   });
 });
