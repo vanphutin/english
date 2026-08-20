@@ -13,6 +13,15 @@ export class ContentReviewRunRepository {
   }) {
     const job = await this.prisma.contentFactoryJob.findUnique({ where: { id: params.jobId } });
     if (!job || job.runId !== params.runId) throw new Error('CONTENT_REVIEW_JOB_NOT_FOUND');
+    if (params.report.reviewer.runId !== params.runId) {
+      throw new Error('CONTENT_REVIEW_RUN_ID_MISMATCH');
+    }
+    if (
+      params.report.artifactCode !== job.targetCode ||
+      params.report.artifactVersion !== job.targetVersion
+    ) {
+      throw new Error('CONTENT_REVIEW_ARTIFACT_IDENTITY_MISMATCH');
+    }
 
     const expectedArtifactHash = job.outputHash ?? job.inputHash;
     if (params.report.artifactHash !== expectedArtifactHash) {
