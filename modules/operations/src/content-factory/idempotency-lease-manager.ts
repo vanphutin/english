@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 
 export interface IdempotencyKeyInput {
+  runId: string;
   purpose: string;
   inputHash: string;
   targetCode: string;
@@ -12,11 +13,13 @@ export interface IdempotencyKeyInput {
 }
 
 /**
- * Job identity pins every contract input that can change generated semantics.
- * A prompt/schema change therefore creates a new job instead of reusing stale evidence.
+ * Job identity is run-scoped and pins every contract input that can change
+ * generated semantics. A prompt/schema change creates a new job, while an
+ * identical delivery inside the same ContentFactoryRun reuses existing evidence.
  */
 export function computeIdempotencyKey(input: IdempotencyKeyInput): string {
   const raw = [
+    `run:${input.runId}`,
     input.purpose,
     input.targetCode,
     `v${input.targetVersion}`,
