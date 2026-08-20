@@ -248,11 +248,7 @@ describe('Cf3PilotService', () => {
   });
 
   it('runs 3 A1 points end to end and reuses completed evidence on exact redelivery', async () => {
-    const targets = [
-      target('A1_CF3_ONE', 1),
-      target('A1_CF3_TWO', 2),
-      target('A1_CF3_THREE', 3),
-    ];
+    const targets = [target('A1_CF3_ONE', 1), target('A1_CF3_TWO', 2), target('A1_CF3_THREE', 3)];
     const report = await service.runPilot({ runId, manifestRunId, targets });
 
     expect(report.status).toBe('READY_FOR_APPROVAL');
