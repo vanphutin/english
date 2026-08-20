@@ -17,7 +17,13 @@ const artifact: GrammarPointBundleSpec = {
   meaning: { uses: ['Identify a person.', 'Describe a simple present state.'] },
   usageConstraints: ['Choose the be form from the grammatical subject.'],
   relationships: { prerequisites: [], buildsOn: [], contrastsWith: [], oftenConfusedWith: [] },
-  rules: [{ code: 'A1_REVIEW_FORM', type: 'FORM', description: 'Use am with I and are with you.' }],
+  rules: [
+    {
+      code: 'A1_REVIEW_FORM',
+      type: 'FORM',
+      description: 'Use am with I and are with you.',
+    },
+  ],
   examples: [
     {
       type: 'AFFIRMATIVE',
