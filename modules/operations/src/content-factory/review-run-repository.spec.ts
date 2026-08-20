@@ -82,4 +82,20 @@ describe('ContentReviewRunRepository', () => {
     ).rejects.toThrow('CONTENT_REVIEW_ARTIFACT_HASH_MISMATCH');
     expect(await prisma.contentReviewRun.count({ where: { jobId } })).toBe(0);
   });
+
+  it('rejects review metadata pinned to a different run or artifact identity', async () => {
+    const repository = new ContentReviewRunRepository(prisma);
+    const wrongRun = report();
+    wrongRun.reviewer.runId = '11111111-1111-4111-8111-111111111111';
+    await expect(repository.record({ runId, jobId, report: wrongRun })).rejects.toThrow(
+      'CONTENT_REVIEW_RUN_ID_MISMATCH',
+    );
+
+    const wrongIdentity = report();
+    wrongIdentity.artifactCode = 'OTHER_ARTIFACT';
+    await expect(repository.record({ runId, jobId, report: wrongIdentity })).rejects.toThrow(
+      'CONTENT_REVIEW_ARTIFACT_IDENTITY_MISMATCH',
+    );
+    expect(await prisma.contentReviewRun.count({ where: { jobId } })).toBe(0);
+  });
 });
