@@ -38,6 +38,7 @@ export interface GrammarBundle {
   evaluationPolicy: Record<string, unknown>;
   provenance: {
     origin: 'AI_GENERATED';
+    provider?: string;
     model: string;
     promptVersion: string;
     generatedAt: string;
@@ -46,4 +47,5 @@ export interface GrammarBundle {
 }
 
 export type GrammarBundleValidation =
-  { valid: true; value: GrammarBundle } | { valid: false; errors: string[] };
+  | { valid: true; value: GrammarBundle }
+  | { valid: false; errors: string[] };
