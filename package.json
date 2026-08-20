@@ -47,7 +47,6 @@
     "content:publish:intermediate": "tsx scripts/publish-intermediate-content.ts",
     "content:author:advanced": "tsx scripts/author-advanced-content.ts",
     "content:publish:advanced": "tsx scripts/publish-advanced-content.ts",
-    "content:author:autonomous": "tsx --env-file=.env scripts/author-autonomous-content.ts",
     "evaluator:golden": "tsx scripts/evaluator-golden.ts",
     "evaluator:golden:live": "tsx scripts/evaluator-golden.ts --live",
     "engagement:rebuild-errors": "pnpm --filter @english/engagement build && tsx scripts/rebuild-error-patterns.ts",
