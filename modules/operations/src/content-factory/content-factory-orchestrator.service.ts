@@ -80,6 +80,11 @@ export class ContentFactoryOrchestratorService {
     return run;
   }
 
+  /**
+   * Enqueues idempotently even when identical deliveries race. The database
+   * unique key is the final arbiter; a losing concurrent writer returns the
+   * already-created job instead of surfacing a duplicate-key failure.
+   */
   public async enqueueJob(params: EnqueueJobParams) {
     const run = await this.prisma.contentFactoryRun.findUnique({
       where: { id: params.runId },
@@ -130,32 +135,46 @@ export class ContentFactoryOrchestratorService {
       maxEstimatedCost: 0.5,
     };
 
-    const newJob = await this.prisma.contentFactoryJob.create({
-      data: {
-        runId: params.runId,
-        purpose: params.purpose,
-        targetCode: params.targetCode,
-        targetVersion,
-        state: 'QUEUED',
-        attempt,
-        idempotencyKey,
-        inputHash,
-        policyVersionsJson: defaultPolicyVersions,
-        budgetJson: defaultBudget,
-        artifacts: {
-          create: {
-            runId: params.runId,
-            artifactPath: inputRef.artifactPath,
-            artifactType: 'INPUT_SNAPSHOT',
-            contentHash: inputRef.contentHash,
-            storageUri: inputRef.storageUri,
+    try {
+      const newJob = await this.prisma.contentFactoryJob.create({
+        data: {
+          runId: params.runId,
+          purpose: params.purpose,
+          targetCode: params.targetCode,
+          targetVersion,
+          state: 'QUEUED',
+          attempt,
+          idempotencyKey,
+          inputHash,
+          policyVersionsJson: defaultPolicyVersions,
+          budgetJson: defaultBudget,
+          artifacts: {
+            create: {
+              runId: params.runId,
+              artifactPath: inputRef.artifactPath,
+              artifactType: 'INPUT_SNAPSHOT',
+              contentHash: inputRef.contentHash,
+              storageUri: inputRef.storageUri,
+            },
           },
         },
-      },
-      include: { artifacts: true },
-    });
+        include: { artifacts: true },
+      });
 
-    return { job: newJob, isDuplicate: false };
+      return { job: newJob, isDuplicate: false };
+    } catch (error: unknown) {
+      const code =
+        error && typeof error === 'object' && 'code' in error
+          ? (error as { code?: unknown }).code
+          : undefined;
+      if (code === 'P2002') {
+        const concurrentJob = await this.prisma.contentFactoryJob.findUnique({
+          where: { idempotencyKey },
+        });
+        if (concurrentJob) return { job: concurrentJob, isDuplicate: true };
+      }
+      throw error;
+    }
   }
 
   /**
@@ -188,6 +207,30 @@ export class ContentFactoryOrchestratorService {
         FOR UPDATE SKIP LOCKED
         LIMIT 1
       )
+      RETURNING "id"
+    `);
+    if (!claimed[0]) return null;
+    return this.prisma.contentFactoryJob.findUnique({ where: { id: claimed[0].id } });
+  }
+
+  /** Claims a specific job atomically; orchestration must never claim one row and operate on another. */
+  public async claimJob(jobId: string, workerId: string, leaseMinutes = 5) {
+    const now = new Date();
+    const leaseExpiresAt = new Date(now.getTime() + leaseMinutes * 60 * 1000);
+    const claimed = await this.prisma.$queryRaw<Array<{ id: string }>>(Prisma.sql`
+      UPDATE "content_factory_jobs"
+      SET "state" = 'CLAIMED',
+          "worker_id" = ${workerId},
+          "lease_expires_at" = ${leaseExpiresAt},
+          "updated_at" = ${now}
+      WHERE "id" = ${jobId}::uuid
+        AND (
+          "state" = 'QUEUED'
+          OR (
+            "lease_expires_at" <= ${now}
+            AND "state" IN ('CLAIMED', 'GENERATING', 'GENERATED', 'VALIDATING', 'IN_REVIEW', 'PUBLISHING', 'FAILED')
+          )
+        )
       RETURNING "id"
     `);
     if (!claimed[0]) return null;
@@ -449,7 +492,8 @@ export class ContentFactoryOrchestratorService {
       inputContent: manifestContent,
     });
 
-    await this.claimNextJob(workerId, runId);
+    const claimed = await this.claimJob(enqueueRes.job.id, workerId);
+    if (!claimed) throw new Error('MANIFEST_JOB_COULD_NOT_BE_CLAIMED');
     const validationJob = await this.validateManifestJob(enqueueRes.job.id, workerId);
 
     return {
