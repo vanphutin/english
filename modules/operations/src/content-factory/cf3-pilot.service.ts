@@ -438,7 +438,9 @@ export class Cf3PilotService {
     targetVersion: number;
     exerciseCount: number;
   }): Promise<Cf3PilotPointResult | null> {
-    const grammarInputHash = computeSha256(this.buildGrammarInput(params.target, params.pilotTargets));
+    const grammarInputHash = computeSha256(
+      this.buildGrammarInput(params.target, params.pilotTargets),
+    );
     const jobs = await this.prisma.contentFactoryJob.findMany({
       where: {
         runId: params.runId,
