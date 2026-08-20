@@ -43,15 +43,14 @@ export interface ContentReviewReport {
 }
 
 export type ContentReviewValidation =
-  | { valid: true; value: ContentReviewReport }
-  | { valid: false; errors: string[] };
+  { valid: true; value: ContentReviewReport } | { valid: false; errors: string[] };
 
 const ajv = new Ajv2020({ allErrors: true, strict: true });
 addFormats(ajv);
 const validate = ajv.compile(contentReviewReportSchema);
 
 export function validateContentReviewReport(input: unknown): ContentReviewValidation {
-  if (validate(input)) return { valid: true, value: input as ContentReviewReport };
+  if (validate(input)) return { valid: true, value: input as unknown as ContentReviewReport };
   return {
     valid: false,
     errors: (validate.errors ?? []).map(
