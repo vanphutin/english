@@ -70,11 +70,22 @@ describe('Cf4LevelBatchPlanner', () => {
     const result = new Cf4LevelBatchPlanner().plan(manifest([level('A1', 11)]));
     const a1 = result.levels[0]!;
 
+    expect(result.maximumBatchSize).toBe(5);
     expect(a1.exerciseTargetPerPoint).toBe(20);
     expect(a1.reviewProfile).toBe('STANDARD');
     expect(a1.batches.map((batch) => batch.points.length)).toEqual([4, 4, 3]);
+    expect(a1.batches.every((batch) => batch.plannedMaximumBatchSize === 5)).toBe(true);
     expect(a1.batches.every((batch) => batch.requiresRegressionAfterBatch)).toBe(true);
     expect(a1.batches.every((batch) => batch.requiresOwnerApprovalBeforePublish)).toBe(true);
+  });
+
+  it('pins a non-default safe partition size so the approval gate can replay it', () => {
+    const result = new Cf4LevelBatchPlanner().plan(manifest([level('A2', 8)]), 4);
+    const a2 = result.levels[0]!;
+
+    expect(result.maximumBatchSize).toBe(4);
+    expect(a2.batches.map((batch) => batch.points.length)).toEqual([4, 4]);
+    expect(a2.batches.every((batch) => batch.plannedMaximumBatchSize === 4)).toBe(true);
   });
 
   it('uses enhanced review and 30 exercises per point for C1/C2', () => {
