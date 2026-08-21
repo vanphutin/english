@@ -38,7 +38,9 @@ function level(cefr: CefrLevel, count: number): CurriculumLevelSpec {
         code: `${cefr}_U01`,
         titleVi: 'Unit',
         sortOrder: 1,
-        points: Array.from({ length: count }, (_, index) => point(`${cefr}_P${index + 1}`, index + 1)),
+        points: Array.from({ length: count }, (_, index) =>
+          point(`${cefr}_P${index + 1}`, index + 1),
+        ),
       },
     ],
   };
@@ -66,7 +68,7 @@ function manifest(levels: CurriculumLevelSpec[]): AutonomousManifest {
 describe('Cf4LevelBatchPlanner', () => {
   it('partitions a level into bounded 3-5 point batches without a tiny tail', () => {
     const result = new Cf4LevelBatchPlanner().plan(manifest([level('A1', 11)]));
-    const a1 = result.levels[0];
+    const a1 = result.levels[0]!;
 
     expect(a1.exerciseTargetPerPoint).toBe(20);
     expect(a1.reviewProfile).toBe('STANDARD');
@@ -92,7 +94,7 @@ describe('Cf4LevelBatchPlanner', () => {
     );
 
     const duplicate = level('B1', 4);
-    duplicate.units[0].points[3] = { ...duplicate.units[0].points[0] };
+    duplicate.units[0]!.points[3] = { ...duplicate.units[0]!.points[0]! };
     expect(() => planner.plan(manifest([duplicate]))).toThrow(
       'CF4_LEVEL_CONTAINS_DUPLICATE_CODES:B1',
     );
