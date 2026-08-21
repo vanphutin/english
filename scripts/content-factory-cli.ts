@@ -1,12 +1,15 @@
 import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
 import { ContentFactoryOrchestratorService } from '../modules/operations/src/content-factory/content-factory-orchestrator.service.js';
+import { ContentFactoryOwnerApprovalService } from '../modules/operations/src/content-factory/content-factory-owner-approval.service.js';
 import { ContentFactoryStorageRepository } from '../modules/operations/src/content-factory/storage-repository.js';
 import { Cf4ApprovedBatchRepository } from '../modules/operations/src/content-factory/cf4-approved-batch-repository.js';
 import { createCf4Runtime } from '../modules/operations/src/content-factory/cf4-runtime.js';
 
 const prisma = new PrismaClient();
+const storage = new ContentFactoryStorageRepository();
 const orchestrator = new ContentFactoryOrchestratorService(prisma);
+const ownerApprovals = new ContentFactoryOwnerApprovalService(prisma, orchestrator, storage);
 
 function optionalBatchSize(value: string | undefined): number {
   if (!value) return 5;
@@ -38,7 +41,7 @@ Commands:
   enqueue <runId> <code> <content>  Enqueue a job
   claim-next <workerId> [runId]     Worker claims next available job
   status <runId>                    View run status and statistics
-  approval-scope <runId>            Print exact scope hash for owner review
+  approval-scope <runId>            Print exact final scope hash for owner review
   approve-batch <runId> <scopeHash> <owner> <rationale> <APPROVE:scopeHash>
                                     Record owner approval (human-only operation)
 
@@ -102,10 +105,7 @@ Status: DRAFT ONLY / READY FOR OWNER APPROVAL — CLI DOES NOT PUBLISH
         const manifestRunId = args[1];
         if (!manifestRunId) throw new Error('Missing manifestRunId argument');
         const maximumBatchSize = optionalBatchSize(args[2]);
-        const repository = new Cf4ApprovedBatchRepository(
-          prisma,
-          new ContentFactoryStorageRepository(),
-        );
+        const repository = new Cf4ApprovedBatchRepository(prisma, storage);
         const plan = await repository.loadPlan(manifestRunId, maximumBatchSize);
         console.log(`\n==================================================`);
         console.log(`✅ CF4 APPROVED MANIFEST BATCH PLAN`);
@@ -249,16 +249,14 @@ Status: DRAFT ONLY / READY FOR OWNER APPROVAL — CLI DOES NOT PUBLISH
       case 'approval-scope': {
         const runId = args[1];
         if (!runId) throw new Error('Missing runId argument');
-        const scopeHash = await orchestrator.getApprovalScopeHash(runId);
+        const scopeHash = await ownerApprovals.getApprovalScopeHash(runId);
         console.log(`READY FOR OWNER APPROVAL\nScope hash: ${scopeHash}`);
         break;
       }
 
       case 'approve-batch': {
-        // This command records an owner approval decision.
-        // It MUST only be invoked by a human operator, never programmatically by Antigravity.
-        // Contract: "Antigravity may prepare the approval report but cannot create the owner decision."
-        // See contracts/content-factory/05-publication-and-versioning.md
+        // Human-only boundary. Automated agents may prepare the report/scope but
+        // MUST NOT invent owner identity or the exact APPROVE:<scopeHash> token.
         const runId = args[1];
         const scopeHash = args[2];
         const owner = args[3];
@@ -270,7 +268,7 @@ Status: DRAFT ONLY / READY FOR OWNER APPROVAL — CLI DOES NOT PUBLISH
           process.exit(1);
         }
 
-        const approval = await orchestrator.recordOwnerApproval({
+        const approval = await ownerApprovals.recordOwnerApproval({
           runId,
           approvedBy: owner,
           rationale,
