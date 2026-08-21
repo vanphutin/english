@@ -20,6 +20,7 @@ export * from './content-factory/storage-repository.js';
 export * from './content-factory/coverage-matrix.js';
 export * from './content-factory/manifest-planner.js';
 export * from './content-factory/cf4-level-batch-planner.js';
+export * from './content-factory/cf4-manifest-approval-gate.js';
 export * from './content-factory/ai-content-provider.js';
 export * from './content-factory/lesson-generator.js';
 export * from './content-factory/independent-reviewer.js';
