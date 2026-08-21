@@ -34,6 +34,7 @@ function batch(): Cf4LevelBatch {
     batchCode: 'C1-CF4-01',
     cefr: 'C1',
     batchIndex: 1,
+    plannedMaximumBatchSize: 5,
     reviewProfile: 'ADVANCED',
     exerciseTargetPerPoint: 30,
     requiresRegressionAfterBatch: true,
