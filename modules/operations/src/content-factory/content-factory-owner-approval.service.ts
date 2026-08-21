@@ -1,11 +1,22 @@
 import type { PrismaClient } from '@prisma/client';
+import { validateContentReviewReport } from '@english/contracts';
 import { computeSha256 } from './idempotency-lease-manager.js';
 import type {
   Cf4BatchPointResult,
   Cf4BatchReadinessReport,
 } from './cf4-level-batch.service.js';
+import {
+  getContentReviewPolicy,
+  isContentReviewReady,
+} from './independent-reviewer.js';
 import type { ContentFactoryOrchestratorService } from './content-factory-orchestrator.service.js';
 import type { ContentFactoryStorageRepository } from './storage-repository.js';
+
+interface Cf4ReadinessArtifactRef {
+  artifactPath: string;
+  contentHash: string;
+  metadataJson: unknown;
+}
 
 /**
  * Human-approval boundary shared by manifest and CF4 runs.
@@ -54,7 +65,9 @@ export class ContentFactoryOwnerApprovalService {
     }
     const approvedBy = params.approvedBy.trim();
     const rationale = params.rationale.trim();
-    if (!approvedBy || !rationale) throw new Error('OWNER_APPROVAL_IDENTITY_AND_RATIONALE_REQUIRED');
+    if (!approvedBy || !rationale) {
+      throw new Error('OWNER_APPROVAL_IDENTITY_AND_RATIONALE_REQUIRED');
+    }
 
     const approvalHash = computeSha256(
       `${params.runId}:${approvedBy}:${scopeHash}:${rationale}`,
@@ -105,7 +118,7 @@ export class ContentFactoryOwnerApprovalService {
 
   private async loadVerifiedCf4Report(
     runId: string,
-    artifact: NonNullable<Awaited<ReturnType<ContentFactoryOwnerApprovalService['findLatestCf4ReadinessArtifact']>>>,
+    artifact: Cf4ReadinessArtifactRef,
   ): Promise<Cf4BatchReadinessReport> {
     const run = await this.prisma.contentFactoryRun.findUnique({ where: { id: runId } });
     if (!run || run.status !== 'READY FOR OWNER APPROVAL') {
@@ -156,7 +169,12 @@ export class ContentFactoryOwnerApprovalService {
     for (const point of report.points) {
       if (codes.has(point.code)) throw new Error('CF4_APPROVAL_DUPLICATE_POINT_CODE');
       codes.add(point.code);
-      await this.assertPointEvidence(runId, point, report.exerciseTargetPerPoint);
+      await this.assertPointEvidence(
+        runId,
+        point,
+        report.exerciseTargetPerPoint,
+        report.reviewProfile,
+      );
     }
   }
 
@@ -164,6 +182,7 @@ export class ContentFactoryOwnerApprovalService {
     runId: string,
     point: Cf4BatchPointResult,
     expectedExerciseCount: number,
+    expectedReviewProfile: Cf4BatchReadinessReport['reviewProfile'],
   ): Promise<void> {
     if (
       !point.grammarJobId ||
@@ -175,6 +194,7 @@ export class ContentFactoryOwnerApprovalService {
       !point.exerciseJobId ||
       !point.exerciseHash ||
       !point.exerciseValidationRunId ||
+      point.reviewProfile !== expectedReviewProfile ||
       point.exerciseCount !== expectedExerciseCount ||
       point.errorCode
     ) {
@@ -234,6 +254,16 @@ export class ContentFactoryOwnerApprovalService {
       reviewRun.reportHash !== point.reviewReportHash
     ) {
       throw new Error(`CF4_APPROVAL_REVIEW_EVIDENCE_MISMATCH:${point.code}`);
+    }
+    const reviewValidation = validateContentReviewReport(reviewRun.reportJson);
+    if (
+      !reviewValidation.valid ||
+      !isContentReviewReady(
+        reviewValidation.value,
+        getContentReviewPolicy('CF4', expectedReviewProfile),
+      )
+    ) {
+      throw new Error(`CF4_APPROVAL_REVIEW_QUALITY_GATE_FAILED:${point.code}`);
     }
     if (
       !exerciseValidation ||
