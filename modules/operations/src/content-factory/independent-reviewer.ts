@@ -8,14 +8,16 @@ import type { ContentFactoryJsonProvider } from './ai-content-provider.js';
 import { computeSha256 } from './idempotency-lease-manager.js';
 import type { Cf4ReviewProfile } from './cf4-level-batch-planner.js';
 
-const STANDARD_REVIEW_PROMPT_VERSION = 'cf3-independent-review-v1';
-const ADVANCED_REVIEW_PROMPT_VERSION = 'cf4-independent-review-advanced-v1';
+export const CF3_REVIEW_PROMPT_VERSION = 'cf3-independent-review-v1';
+export const CF4_REVIEW_PROMPT_VERSION = 'cf4-independent-review-v1';
+export const CF4_ADVANCED_REVIEW_PROMPT_VERSION = 'cf4-independent-review-advanced-v1';
 
 interface ReviewPolicy {
   promptVersion: string;
   total: number;
   correctness: number;
   evaluatorReadiness: number;
+  cefrFit: number;
   minimumConfidence: number;
 }
 
@@ -38,6 +40,7 @@ export class IndependentContentReviewer {
     artifact: GrammarPointBundleSpec;
     authorProvider: string;
     authorModel: string;
+    phase?: 'CF3' | 'CF4';
     reviewProfile?: Cf4ReviewProfile;
   }): Promise<IndependentReviewResult> {
     if (
@@ -47,11 +50,15 @@ export class IndependentContentReviewer {
       throw new Error('REVIEWER_MUST_BE_INDEPENDENT_FROM_AUTHOR');
     }
 
+    const phase = params.phase ?? 'CF3';
     const reviewProfile =
       params.artifact.cefr === 'C1' || params.artifact.cefr === 'C2'
         ? 'ADVANCED'
         : (params.reviewProfile ?? 'STANDARD');
-    const policy = this.policyFor(reviewProfile);
+    if (phase === 'CF3' && reviewProfile !== 'STANDARD') {
+      throw new Error('CF3_REVIEW_PROFILE_MUST_BE_STANDARD');
+    }
+    const policy = this.policyFor(phase, reviewProfile);
     const artifactJson = JSON.stringify(params.artifact);
     const artifactHash = computeSha256(artifactJson);
     const raw = await this.reviewerProvider.generateJson({
@@ -63,11 +70,13 @@ export class IndependentContentReviewer {
       input: JSON.stringify({
         schemaVersion: '1.0',
         promptVersion: policy.promptVersion,
+        phase,
         reviewProfile,
         qualityThresholds: {
           total: policy.total,
           correctness: policy.correctness,
           evaluatorReadiness: policy.evaluatorReadiness,
+          cefrFit: policy.cefrFit,
           minimumConfidence: policy.minimumConfidence,
           openErrorOrBlockingAllowed: 0,
         },
@@ -106,26 +115,29 @@ export class IndependentContentReviewer {
         validation.value.scores.total >= policy.total &&
         validation.value.scores.correctness >= policy.correctness &&
         validation.value.scores.evaluatorReadiness >= policy.evaluatorReadiness &&
+        validation.value.scores.cefrFit >= policy.cefrFit &&
         validation.value.confidence >= policy.minimumConfidence,
       reviewProfile,
     };
   }
 
-  private policyFor(profile: Cf4ReviewProfile): ReviewPolicy {
+  private policyFor(phase: 'CF3' | 'CF4', profile: Cf4ReviewProfile): ReviewPolicy {
     if (profile === 'ADVANCED') {
       return {
-        promptVersion: ADVANCED_REVIEW_PROMPT_VERSION,
+        promptVersion: CF4_ADVANCED_REVIEW_PROMPT_VERSION,
         total: 92,
         correctness: 29,
         evaluatorReadiness: 10,
+        cefrFit: 10,
         minimumConfidence: 0.9,
       };
     }
     return {
-      promptVersion: STANDARD_REVIEW_PROMPT_VERSION,
+      promptVersion: phase === 'CF4' ? CF4_REVIEW_PROMPT_VERSION : CF3_REVIEW_PROMPT_VERSION,
       total: 88,
       correctness: 27,
       evaluatorReadiness: 9,
+      cefrFit: 8,
       minimumConfidence: 0.85,
     };
   }
