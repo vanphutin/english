@@ -26,7 +26,7 @@ async function main() {
 Content Factory CLI (CF0–CF4)
 
 Usage:
-  node scripts/content-factory-cli.js <command> [options]
+  pnpm content-factory:cli -- <command> [options]
 
 Commands:
   start-run                         Create a new ContentFactoryRun draft
@@ -117,7 +117,9 @@ Status: DRAFT ONLY / READY FOR OWNER APPROVAL — CLI DOES NOT PUBLISH
             `\n${level.cefr}: ${level.totalPoints} points / ${level.batchCount} batches / ${level.reviewProfile} review / ${level.exerciseTargetPerPoint} exercises per point`,
           );
           for (const batch of level.batches) {
-            console.log(` - ${batch.batchCode}: ${batch.points.map((point) => point.code).join(', ')}`);
+            console.log(
+              ` - ${batch.batchCode}: ${batch.points.map((point) => point.code).join(', ')}`,
+            );
           }
         }
         console.log(`\nStatus: READY TO START BOUNDED CF4 RUNS — NOT PUBLISHED`);
@@ -138,11 +140,9 @@ Status: DRAFT ONLY / READY FOR OWNER APPROVAL — CLI DOES NOT PUBLISH
           batchCode,
           maximumBatchSize,
         });
-        const result = await runtime.retryService.runWithRetries({
-          runId,
+        const result = await runtime.runBatch({
           manifestRunId,
           batch,
-          budgetPolicy: runtime.budgetPolicy,
           workerPrefix: `cf4-cli:${batchCode}`,
         });
 
@@ -169,7 +169,9 @@ Status: DRAFT ONLY / READY FOR OWNER APPROVAL — CLI DOES NOT PUBLISH
             ` - ${repair.code}: ${repair.status} grammarAttempt=${repair.grammarAttempt ?? '-'} exerciseAttempt=${repair.exerciseAttempt ?? '-'} error=${repair.errorCode ?? '-'}`,
           );
         }
-        console.log(`\nStatus: ${result.report.status === 'READY_FOR_APPROVAL' ? 'READY FOR OWNER APPROVAL' : 'DRAFT ONLY'} — NOT PUBLISHED`);
+        console.log(
+          `\nStatus: ${result.report.status === 'READY_FOR_APPROVAL' ? 'READY FOR OWNER APPROVAL' : 'DRAFT ONLY'} — NOT PUBLISHED`,
+        );
         break;
       }
 
