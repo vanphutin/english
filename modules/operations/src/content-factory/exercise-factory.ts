@@ -5,6 +5,7 @@ import type { ContentFactoryJsonProvider } from './ai-content-provider.js';
 import { computeSha256 } from './idempotency-lease-manager.js';
 
 export const CF3_EXERCISE_AUTHOR_PROMPT_VERSION = 'cf3-exercise-author-v1';
+export const CF4_EXERCISE_AUTHOR_PROMPT_VERSION = 'cf4-exercise-author-v1';
 
 type ActivityType =
   | 'TRANSLATE_CONTEXT'
@@ -76,9 +77,9 @@ export interface ExerciseFactoryResult {
 }
 
 /**
- * Minimal CF3 exercise factory. It runs only after GrammarPoint deterministic
- * validation and fails closed unless the readiness, diversity, duplicate, and
- * independent target/ambiguity/evaluator preflight gates all pass.
+ * Exercise factory shared by CF3/CF4. It runs only after GrammarPoint
+ * deterministic validation and fails closed unless readiness, diversity,
+ * duplicate, and independent target/ambiguity/evaluator preflight gates pass.
  */
 export class ExerciseFactory {
   private readonly validator = new ContentFactoryValidator();
@@ -92,6 +93,7 @@ export class ExerciseFactory {
     grammarPoint: GrammarPointBundleSpec;
     count?: number;
     seed?: string;
+    promptVersion?: string;
   }): Promise<ExerciseAuthoringBatchSpec> {
     return (await this.generateMinimumBankWithEvidence(params)).batch;
   }
@@ -100,9 +102,11 @@ export class ExerciseFactory {
     grammarPoint: GrammarPointBundleSpec;
     count?: number;
     seed?: string;
+    promptVersion?: string;
   }): Promise<ExerciseFactoryResult> {
     const count = params.count ?? 12;
     if (count < 12 || count > 30) throw new Error('EXERCISE_COUNT_MUST_BE_12_TO_30');
+    const promptVersion = params.promptVersion ?? CF3_EXERCISE_AUTHOR_PROMPT_VERSION;
 
     const grammarValidation = this.validator.validateGrammarPointArtifact(
       params.grammarPoint,
@@ -118,7 +122,7 @@ export class ExerciseFactory {
         'Author an original exercise bank for the supplied validated GrammarPoint. Return JSON only. Do not publish content. Do not leak exact answers in prompts or hints.',
       input: JSON.stringify({
         schemaVersion: '1.0',
-        promptVersion: CF3_EXERCISE_AUTHOR_PROMPT_VERSION,
+        promptVersion,
         grammarPoint: params.grammarPoint,
         grammarPointHash,
         seed,
@@ -155,7 +159,7 @@ export class ExerciseFactory {
         origin: 'AI_DRAFT',
         provider: this.authorProvider.provider,
         model: this.authorProvider.model,
-        promptVersion: CF3_EXERCISE_AUTHOR_PROMPT_VERSION,
+        promptVersion,
         generatedAt: new Date().toISOString(),
       },
     } as unknown as ExerciseAuthoringBatchSpec;

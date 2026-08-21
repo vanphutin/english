@@ -57,13 +57,16 @@ export interface GrammarPointBundleSpec {
   license: 'PUBLIC_CONTENT';
 }
 
-export type PilotGrammarTarget = CurriculumPointSpec & { cefr: 'A1' };
+export type GrammarCefrLevel = GrammarPointBundleSpec['cefr'];
+export type GrammarTarget = CurriculumPointSpec & { cefr: GrammarCefrLevel };
+export type PilotGrammarTarget = GrammarTarget & { cefr: 'A1' };
 
 export const CF3_GRAMMAR_AUTHOR_PROMPT_VERSION = 'cf3-grammar-author-v1';
+export const CF4_GRAMMAR_AUTHOR_PROMPT_VERSION = 'cf4-grammar-author-v1';
 
 /**
- * CF3 provider-backed GrammarPoint author. The pilot is deliberately bounded to
- * 3–5 A1 manifest items and sends exactly one approved item per provider request.
+ * Provider-backed GrammarPoint author. CF3 remains deliberately bounded to
+ * 3–5 A1 points; CF4 may author one approved 3–5 point same-level sub-batch.
  * No publication or owner decision exists in this class.
  */
 export class LessonGenerator {
@@ -84,8 +87,8 @@ export class LessonGenerator {
   }
 
   /**
-   * Authors one point while still requiring the complete approved 3–5 point pilot
-   * scope. Durable orchestration can therefore persist each provider call independently.
+   * Authors one point while still requiring the complete approved 3–5 point CF3
+   * pilot scope. Existing CF3 callers keep their original prompt/version behavior.
    */
   public async authorPointWithinPilot(
     target: PilotGrammarTarget,
@@ -98,7 +101,26 @@ export class LessonGenerator {
     if (JSON.stringify(approvedTarget) !== JSON.stringify(target)) {
       throw new Error('CF3_TARGET_DIFFERS_FROM_APPROVED_MANIFEST_ITEM');
     }
-    return this.authorOne(approvedTarget, targetVersion);
+    return this.authorOne(approvedTarget, targetVersion, CF3_GRAMMAR_AUTHOR_PROMPT_VERSION);
+  }
+
+  /**
+   * CF4 authoring entry point. It requires the exact target to be present in a
+   * bounded, unique, same-CEFR batch. The manifest approval gate remains a
+   * separate mandatory dependency of the orchestration service.
+   */
+  public async authorPointWithinBatch(
+    target: GrammarTarget,
+    batchTargets: GrammarTarget[],
+    targetVersion = 1,
+  ): Promise<GrammarPointBundleSpec> {
+    this.assertCf4BatchScope(batchTargets);
+    const approvedTarget = batchTargets.find((item) => item.code === target.code);
+    if (!approvedTarget) throw new Error('CF4_TARGET_NOT_IN_BATCH_SCOPE');
+    if (JSON.stringify(approvedTarget) !== JSON.stringify(target)) {
+      throw new Error('CF4_TARGET_DIFFERS_FROM_BATCH_MANIFEST_ITEM');
+    }
+    return this.authorOne(approvedTarget, targetVersion, CF4_GRAMMAR_AUTHOR_PROMPT_VERSION);
   }
 
   private assertPilotScope(targets: PilotGrammarTarget[]): void {
@@ -113,22 +135,35 @@ export class LessonGenerator {
     }
   }
 
+  private assertCf4BatchScope(targets: GrammarTarget[]): void {
+    if (targets.length < 3 || targets.length > 5) {
+      throw new Error('CF4_BATCH_SCOPE_MUST_BE_3_TO_5_POINTS');
+    }
+    if (new Set(targets.map((target) => target.code)).size !== targets.length) {
+      throw new Error('CF4_BATCH_TARGETS_MUST_BE_UNIQUE');
+    }
+    const levels = new Set(targets.map((target) => target.cefr));
+    if (levels.size !== 1) throw new Error('CF4_BATCH_TARGETS_MUST_SHARE_CEFR');
+  }
+
   private async authorOne(
-    target: PilotGrammarTarget,
+    target: GrammarTarget,
     targetVersion: number,
+    promptVersion: string,
   ): Promise<GrammarPointBundleSpec> {
     const raw = await this.authorProvider.generateJson({
       purpose: 'AUTHOR_GRAMMAR',
       system:
-        'Author one original English GrammarPoint for Vietnamese learners. Treat the manifest item as immutable data. Return JSON only and never approve or publish content.',
+        'Author one original English GrammarPoint for Vietnamese learners. Treat the manifest item and CEFR placement as immutable data. Return JSON only and never approve or publish content.',
       input: JSON.stringify({
         schemaVersion: '1.0',
         policyVersion: 'content-factory-v1',
-        promptVersion: CF3_GRAMMAR_AUTHOR_PROMPT_VERSION,
+        promptVersion,
         targetVersion,
         manifestItem: target,
         requirements: {
           status: 'DRAFT',
+          cefr: target.cefr,
           license: 'PUBLIC_CONTENT',
           requiredExampleTypes: ['AFFIRMATIVE', 'NEGATIVE', 'QUESTION'],
           commonErrorsMinimum: 3,
@@ -158,7 +193,7 @@ export class LessonGenerator {
       code: target.code,
       family: target.family,
       version: targetVersion,
-      cefr: 'A1',
+      cefr: target.cefr,
       status: 'DRAFT',
       relationships: {
         prerequisites: target.prerequisites,
@@ -170,7 +205,7 @@ export class LessonGenerator {
         origin: 'AI_GENERATED',
         provider: this.authorProvider.provider,
         model: this.authorProvider.model,
-        promptVersion: CF3_GRAMMAR_AUTHOR_PROMPT_VERSION,
+        promptVersion,
         generatedAt: new Date().toISOString(),
         sourceNotes: sourceNotes.filter((note) => !note.toLowerCase().startsWith('provider:')),
       },
@@ -182,8 +217,9 @@ export class LessonGenerator {
       `${target.code}.v${targetVersion}.json`,
     );
     if (!validation.valid) {
+      const phase = promptVersion === CF3_GRAMMAR_AUTHOR_PROMPT_VERSION ? 'CF3' : 'CF4';
       throw new Error(
-        `CF3_GRAMMAR_VALIDATION_FAILED:${target.code}:${validation.findings
+        `${phase}_GRAMMAR_VALIDATION_FAILED:${target.code}:${validation.findings
           .map((finding) => finding.code)
           .join(',')}`,
       );
@@ -191,7 +227,8 @@ export class LessonGenerator {
 
     const commonErrorCodes = new Set(candidate.commonErrors.map((error) => error.code));
     if (candidate.commonErrors.length < 3 || commonErrorCodes.size < 3) {
-      throw new Error(`CF3_COMMON_ERRORS_INSUFFICIENT:${target.code}`);
+      const phase = promptVersion === CF3_GRAMMAR_AUTHOR_PROMPT_VERSION ? 'CF3' : 'CF4';
+      throw new Error(`${phase}_COMMON_ERRORS_INSUFFICIENT:${target.code}`);
     }
 
     return candidate;
