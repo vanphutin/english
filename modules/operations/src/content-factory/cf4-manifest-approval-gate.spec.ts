@@ -30,7 +30,7 @@ function point(code: string, sortOrder: number): CurriculumPointSpec {
   };
 }
 
-function approvedManifest(): AutonomousManifest {
+function approvedManifest(pointCount = 5): AutonomousManifest {
   return {
     schemaVersion: '1.0',
     manifestCode: 'APPROVED_CF4_TEST',
@@ -47,7 +47,9 @@ function approvedManifest(): AutonomousManifest {
             code: 'B2_U01',
             titleVi: 'Unit',
             sortOrder: 1,
-            points: Array.from({ length: 5 }, (_, index) => point(`B2_P${index + 1}`, index + 1)),
+            points: Array.from({ length: pointCount }, (_, index) =>
+              point(`B2_P${index + 1}`, index + 1),
+            ),
           },
         ],
       },
@@ -96,6 +98,17 @@ describe('PrismaCf4ManifestApprovalGate', () => {
     const batch = new Cf4LevelBatchPlanner().plan(manifest).levels[0]!.batches[0]!;
     const gate = new PrismaCf4ManifestApprovalGate(fakePrisma(), fakeStorage(manifest));
 
+    await expect(
+      gate.assertApprovedBatch({ manifestRunId: 'manifest-run', batch }),
+    ).resolves.toBeUndefined();
+  });
+
+  it('replays a non-default safe partition using its pinned maximum batch size', async () => {
+    const manifest = approvedManifest(8);
+    const batch = new Cf4LevelBatchPlanner().plan(manifest, 4).levels[0]!.batches[0]!;
+    const gate = new PrismaCf4ManifestApprovalGate(fakePrisma(), fakeStorage(manifest));
+
+    expect(batch.plannedMaximumBatchSize).toBe(4);
     await expect(
       gate.assertApprovedBatch({ manifestRunId: 'manifest-run', batch }),
     ).resolves.toBeUndefined();
