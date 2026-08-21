@@ -35,11 +35,14 @@ function point(code: string, sortOrder: number): Cf4BatchPoint {
   };
 }
 
-function batch(points = [point('A1_P1', 1), point('A1_P2', 2), point('A1_P3', 3)]): Cf4LevelBatch {
+function batch(
+  points = [point('A1_P1', 1), point('A1_P2', 2), point('A1_P3', 3)],
+): Cf4LevelBatch {
   return {
     batchCode: 'A1-CF4-01',
     cefr: 'A1',
     batchIndex: 1,
+    plannedMaximumBatchSize: 5,
     reviewProfile: 'STANDARD',
     exerciseTargetPerPoint: 20,
     requiresRegressionAfterBatch: true,
