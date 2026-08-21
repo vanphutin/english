@@ -8,8 +8,13 @@ import { BudgetedContentFactoryJsonProvider } from './budgeted-content-provider.
 import { Cf4ApprovedBatchRepository } from './cf4-approved-batch-repository.js';
 import { Cf4ExecutionControl } from './cf4-execution-control.js';
 import { Cf4LevelBatchService } from './cf4-level-batch.service.js';
+import type { Cf4LevelBatch } from './cf4-level-batch-planner.js';
 import { PrismaCf4ManifestApprovalGate } from './cf4-manifest-approval-gate.js';
-import { Cf4RetryBudgetService, type Cf4RetryBudgetPolicy } from './cf4-retry-budget.service.js';
+import {
+  Cf4RetryBudgetService,
+  type Cf4RetryBudgetPolicy,
+  type Cf4RetryBudgetRunResult,
+} from './cf4-retry-budget.service.js';
 import { ContentFactoryOrchestratorService } from './content-factory-orchestrator.service.js';
 import { ExerciseFactory } from './exercise-factory.js';
 import { IndependentContentReviewer } from './independent-reviewer.js';
@@ -29,9 +34,14 @@ export interface Cf4RuntimeProviderSummary {
 
 export interface Cf4Runtime {
   batchRepository: Cf4ApprovedBatchRepository;
-  retryService: Cf4RetryBudgetService;
   budgetPolicy: Partial<Cf4RetryBudgetPolicy>;
   providers: Cf4RuntimeProviderSummary;
+  runBatch(params: {
+    manifestRunId: string;
+    batch: Cf4LevelBatch;
+    targetVersion?: number;
+    workerPrefix?: string;
+  }): Promise<Cf4RetryBudgetRunResult>;
 }
 
 type Env = Record<string, string | undefined>;
@@ -178,41 +188,62 @@ export async function createCf4Runtime(params: {
     reviewRuns,
     storage,
   );
+  const budgetPolicy: Partial<Cf4RetryBudgetPolicy> = {
+    grammar: {
+      outputTokens: positiveInteger(env.CONTENT_FACTORY_GRAMMAR_OUTPUT_TOKENS, 3500),
+      estimatedCost: nonNegativeNumber(env.CONTENT_FACTORY_GRAMMAR_ESTIMATED_COST, 0),
+    },
+    review: {
+      outputTokens: positiveInteger(env.CONTENT_FACTORY_REVIEW_OUTPUT_TOKENS, 2200),
+      estimatedCost: nonNegativeNumber(env.CONTENT_FACTORY_REVIEW_ESTIMATED_COST, 0),
+    },
+    exerciseOutputTokensPerItem: positiveInteger(
+      env.CONTENT_FACTORY_EXERCISE_OUTPUT_TOKENS_PER_ITEM,
+      350,
+    ),
+    exerciseEstimatedCost: nonNegativeNumber(
+      env.CONTENT_FACTORY_EXERCISE_ESTIMATED_COST,
+      0,
+    ),
+    conservativeInputTokensPerReviewedGrammar: positiveInteger(
+      env.CONTENT_FACTORY_REVIEW_INPUT_TOKEN_RESERVE,
+      4500,
+    ),
+    conservativeInputTokensPerExerciseBank: positiveInteger(
+      env.CONTENT_FACTORY_EXERCISE_INPUT_TOKEN_RESERVE,
+      5000,
+    ),
+  };
 
   return {
     batchRepository: new Cf4ApprovedBatchRepository(params.prisma, storage),
-    retryService,
-    budgetPolicy: {
-      grammar: {
-        outputTokens: positiveInteger(env.CONTENT_FACTORY_GRAMMAR_OUTPUT_TOKENS, 3500),
-        estimatedCost: nonNegativeNumber(env.CONTENT_FACTORY_GRAMMAR_ESTIMATED_COST, 0),
-      },
-      review: {
-        outputTokens: positiveInteger(env.CONTENT_FACTORY_REVIEW_OUTPUT_TOKENS, 2200),
-        estimatedCost: nonNegativeNumber(env.CONTENT_FACTORY_REVIEW_ESTIMATED_COST, 0),
-      },
-      exerciseOutputTokensPerItem: positiveInteger(
-        env.CONTENT_FACTORY_EXERCISE_OUTPUT_TOKENS_PER_ITEM,
-        350,
-      ),
-      exerciseEstimatedCost: nonNegativeNumber(
-        env.CONTENT_FACTORY_EXERCISE_ESTIMATED_COST,
-        0,
-      ),
-      conservativeInputTokensPerReviewedGrammar: positiveInteger(
-        env.CONTENT_FACTORY_REVIEW_INPUT_TOKEN_RESERVE,
-        4500,
-      ),
-      conservativeInputTokensPerExerciseBank: positiveInteger(
-        env.CONTENT_FACTORY_EXERCISE_INPUT_TOKEN_RESERVE,
-        5000,
-      ),
-    },
+    budgetPolicy,
     providers: {
       author: { provider: authorProvider.provider, model: authorProvider.model },
       reviewer: { provider: reviewerProvider.provider, model: reviewerProvider.model },
       preflight: { provider: rawPreflightProvider.provider, model: rawPreflightProvider.model },
       secondaryProbeStatus,
+    },
+    async runBatch(runParams): Promise<Cf4RetryBudgetRunResult> {
+      const targetVersion = runParams.targetVersion ?? 1;
+      await execution.assertOrBindRunScope({
+        runId: params.runId,
+        scope: {
+          phase: 'CF4',
+          manifestRunId: runParams.manifestRunId,
+          batchCode: runParams.batch.batchCode,
+          plannedMaximumBatchSize: runParams.batch.plannedMaximumBatchSize,
+          targetVersion,
+        },
+      });
+      return retryService.runWithRetries({
+        runId: params.runId,
+        manifestRunId: runParams.manifestRunId,
+        batch: runParams.batch,
+        targetVersion,
+        ...(runParams.workerPrefix ? { workerPrefix: runParams.workerPrefix } : {}),
+        budgetPolicy,
+      });
     },
   };
 }
