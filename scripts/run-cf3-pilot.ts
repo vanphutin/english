@@ -32,8 +32,7 @@ const positiveInteger = (value: string | undefined, fallback: number): number =>
   return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
 };
 
-const isEnabled = (value: string | undefined): boolean =>
-  value?.trim().toLowerCase() === 'true';
+const isEnabled = (value: string | undefined): boolean => value?.trim().toLowerCase() === 'true';
 
 const asRecord = (value: unknown, errorCode: string): Record<string, unknown> => {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(errorCode);
