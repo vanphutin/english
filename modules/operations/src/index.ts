@@ -23,6 +23,8 @@ export * from './content-factory/cf4-level-batch-planner.js';
 export * from './content-factory/cf4-manifest-approval-gate.js';
 export * from './content-factory/cf4-batch-regression.js';
 export * from './content-factory/cf4-level-batch.service.js';
+export * from './content-factory/cf4-execution-control.js';
+export * from './content-factory/cf4-resilient-level-batch.service.js';
 export * from './content-factory/ai-content-provider.js';
 export * from './content-factory/lesson-generator.js';
 export * from './content-factory/independent-reviewer.js';
