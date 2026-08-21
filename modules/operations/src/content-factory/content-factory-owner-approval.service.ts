@@ -226,7 +226,9 @@ export class ContentFactoryOwnerApprovalService {
     if (
       !reviewJob ||
       reviewJob.runId !== runId ||
-      reviewJob.state !== 'READY_FOR_APPROVAL'
+      reviewJob.state !== 'READY_FOR_APPROVAL' ||
+      reviewJob.inputHash !== point.grammarHash ||
+      reviewJob.outputHash !== point.reviewReportHash
     ) {
       throw new Error(`CF4_APPROVAL_REVIEW_JOB_MISMATCH:${point.code}`);
     }
@@ -249,6 +251,7 @@ export class ContentFactoryOwnerApprovalService {
     if (
       !reviewRun ||
       reviewRun.runId !== runId ||
+      reviewRun.jobId !== point.reviewJobId ||
       reviewRun.decision !== 'PASS' ||
       reviewRun.artifactHash !== point.grammarHash ||
       reviewRun.reportHash !== point.reviewReportHash
@@ -258,6 +261,9 @@ export class ContentFactoryOwnerApprovalService {
     const reviewValidation = validateContentReviewReport(reviewRun.reportJson);
     if (
       !reviewValidation.valid ||
+      reviewRun.promptVersion !== reviewValidation.value.reviewer.promptVersion ||
+      reviewRun.reviewerProvider !== reviewValidation.value.reviewer.provider ||
+      reviewRun.reviewerModel !== reviewValidation.value.reviewer.model ||
       !isContentReviewReady(
         reviewValidation.value,
         getContentReviewPolicy('CF4', expectedReviewProfile),
