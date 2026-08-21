@@ -22,7 +22,9 @@ export interface ExerciseItemSpec {
   activityType: ActivityType;
   topicCode: string;
   contextVi: string;
+  sourceTextVi: string;
   instructionVi: string;
+  promptPayload: Record<string, unknown>;
   targetNecessity: string;
   semanticRequirements: string[];
   allowedAnswers: string[];
@@ -86,11 +88,9 @@ export interface ExerciseFactoryResult {
 type ExercisePreflight = ExercisePreflightPort | ExerciseBatchPreflightPort;
 
 /**
- * Exercise factory shared by CF3/CF4. It runs only after GrammarPoint
- * deterministic validation and fails closed unless readiness, diversity,
- * duplicate, and independent target/ambiguity/evaluator preflight gates pass.
- * Production CF4 may use one independent batch preflight call; legacy/test
- * implementations may continue evaluating one item at a time.
+ * Exercise factory shared by CF3/CF4. Learner-facing source/presentation data is
+ * pinned in the same immutable artifact as evaluator truth, but promptPayload
+ * is validated to exclude evaluator-only answer fields.
  */
 export class ExerciseFactory {
   private readonly validator = new ContentFactoryValidator();
@@ -130,13 +130,37 @@ export class ExerciseFactory {
     const raw = await this.authorProvider.generateJson({
       purpose: 'AUTHOR_EXERCISES',
       system:
-        'Author an original exercise bank for the supplied validated GrammarPoint. Return JSON only. Do not publish content. Do not leak exact answers in prompts or hints.',
+        'Author an original exercise bank for the supplied validated GrammarPoint. Return JSON only. Every exercise must include sourceTextVi and a presentation-only promptPayload appropriate to its activity type. Never place allowedAnswers, reference answers, correct answers, grading rubrics, evaluator notes, or hidden solution data inside promptPayload, sourceTextVi, contextVi, instructions, or hints. Do not publish content.',
       input: JSON.stringify({
         schemaVersion: '1.0',
         promptVersion,
         grammarPoint: params.grammarPoint,
         grammarPointHash,
         seed,
+        presentationContract: {
+          sourceTextVi: 'Exact learner-visible task/source text, distinct from the general instruction.',
+          promptPayloadByActivity: {
+            TRANSLATE_CONTEXT: {},
+            CORRECT_ERROR: { incorrectSentence: 'string' },
+            TRANSFORM_SENTENCE: {
+              sourceSentence: 'string',
+              transformationGoalVi: 'string',
+            },
+            COMPLETE_SENTENCE: { starter: 'string' },
+            ORDER_WORDS: { wordBank: ['string'] },
+            SELECT_IN_CONTEXT: { choices: ['string', 'string'] },
+            GUIDED_WRITING: { requiredElements: ['string'] },
+            MINI_DIALOGUE: {},
+          },
+          evaluatorOnlyKeysForbiddenFromPromptPayload: [
+            'allowedAnswers',
+            'referenceAnswers',
+            'correctAnswer',
+            'answerKey',
+            'rubric',
+            'evaluationPolicy',
+          ],
+        },
         requirements: {
           exactExerciseCount: count,
           minimumActivityTypes: 4,
@@ -211,9 +235,9 @@ export class ExerciseFactory {
       }
       semanticHashes.add(exercise.semanticHash);
 
-      const exactKey = `${exercise.contextVi.trim().toLowerCase()}|${exercise.instructionVi
+      const exactKey = `${exercise.contextVi.trim().toLowerCase()}|${exercise.sourceTextVi
         .trim()
-        .toLowerCase()}`;
+        .toLowerCase()}|${exercise.instructionVi.trim().toLowerCase()}`;
       if (exactPrompts.has(exactKey)) throw new Error('EXERCISE_EXACT_DUPLICATE');
       exactPrompts.add(exactKey);
 
@@ -225,6 +249,10 @@ export class ExerciseFactory {
       if (exercise.targetNecessity.trim().length < 10) {
         throw new Error('EXERCISE_TARGET_NECESSITY_UNPROVEN');
       }
+      if (exercise.sourceTextVi.trim().length < 2) {
+        throw new Error(`EXERCISE_SOURCE_TEXT_REQUIRED:${exercise.contentKey}`);
+      }
+      this.assertPresentationPayload(exercise);
     }
 
     if (activityCounts.size < 4) throw new Error('EXERCISE_ACTIVITY_DIVERSITY_INSUFFICIENT');
@@ -233,6 +261,92 @@ export class ExerciseFactory {
     const maximumActivityCount = Math.max(...activityCounts.values());
     if (maximumActivityCount / batch.exercises.length > 0.4) {
       throw new Error('EXERCISE_ACTIVITY_CONCENTRATION_EXCEEDED');
+    }
+  }
+
+  private assertPresentationPayload(exercise: ExerciseItemSpec): void {
+    const payload = exercise.promptPayload;
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+      throw new Error(`EXERCISE_PROMPT_PAYLOAD_INVALID:${exercise.contentKey}`);
+    }
+    this.assertNoEvaluatorKeys(payload, exercise.contentKey);
+
+    switch (exercise.activityType) {
+      case 'CORRECT_ERROR':
+        this.requirePayloadString(payload, 'incorrectSentence', exercise.contentKey);
+        break;
+      case 'TRANSFORM_SENTENCE':
+        this.requirePayloadString(payload, 'sourceSentence', exercise.contentKey);
+        this.requirePayloadString(payload, 'transformationGoalVi', exercise.contentKey);
+        break;
+      case 'COMPLETE_SENTENCE':
+        this.requirePayloadString(payload, 'starter', exercise.contentKey);
+        break;
+      case 'ORDER_WORDS':
+        this.requirePayloadStringArray(payload, 'wordBank', exercise.contentKey, 2);
+        break;
+      case 'SELECT_IN_CONTEXT':
+        this.requirePayloadStringArray(payload, 'choices', exercise.contentKey, 2);
+        break;
+      case 'GUIDED_WRITING':
+        this.requirePayloadStringArray(payload, 'requiredElements', exercise.contentKey, 1);
+        break;
+      case 'TRANSLATE_CONTEXT':
+      case 'MINI_DIALOGUE':
+        break;
+    }
+  }
+
+  private assertNoEvaluatorKeys(value: unknown, contentKey: string): void {
+    const forbidden = new Set([
+      'allowedanswers',
+      'referenceanswers',
+      'correctanswer',
+      'answerkey',
+      'rubric',
+      'evaluationpolicy',
+      'validationnotes',
+    ]);
+    const visit = (node: unknown): void => {
+      if (Array.isArray(node)) {
+        for (const item of node) visit(item);
+        return;
+      }
+      if (!node || typeof node !== 'object') return;
+      for (const [key, nested] of Object.entries(node as Record<string, unknown>)) {
+        if (forbidden.has(key.toLowerCase())) {
+          throw new Error(`EXERCISE_PROMPT_PAYLOAD_LEAKS_EVALUATOR_DATA:${contentKey}:${key}`);
+        }
+        visit(nested);
+      }
+    };
+    visit(value);
+  }
+
+  private requirePayloadString(
+    payload: Record<string, unknown>,
+    key: string,
+    contentKey: string,
+  ): void {
+    const value = payload[key];
+    if (typeof value !== 'string' || value.trim().length === 0) {
+      throw new Error(`EXERCISE_PROMPT_PAYLOAD_FIELD_REQUIRED:${contentKey}:${key}`);
+    }
+  }
+
+  private requirePayloadStringArray(
+    payload: Record<string, unknown>,
+    key: string,
+    contentKey: string,
+    minimum: number,
+  ): void {
+    const value = payload[key];
+    if (
+      !Array.isArray(value) ||
+      value.length < minimum ||
+      value.some((item) => typeof item !== 'string' || item.trim().length === 0)
+    ) {
+      throw new Error(`EXERCISE_PROMPT_PAYLOAD_FIELD_REQUIRED:${contentKey}:${key}`);
     }
   }
 
