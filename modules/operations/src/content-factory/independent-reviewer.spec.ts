@@ -104,7 +104,7 @@ class FakeReviewer implements ContentFactoryJsonProvider {
 }
 
 describe('IndependentContentReviewer', () => {
-  it('stamps trusted reviewer metadata and applies the quality gate', async () => {
+  it('stamps trusted reviewer metadata and applies the CF3 quality gate', async () => {
     const reviewer = new IndependentContentReviewer(new FakeReviewer());
     const result = await reviewer.reviewGrammarPoint({
       runId: '11111111-1111-4111-8111-111111111111',
@@ -118,6 +118,22 @@ describe('IndependentContentReviewer', () => {
     expect(result.report.reviewer.provider).toBe('SECONDARY_OPENAI_COMPATIBLE');
     expect(result.report.reviewer.model).toBe('reviewer-model');
     expect(result.report.reviewer.promptVersion).toBe('cf3-independent-review-v1');
+    expect(result.reviewProfile).toBe('STANDARD');
+    expect(result.readyForOwnerApproval).toBe(true);
+  });
+
+  it('pins a distinct standard reviewer prompt for CF4 A1-B2 batches', async () => {
+    const reviewer = new IndependentContentReviewer(new FakeReviewer());
+    const result = await reviewer.reviewGrammarPoint({
+      runId: '11111111-1111-4111-8111-111111111111',
+      artifact,
+      authorProvider: 'OPENAI',
+      authorModel: 'author-model',
+      phase: 'CF4',
+      reviewProfile: 'STANDARD',
+    });
+
+    expect(result.report.reviewer.promptVersion).toBe('cf4-independent-review-v1');
     expect(result.reviewProfile).toBe('STANDARD');
     expect(result.readyForOwnerApproval).toBe(true);
   });
@@ -147,6 +163,7 @@ describe('IndependentContentReviewer', () => {
       artifact: advancedArtifact,
       authorProvider: 'OPENAI',
       authorModel: 'author-model',
+      phase: 'CF4',
       reviewProfile: 'STANDARD',
     });
 
