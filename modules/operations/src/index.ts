@@ -28,6 +28,8 @@ export * from './content-factory/cf4-execution-control.js';
 export * from './content-factory/cf4-retry-budget.service.js';
 export * from './content-factory/cf4-runtime.js';
 export * from './content-factory/content-factory-owner-approval.service.js';
+export * from './content-factory/cf5-controlled-publication.service.js';
+export * from './content-factory/cf5-curriculum-release.service.js';
 export * from './content-factory/ai-content-provider.js';
 export * from './content-factory/budgeted-content-provider.js';
 export * from './content-factory/ai-exercise-batch-preflight.js';
