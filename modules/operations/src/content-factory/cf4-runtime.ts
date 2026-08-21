@@ -55,9 +55,10 @@ export async function createCf4Runtime(params: {
 
   const openAiKey = requireValue(env.OPENAI_API_KEY, 'OPENAI_API_KEY_REQUIRED');
   const authorChoice = parseAuthorChoice(env.CONTENT_FACTORY_AUTHOR_PROVIDER);
-  const openAiAuthorModel = env.OPENAI_AUTHORING_MODEL?.trim() || env.OPENAI_MODEL?.trim() || 'gpt-5-mini';
+  const openAiAuthorModel =
+    env.OPENAI_AUTHORING_MODEL?.trim() || env.OPENAI_MODEL?.trim() || 'gpt-5-mini';
   const openAiReviewModel = requireValue(
-    env.OPENAI_REVIEW_MODEL?.trim() || env.OPENAI_MODEL?.trim(),
+    env.OPENAI_REVIEW_MODEL,
     'OPENAI_REVIEW_MODEL_REQUIRED',
   );
   const openAiPreflightModel = env.OPENAI_PREFLIGHT_MODEL?.trim() || openAiReviewModel;
@@ -249,20 +250,26 @@ function isTrue(value: string | undefined): boolean {
 function positiveInteger(value: string | undefined, fallback: number): number {
   if (value === undefined || value.trim() === '') return fallback;
   const parsed = Number(value);
-  if (!Number.isSafeInteger(parsed) || parsed <= 0) throw new Error('CF4_RUNTIME_INTEGER_CONFIG_INVALID');
+  if (!Number.isSafeInteger(parsed) || parsed <= 0) {
+    throw new Error('CF4_RUNTIME_INTEGER_CONFIG_INVALID');
+  }
   return parsed;
 }
 
 function nonNegativeInteger(value: string | undefined, fallback: number): number {
   if (value === undefined || value.trim() === '') return fallback;
   const parsed = Number(value);
-  if (!Number.isSafeInteger(parsed) || parsed < 0) throw new Error('CF4_RUNTIME_INTEGER_CONFIG_INVALID');
+  if (!Number.isSafeInteger(parsed) || parsed < 0) {
+    throw new Error('CF4_RUNTIME_INTEGER_CONFIG_INVALID');
+  }
   return parsed;
 }
 
 function nonNegativeNumber(value: string | undefined, fallback: number): number {
   if (value === undefined || value.trim() === '') return fallback;
   const parsed = Number(value);
-  if (!Number.isFinite(parsed) || parsed < 0) throw new Error('CF4_RUNTIME_NUMBER_CONFIG_INVALID');
+  if (!Number.isFinite(parsed) || parsed < 0) {
+    throw new Error('CF4_RUNTIME_NUMBER_CONFIG_INVALID');
+  }
   return parsed;
 }
