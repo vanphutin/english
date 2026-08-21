@@ -1,8 +1,21 @@
+import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
 import { ContentFactoryOrchestratorService } from '../modules/operations/src/content-factory/content-factory-orchestrator.service.js';
+import { ContentFactoryStorageRepository } from '../modules/operations/src/content-factory/storage-repository.js';
+import { Cf4ApprovedBatchRepository } from '../modules/operations/src/content-factory/cf4-approved-batch-repository.js';
+import { createCf4Runtime } from '../modules/operations/src/content-factory/cf4-runtime.js';
 
 const prisma = new PrismaClient();
 const orchestrator = new ContentFactoryOrchestratorService(prisma);
+
+function optionalBatchSize(value: string | undefined): number {
+  if (!value) return 5;
+  const parsed = Number(value);
+  if (!Number.isSafeInteger(parsed) || parsed < 3 || parsed > 5) {
+    throw new Error('CF4_BATCH_SIZE_MUST_BE_3_TO_5');
+  }
+  return parsed;
+}
 
 async function main() {
   const args = process.argv.slice(2);
@@ -10,7 +23,7 @@ async function main() {
 
   if (!command || command === '--help' || command === 'help') {
     console.log(`
-Content Factory CLI (CF0–CF2)
+Content Factory CLI (CF0–CF4)
 
 Usage:
   node scripts/content-factory-cli.js <command> [options]
@@ -18,6 +31,10 @@ Usage:
 Commands:
   start-run                         Create a new ContentFactoryRun draft
   plan-manifest <runId>             Generate and validate autonomous manifest (CF2)
+  cf4-plan-batches <manifestRunId> [maxBatchSize]
+                                    List exact CF4 batches from an OWNER APPROVED manifest
+  cf4-run-batch <runId> <manifestRunId> <batchCode> [maxBatchSize]
+                                    Run one approved CF4 batch through author/review/exercise/preflight/regression/retry
   enqueue <runId> <code> <content>  Enqueue a job
   claim-next <workerId> [runId]     Worker claims next available job
   status <runId>                    View run status and statistics
@@ -25,7 +42,13 @@ Commands:
   approve-batch <runId> <scopeHash> <owner> <rationale> <APPROVE:scopeHash>
                                     Record owner approval (human-only operation)
 
-Status: DRAFT ONLY — NOT READY FOR OWNER APPROVAL — NOT PUBLISHED
+CF4 provider config:
+  CONTENT_FACTORY_AUTHOR_PROVIDER=OPENAI|SECONDARY
+  OPENAI_API_KEY, OPENAI_AUTHORING_MODEL, OPENAI_REVIEW_MODEL
+  SECONDARY requires SECONDARY_AI_ENABLED=true,
+  CONTENT_FACTORY_SECONDARY_GOLDEN_APPROVED=true, and a VERIFIED live capability probe.
+
+Status: DRAFT ONLY / READY FOR OWNER APPROVAL — CLI DOES NOT PUBLISH
 `);
     return;
   }
@@ -72,6 +95,81 @@ Status: DRAFT ONLY — NOT READY FOR OWNER APPROVAL — NOT PUBLISHED
             `   [${detail.covered ? '✓' : '✗'}] ${detail.dimension}: ${detail.count} points`,
           );
         }
+        break;
+      }
+
+      case 'cf4-plan-batches': {
+        const manifestRunId = args[1];
+        if (!manifestRunId) throw new Error('Missing manifestRunId argument');
+        const maximumBatchSize = optionalBatchSize(args[2]);
+        const repository = new Cf4ApprovedBatchRepository(
+          prisma,
+          new ContentFactoryStorageRepository(),
+        );
+        const plan = await repository.loadPlan(manifestRunId, maximumBatchSize);
+        console.log(`\n==================================================`);
+        console.log(`✅ CF4 APPROVED MANIFEST BATCH PLAN`);
+        console.log(`==================================================`);
+        console.log(`Manifest: ${plan.manifestCode} v${plan.manifestVersion}`);
+        console.log(`Maximum batch size: ${plan.maximumBatchSize}`);
+        for (const level of plan.levels) {
+          console.log(
+            `\n${level.cefr}: ${level.totalPoints} points / ${level.batchCount} batches / ${level.reviewProfile} review / ${level.exerciseTargetPerPoint} exercises per point`,
+          );
+          for (const batch of level.batches) {
+            console.log(` - ${batch.batchCode}: ${batch.points.map((point) => point.code).join(', ')}`);
+          }
+        }
+        console.log(`\nStatus: READY TO START BOUNDED CF4 RUNS — NOT PUBLISHED`);
+        break;
+      }
+
+      case 'cf4-run-batch': {
+        const runId = args[1];
+        const manifestRunId = args[2];
+        const batchCode = args[3];
+        if (!runId || !manifestRunId || !batchCode) {
+          throw new Error('Missing runId, manifestRunId, or batchCode');
+        }
+        const maximumBatchSize = optionalBatchSize(args[4]);
+        const runtime = await createCf4Runtime({ prisma, runId });
+        const batch = await runtime.batchRepository.loadBatch({
+          manifestRunId,
+          batchCode,
+          maximumBatchSize,
+        });
+        const result = await runtime.retryService.runWithRetries({
+          runId,
+          manifestRunId,
+          batch,
+          budgetPolicy: runtime.budgetPolicy,
+          workerPrefix: `cf4-cli:${batchCode}`,
+        });
+
+        console.log(`\n==================================================`);
+        console.log(`✅ CF4 BATCH EXECUTION COMPLETE`);
+        console.log(`==================================================`);
+        console.log(`Batch: ${batch.batchCode} (${batch.cefr})`);
+        console.log(
+          `Author: ${runtime.providers.author.provider}/${runtime.providers.author.model}`,
+        );
+        console.log(
+          `Reviewer: ${runtime.providers.reviewer.provider}/${runtime.providers.reviewer.model}`,
+        );
+        console.log(
+          `Preflight: ${runtime.providers.preflight.provider}/${runtime.providers.preflight.model}`,
+        );
+        console.log(`Secondary probe: ${runtime.providers.secondaryProbeStatus}`);
+        console.log(`Repair status: ${result.repairStatus}`);
+        console.log(`Readiness: ${result.report.status}`);
+        console.log(`Ready points: ${result.report.readyCount}/${result.report.targetCount}`);
+        console.log(`Regression passed: ${result.report.regression.passed}`);
+        for (const repair of result.repairs) {
+          console.log(
+            ` - ${repair.code}: ${repair.status} grammarAttempt=${repair.grammarAttempt ?? '-'} exerciseAttempt=${repair.exerciseAttempt ?? '-'} error=${repair.errorCode ?? '-'}`,
+          );
+        }
+        console.log(`\nStatus: ${result.report.status === 'READY_FOR_APPROVAL' ? 'READY FOR OWNER APPROVAL' : 'DRAFT ONLY'} — NOT PUBLISHED`);
         break;
       }
 
@@ -133,11 +231,14 @@ Status: DRAFT ONLY — NOT READY FOR OWNER APPROVAL — NOT PUBLISHED
         console.log(`=== ContentFactoryRun Status ===`);
         console.log(`Run ID: ${run.id}`);
         console.log(`Status: ${run.status}`);
+        console.log(
+          `Budget: requests ${run.usedRequests}/${run.maxRequests}, input ${run.usedInputTokens}/${run.maxInputTokens}, output ${run.usedOutputTokens}/${run.maxOutputTokens}, estimated cost ${run.usedCost}/${run.maxEstimatedCost}`,
+        );
         console.log(`Total Jobs: ${run.jobs.length}`);
         console.log(`Approvals Count: ${run.approvals.length}`);
         for (const j of run.jobs) {
           console.log(
-            ` - [${j.state}] Job ${j.targetCode} (Attempt ${j.attempt}, Worker: ${j.workerId ?? 'none'})`,
+            ` - [${j.state}] ${j.purpose} ${j.targetCode} (Attempt ${j.attempt}, Worker: ${j.workerId ?? 'none'}, Error: ${j.normalizedErrorCode ?? '-'})`,
           );
         }
         break;
@@ -175,7 +276,7 @@ Status: DRAFT ONLY — NOT READY FOR OWNER APPROVAL — NOT PUBLISHED
           confirmation,
         });
         console.log(`\n==================================================`);
-        console.log(`✅ RECORDED OWNER APPROVAL (CF5)`);
+        console.log(`✅ RECORDED OWNER APPROVAL`);
         console.log(`==================================================`);
         console.log(`- Run ID: ${runId}`);
         console.log(`- Approved By: ${approval.approvedBy}`);
@@ -196,6 +297,7 @@ Status: DRAFT ONLY — NOT READY FOR OWNER APPROVAL — NOT PUBLISHED
 }
 
 main().catch((err) => {
-  console.error('Fatal CLI Error:', err);
+  const code = err instanceof Error ? err.message.split(':')[0] : 'UNKNOWN_ERROR';
+  console.error(`Fatal CLI Error: ${code}`);
   process.exit(1);
 });
