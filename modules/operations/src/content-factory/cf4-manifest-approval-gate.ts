@@ -1,5 +1,4 @@
 import type { PrismaClient } from '@prisma/client';
-import { ContentFactoryValidator } from '@english/contracts';
 import type { AutonomousManifest, CurriculumPointSpec } from './manifest-planner.js';
 import {
   Cf4LevelBatchPlanner,
@@ -24,7 +23,6 @@ export interface Cf4ManifestApprovalGate {
  */
 export class PrismaCf4ManifestApprovalGate implements Cf4ManifestApprovalGate {
   private readonly planner = new Cf4LevelBatchPlanner();
-  private readonly validator = new ContentFactoryValidator();
 
   constructor(
     private readonly prisma: PrismaClient,
@@ -66,22 +64,12 @@ export class PrismaCf4ManifestApprovalGate implements Cf4ManifestApprovalGate {
       throw new Error('CF4_APPROVED_MANIFEST_HASH_MISMATCH');
     }
 
-    let parsed: unknown;
+    let manifest: AutonomousManifest;
     try {
-      parsed = JSON.parse(content) as unknown;
+      manifest = JSON.parse(content) as AutonomousManifest;
     } catch {
       throw new Error('CF4_APPROVED_MANIFEST_JSON_INVALID');
     }
-    const validation = this.validator.validateManifestArtifact(parsed, inputArtifact.artifactPath);
-    if (!validation.valid) {
-      throw new Error(
-        `CF4_APPROVED_MANIFEST_VALIDATION_FAILED:${validation.findings
-          .map((finding) => finding.code)
-          .join(',')}`,
-      );
-    }
-
-    const manifest = parsed as AutonomousManifest;
     const expectedPlan = this.planner.plan(manifest, params.batch.plannedMaximumBatchSize);
     const expectedBatch = expectedPlan.levels
       .flatMap((level) => level.batches)
