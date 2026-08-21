@@ -233,7 +233,7 @@ export class Cf4ExecutionControl {
           runId: params.runId,
           purpose: params.purpose,
           targetCode: params.targetCode,
-          targetVersion,
+          targetVersion: params.targetVersion,
           state: 'QUEUED',
           attempt: params.attempt,
           idempotencyKey,
