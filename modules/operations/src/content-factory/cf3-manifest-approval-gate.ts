@@ -70,7 +70,9 @@ export class PrismaCf3ManifestApprovalGate implements Cf3ManifestApprovalGate {
     return manifest.levels
       .filter((level) => level.cefr === 'A1')
       .flatMap((level) =>
-        level.units.flatMap((unit) => unit.points.map((point) => ({ ...point, cefr: 'A1' as const }))),
+        level.units.flatMap((unit) =>
+          unit.points.map((point) => ({ ...point, cefr: 'A1' as const })),
+        ),
       );
   }
 
