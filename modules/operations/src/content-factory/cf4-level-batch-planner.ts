@@ -15,6 +15,7 @@ export interface Cf4LevelBatch {
   batchCode: string;
   cefr: CefrLevel;
   batchIndex: number;
+  plannedMaximumBatchSize: number;
   reviewProfile: Cf4ReviewProfile;
   exerciseTargetPerPoint: number;
   requiresRegressionAfterBatch: true;
@@ -36,6 +37,7 @@ export interface Cf4BatchPlan {
   phase: 'CF4';
   manifestCode: string;
   manifestVersion: number;
+  maximumBatchSize: number;
   levels: Cf4LevelPlan[];
 }
 
@@ -80,6 +82,7 @@ export class Cf4LevelBatchPlanner {
           batchCode: `${cefr}-CF4-${String(index + 1).padStart(2, '0')}`,
           cefr,
           batchIndex: index + 1,
+          plannedMaximumBatchSize: maximumBatchSize,
           reviewProfile,
           exerciseTargetPerPoint,
           requiresRegressionAfterBatch: true,
@@ -110,6 +113,7 @@ export class Cf4LevelBatchPlanner {
       phase: 'CF4',
       manifestCode: manifest.manifestCode,
       manifestVersion: manifest.version,
+      maximumBatchSize,
       levels,
     };
   }
