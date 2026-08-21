@@ -12,7 +12,7 @@ export const CF3_REVIEW_PROMPT_VERSION = 'cf3-independent-review-v1';
 export const CF4_REVIEW_PROMPT_VERSION = 'cf4-independent-review-v1';
 export const CF4_ADVANCED_REVIEW_PROMPT_VERSION = 'cf4-independent-review-advanced-v1';
 
-interface ReviewPolicy {
+export interface ContentReviewPolicy {
   promptVersion: string;
   total: number;
   correctness: number;
@@ -25,6 +25,45 @@ export interface IndependentReviewResult {
   report: ContentReviewReport;
   readyForOwnerApproval: boolean;
   reviewProfile: Cf4ReviewProfile;
+}
+
+export function getContentReviewPolicy(
+  phase: 'CF3' | 'CF4',
+  profile: Cf4ReviewProfile,
+): ContentReviewPolicy {
+  if (profile === 'ADVANCED') {
+    return {
+      promptVersion: CF4_ADVANCED_REVIEW_PROMPT_VERSION,
+      total: 92,
+      correctness: 29,
+      evaluatorReadiness: 10,
+      cefrFit: 10,
+      minimumConfidence: 0.9,
+    };
+  }
+  return {
+    promptVersion: phase === 'CF4' ? CF4_REVIEW_PROMPT_VERSION : CF3_REVIEW_PROMPT_VERSION,
+    total: 88,
+    correctness: 27,
+    evaluatorReadiness: 9,
+    cefrFit: 8,
+    minimumConfidence: 0.85,
+  };
+}
+
+/** Shared by fresh reviews and durable resume paths so PASS cannot bypass scores. */
+export function isContentReviewReady(
+  report: ContentReviewReport,
+  policy: ContentReviewPolicy,
+): boolean {
+  return (
+    isReviewReadyForOwnerApproval(report) &&
+    report.scores.total >= policy.total &&
+    report.scores.correctness >= policy.correctness &&
+    report.scores.evaluatorReadiness >= policy.evaluatorReadiness &&
+    report.scores.cefrFit >= policy.cefrFit &&
+    report.confidence >= policy.minimumConfidence
+  );
 }
 
 /**
@@ -58,7 +97,7 @@ export class IndependentContentReviewer {
     if (phase === 'CF3' && reviewProfile !== 'STANDARD') {
       throw new Error('CF3_REVIEW_PROFILE_MUST_BE_STANDARD');
     }
-    const policy = this.policyFor(phase, reviewProfile);
+    const policy = getContentReviewPolicy(phase, reviewProfile);
     const artifactJson = JSON.stringify(params.artifact);
     const artifactHash = computeSha256(artifactJson);
     const raw = await this.reviewerProvider.generateJson({
@@ -110,35 +149,8 @@ export class IndependentContentReviewer {
 
     return {
       report: validation.value,
-      readyForOwnerApproval:
-        isReviewReadyForOwnerApproval(validation.value) &&
-        validation.value.scores.total >= policy.total &&
-        validation.value.scores.correctness >= policy.correctness &&
-        validation.value.scores.evaluatorReadiness >= policy.evaluatorReadiness &&
-        validation.value.scores.cefrFit >= policy.cefrFit &&
-        validation.value.confidence >= policy.minimumConfidence,
+      readyForOwnerApproval: isContentReviewReady(validation.value, policy),
       reviewProfile,
-    };
-  }
-
-  private policyFor(phase: 'CF3' | 'CF4', profile: Cf4ReviewProfile): ReviewPolicy {
-    if (profile === 'ADVANCED') {
-      return {
-        promptVersion: CF4_ADVANCED_REVIEW_PROMPT_VERSION,
-        total: 92,
-        correctness: 29,
-        evaluatorReadiness: 10,
-        cefrFit: 10,
-        minimumConfidence: 0.9,
-      };
-    }
-    return {
-      promptVersion: phase === 'CF4' ? CF4_REVIEW_PROMPT_VERSION : CF3_REVIEW_PROMPT_VERSION,
-      total: 88,
-      correctness: 27,
-      evaluatorReadiness: 9,
-      cefrFit: 8,
-      minimumConfidence: 0.85,
     };
   }
 
