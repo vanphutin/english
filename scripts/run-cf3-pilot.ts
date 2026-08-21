@@ -32,7 +32,8 @@ const positiveInteger = (value: string | undefined, fallback: number): number =>
   return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
 };
 
-const isEnabled = (value: string | undefined): boolean => value?.trim().toLowerCase() === 'true';
+const isEnabled = (value: string | undefined): boolean =>
+  value?.trim().toLowerCase() === 'true';
 
 const asRecord = (value: unknown, errorCode: string): Record<string, unknown> => {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(errorCode);
@@ -50,7 +51,9 @@ function assertVerifiedSecondaryCapability(model: string): void {
       'SECONDARY_CAPABILITY_REPORT_INVALID',
     );
   } catch (error: unknown) {
-    if (error instanceof Error && error.message === 'SECONDARY_CAPABILITY_REPORT_INVALID') throw error;
+    if (error instanceof Error && error.message === 'SECONDARY_CAPABILITY_REPORT_INVALID') {
+      throw error;
+    }
     throw new Error(`SECONDARY_CAPABILITY_REPORT_MISSING_OR_INVALID:${reportPath}`);
   }
 
