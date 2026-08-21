@@ -1,4 +1,7 @@
-import type { ContentFactoryJsonProvider, ContentFactoryJsonRequest } from './ai-content-provider.js';
+import type {
+  ContentFactoryJsonProvider,
+  ContentFactoryJsonRequest,
+} from './ai-content-provider.js';
 import type { Cf4AiBudgetEstimate, Cf4ExecutionControl } from './cf4-execution-control.js';
 
 /**
@@ -7,8 +10,8 @@ import type { Cf4AiBudgetEstimate, Cf4ExecutionControl } from './cf4-execution-c
  * directly visible to the CF4 coordinator budget reservation code.
  */
 export class BudgetedContentFactoryJsonProvider implements ContentFactoryJsonProvider {
-  public readonly provider;
-  public readonly model;
+  public readonly provider: ContentFactoryJsonProvider['provider'];
+  public readonly model: string;
 
   constructor(
     private readonly delegate: ContentFactoryJsonProvider,
@@ -21,7 +24,10 @@ export class BudgetedContentFactoryJsonProvider implements ContentFactoryJsonPro
     if (!Number.isInteger(estimate.outputTokens) || estimate.outputTokens <= 0) {
       throw new Error('CONTENT_FACTORY_BUDGETED_PROVIDER_OUTPUT_ESTIMATE_INVALID');
     }
-    if (estimate.estimatedCost !== undefined && estimate.estimatedCost < 0) {
+    if (
+      estimate.estimatedCost !== undefined &&
+      (!Number.isFinite(estimate.estimatedCost) || estimate.estimatedCost < 0)
+    ) {
       throw new Error('CONTENT_FACTORY_BUDGETED_PROVIDER_COST_ESTIMATE_INVALID');
     }
   }
