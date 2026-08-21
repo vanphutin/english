@@ -11,6 +11,8 @@ export interface Cf5PublishedPointResult {
   code: string;
   version: number;
   grammarPointVersionId: string;
+  grammarHash: string;
+  exerciseHash: string;
   exerciseCount: number;
 }
 
@@ -150,6 +152,8 @@ export class Cf5ControlledPublicationService {
             code: item.grammar.code,
             version: item.grammar.version,
             grammarPointVersionId: versionId,
+            grammarHash: item.result.grammarHash!,
+            exerciseHash: item.result.exerciseHash!,
             exerciseCount,
           });
         }
@@ -425,25 +429,35 @@ export class Cf5ControlledPublicationService {
       where: { contentKey: item.contentKey },
       select: {
         id: true,
-        semanticHash: true,
+        origin: true,
+        type: true,
         contentStatus: true,
-        contentSnapshotJson: true,
+        generatorVersion: true,
+        evaluatorRubricVersion: true,
+        difficulty: true,
+        promptContextVi: true,
+        instructionVi: true,
+        semanticHash: true,
+        topicCode: true,
         targets: { select: { grammarPointVersionId: true, targetRole: true } },
       },
     });
-    const snapshotHash = computeSha256(JSON.stringify(item));
     if (existing) {
-      const existingSnapshotHash = computeSha256(JSON.stringify(existing.contentSnapshotJson));
       const exactTarget = existing.targets.some(
         (target) =>
           target.grammarPointVersionId === grammarPointVersionId && target.targetRole === 'PRIMARY',
       );
-      if (
-        existing.semanticHash !== item.semanticHash ||
-        existingSnapshotHash !== snapshotHash ||
-        !exactTarget ||
-        existing.contentStatus === 'RETIRED'
-      ) {
+      const exactFields =
+        existing.origin === 'AI_GENERATED' &&
+        existing.type === item.activityType &&
+        existing.generatorVersion === batch.provenance.promptVersion &&
+        existing.evaluatorRubricVersion === batch.policyVersion &&
+        existing.difficulty === item.difficulty &&
+        existing.promptContextVi === item.contextVi &&
+        existing.instructionVi === item.instructionVi &&
+        existing.semanticHash === item.semanticHash &&
+        existing.topicCode === item.topicCode;
+      if (!exactFields || !exactTarget || existing.contentStatus === 'RETIRED') {
         throw new Error(`CF5_EXERCISE_IMMUTABILITY_CONFLICT:${item.contentKey}`);
       }
       if (existing.contentStatus !== 'PUBLISHED') {
