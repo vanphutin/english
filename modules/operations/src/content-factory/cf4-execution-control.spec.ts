@@ -70,9 +70,11 @@ describe('Cf4ExecutionControl', () => {
 
   it('charges a multi-request initial envelope only once across replay', async () => {
     let marker: { contentHash: string } | null = null;
-    const queryRaw = vi.fn(async () =>
-      queryRaw.mock.calls.length === 2 ? [{ id: 'run-id' }] : [],
-    );
+    let queryCall = 0;
+    const queryRaw = vi.fn(async () => {
+      queryCall += 1;
+      return queryCall === 2 ? [{ id: 'run-id' }] : [];
+    });
     const create = vi.fn(async (args: { data: { contentHash: string } }) => {
       marker = { contentHash: args.data.contentHash };
       return { id: 'marker' };
