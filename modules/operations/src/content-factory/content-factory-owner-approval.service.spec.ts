@@ -104,13 +104,29 @@ function harness(total = 96) {
     contentFactoryJob: {
       findUnique: vi.fn(async (args: { where: { id: string } }) => {
         if (args.where.id === 'grammar-ready') {
-          return { id: 'grammar-ready', runId, state: 'READY_FOR_APPROVAL', outputHash: grammarHash };
+          return {
+            id: 'grammar-ready',
+            runId,
+            state: 'READY_FOR_APPROVAL',
+            outputHash: grammarHash,
+          };
         }
         if (args.where.id === 'review-ready') {
-          return { id: 'review-ready', runId, state: 'READY_FOR_APPROVAL', outputHash: reviewHash };
+          return {
+            id: 'review-ready',
+            runId,
+            state: 'READY_FOR_APPROVAL',
+            inputHash: grammarHash,
+            outputHash: reviewHash,
+          };
         }
         if (args.where.id === 'exercise-ready') {
-          return { id: 'exercise-ready', runId, state: 'READY_FOR_APPROVAL', outputHash: exerciseHash };
+          return {
+            id: 'exercise-ready',
+            runId,
+            state: 'READY_FOR_APPROVAL',
+            outputHash: exerciseHash,
+          };
         }
         return { id: 'historical-failed', runId, state: 'QUARANTINED', outputHash: null };
       }),
@@ -126,9 +142,13 @@ function harness(total = 96) {
       findUnique: vi.fn(async () => ({
         id: 'review-run',
         runId,
+        jobId: 'review-ready',
         decision: 'PASS',
         artifactHash: grammarHash,
         reportHash: reviewHash,
+        promptVersion: 'cf4-independent-review-v1',
+        reviewerProvider: 'OPENAI',
+        reviewerModel: 'review-model',
         reportJson: reviewReport(total),
       })),
     },
