@@ -25,6 +25,7 @@ export * from './content-factory/independent-reviewer.js';
 export * from './content-factory/review-run-repository.js';
 export * from './content-factory/validation-run-repository.js';
 export * from './content-factory/exercise-factory.js';
+export * from './content-factory/provider-exercise-preflight.js';
 export * from './content-factory/cf3-manifest-approval-gate.js';
 export * from './content-factory/cf3-pilot.service.js';
 export * from './content-factory/content-factory-orchestrator.service.js';
