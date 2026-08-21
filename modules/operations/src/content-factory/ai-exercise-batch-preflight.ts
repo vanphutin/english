@@ -9,6 +9,8 @@ import type { GrammarPointBundleSpec } from './lesson-generator.js';
 
 export const CF4_EXERCISE_PREFLIGHT_PROMPT_VERSION = 'cf4-exercise-bank-preflight-v1';
 
+const ALLOWED_FINDING_PREFIXES = ['TARGET_', 'AMBIGUITY_', 'ANSWER_LEAK_', 'FIXTURE_'] as const;
+
 /**
  * One-call independent semantic preflight for a complete exercise bank. The
  * reviewer cannot mutate exercises and its output is validated for exact
@@ -40,6 +42,7 @@ export class AiExerciseBatchPreflight implements ExerciseBatchPreflightPort {
         promptVersion: CF4_EXERCISE_PREFLIGHT_PROMPT_VERSION,
         grammarPoint: params.grammarPoint,
         exercises: params.exercises,
+        allowedFindingCodePrefixes: [...ALLOWED_FINDING_PREFIXES],
         requiredOutput: {
           results: [
             {
@@ -47,7 +50,7 @@ export class AiExerciseBatchPreflight implements ExerciseBatchPreflightPort {
               targetNecessityPassed: true,
               ambiguityPassed: true,
               evaluatorPassed: true,
-              findingCodes: ['TARGET_* | AMBIGUITY_* | ANSWER_LEAK_* | FIXTURE_*'],
+              findingCodes: ['TARGET_EXAMPLE_CODE'],
             },
           ],
         },
@@ -70,7 +73,10 @@ export class AiExerciseBatchPreflight implements ExerciseBatchPreflightPort {
     const evidence: ExercisePreflightEvidence[] = [];
     for (const value of resultValues) {
       const record = this.asRecord(value);
-      const contentKey = this.requireString(record.contentKey, 'EXERCISE_PREFLIGHT_CONTENT_KEY_INVALID');
+      const contentKey = this.requireString(
+        record.contentKey,
+        'EXERCISE_PREFLIGHT_CONTENT_KEY_INVALID',
+      );
       if (!expected.has(contentKey)) {
         throw new Error(`EXERCISE_PREFLIGHT_UNKNOWN_CONTENT_KEY:${contentKey}`);
       }
@@ -101,9 +107,17 @@ export class AiExerciseBatchPreflight implements ExerciseBatchPreflightPort {
     const findingCodes = Array.isArray(record.findingCodes)
       ? record.findingCodes.filter((code): code is string => typeof code === 'string')
       : [];
+    const uniqueFindingCodes = [...new Set(findingCodes)];
+    if (
+      uniqueFindingCodes.some(
+        (code) => !ALLOWED_FINDING_PREFIXES.some((prefix) => code.startsWith(prefix)),
+      )
+    ) {
+      throw new Error('EXERCISE_PREFLIGHT_FINDING_CODE_INVALID');
+    }
     if (
       (!targetNecessityPassed || !ambiguityPassed || !evaluatorPassed) &&
-      findingCodes.length === 0
+      uniqueFindingCodes.length === 0
     ) {
       throw new Error('EXERCISE_PREFLIGHT_FAILURE_REQUIRES_REASON_CODE');
     }
@@ -111,7 +125,7 @@ export class AiExerciseBatchPreflight implements ExerciseBatchPreflightPort {
       targetNecessityPassed,
       ambiguityPassed,
       evaluatorPassed,
-      findingCodes: [...new Set(findingCodes)],
+      findingCodes: uniqueFindingCodes,
     };
   }
 
