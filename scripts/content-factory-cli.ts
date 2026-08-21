@@ -5,11 +5,15 @@ import { ContentFactoryOwnerApprovalService } from '../modules/operations/src/co
 import { ContentFactoryStorageRepository } from '../modules/operations/src/content-factory/storage-repository.js';
 import { Cf4ApprovedBatchRepository } from '../modules/operations/src/content-factory/cf4-approved-batch-repository.js';
 import { createCf4Runtime } from '../modules/operations/src/content-factory/cf4-runtime.js';
+import { Cf5ControlledPublicationService } from '../modules/operations/src/content-factory/cf5-controlled-publication.service.js';
+import { Cf5CurriculumReleaseService } from '../modules/operations/src/content-factory/cf5-curriculum-release.service.js';
 
 const prisma = new PrismaClient();
 const storage = new ContentFactoryStorageRepository();
 const orchestrator = new ContentFactoryOrchestratorService(prisma);
 const ownerApprovals = new ContentFactoryOwnerApprovalService(prisma, orchestrator, storage);
+const controlledPublication = new Cf5ControlledPublicationService(prisma, storage);
+const curriculumRelease = new Cf5CurriculumReleaseService(prisma, storage);
 
 function optionalBatchSize(value: string | undefined): number {
   if (!value) return 5;
@@ -20,13 +24,22 @@ function optionalBatchSize(value: string | undefined): number {
   return parsed;
 }
 
+function optionalPositiveInteger(value: string | undefined, fallback: number): number {
+  if (!value) return fallback;
+  const parsed = Number(value);
+  if (!Number.isSafeInteger(parsed) || parsed < 1) {
+    throw new Error('CONTENT_FACTORY_POSITIVE_INTEGER_REQUIRED');
+  }
+  return parsed;
+}
+
 async function main() {
   const args = process.argv.slice(2);
   const command = args[0];
 
   if (!command || command === '--help' || command === 'help') {
     console.log(`
-Content Factory CLI (CF0–CF4)
+Content Factory CLI (CF0–CF5)
 
 Usage:
   pnpm content-factory:cli -- <command> [options]
@@ -38,12 +51,20 @@ Commands:
                                     List exact CF4 batches from an OWNER APPROVED manifest
   cf4-run-batch <runId> <manifestRunId> <batchCode> [maxBatchSize]
                                     Run one approved CF4 batch through author/review/exercise/preflight/regression/retry
+  cf5-publish-batch <runId> <scopeHash> <PUBLISH:scopeHash>
+                                    Publish one already owner-approved CF4 batch (human-triggered)
+  cf5-prepare-release <runId> <manifestRunId> [minimumEvidenceCount]
+                                    Build DRAFT candidate release + learner-flow regression; never activates it
+  cf5-approve-release <runId> <scopeHash> <owner> <rationale> <APPROVE_RELEASE:scopeHash>
+                                    Record separate human activation approval
+  cf5-activate-release <runId> <scopeHash> <ACTIVATE:scopeHash>
+                                    Activate approved candidate release and migrate active enrollments
   enqueue <runId> <code> <content>  Enqueue a job
   claim-next <workerId> [runId]     Worker claims next available job
   status <runId>                    View run status and statistics
-  approval-scope <runId>            Print exact final scope hash for owner review
+  approval-scope <runId>            Print exact CF4 final scope hash for owner review
   approve-batch <runId> <scopeHash> <owner> <rationale> <APPROVE:scopeHash>
-                                    Record owner approval (human-only operation)
+                                    Record CF4 owner approval (human-only operation)
 
 CF4 provider config:
   CONTENT_FACTORY_AUTHOR_PROVIDER=OPENAI|SECONDARY
@@ -51,7 +72,10 @@ CF4 provider config:
   SECONDARY requires SECONDARY_AI_ENABLED=true,
   CONTENT_FACTORY_SECONDARY_GOLDEN_APPROVED=true, and a VERIFIED live capability probe.
 
-Status: DRAFT ONLY / READY FOR OWNER APPROVAL — CLI DOES NOT PUBLISH
+Authority boundaries:
+  AI may prepare CF4/CF5 evidence and readiness reports.
+  AI MUST NOT invent owner identity or run approve-batch, cf5-approve-release,
+  cf5-publish-batch, or cf5-activate-release without the operator's exact token.
 `);
     return;
   }
@@ -172,6 +196,108 @@ Status: DRAFT ONLY / READY FOR OWNER APPROVAL — CLI DOES NOT PUBLISH
         console.log(
           `\nStatus: ${result.report.status === 'READY_FOR_APPROVAL' ? 'READY FOR OWNER APPROVAL' : 'DRAFT ONLY'} — NOT PUBLISHED`,
         );
+        break;
+      }
+
+      case 'cf5-publish-batch': {
+        // Human-triggered boundary. This command requires the exact scope token
+        // from the already owner-approved CF4 run; it never creates approval.
+        const runId = args[1];
+        const scopeHash = args[2];
+        const confirmation = args[3];
+        if (!runId || !scopeHash || !confirmation) {
+          throw new Error('Missing runId, scopeHash, or exact publication confirmation');
+        }
+        const result = await controlledPublication.publishApprovedBatch({
+          runId,
+          expectedScopeHash: scopeHash,
+          confirmation,
+        });
+        console.log(`✅ CF5 CONTROLLED BATCH PUBLICATION COMPLETE`);
+        console.log(`Batch: ${result.batchCode}`);
+        console.log(`Points: ${result.pointCount}`);
+        console.log(`Exercises: ${result.exerciseCount}`);
+        console.log(`Batch hash: ${result.batchHash}`);
+        console.log(`Release activation: NOT PERFORMED`);
+        break;
+      }
+
+      case 'cf5-prepare-release': {
+        const runId = args[1];
+        const manifestRunId = args[2];
+        if (!runId || !manifestRunId) {
+          throw new Error('Missing runId or manifestRunId');
+        }
+        const minimumEvidenceCount = optionalPositiveInteger(args[3], 5);
+        const report = await curriculumRelease.prepareRelease({
+          runId,
+          manifestRunId,
+          minimumEvidenceCount,
+        });
+        console.log(`✅ CF5 CURRICULUM RELEASE REGRESSION COMPLETE`);
+        console.log(`Candidate: ${report.releaseCode} v${report.releaseVersion}`);
+        console.log(`Status: ${report.status}`);
+        console.log(`Regression passed: ${report.regression.passed}`);
+        console.log(
+          `Points: active=${report.regression.activeRelease.pointCount}, candidate=${report.regression.candidateRelease.pointCount}, added=${report.regression.addedPointCount}, removed=${report.regression.removedPointCount}`,
+        );
+        console.log(
+          `Enrollment mappings: ${report.regression.currentLevelMappingsVerified}/${report.regression.activeEnrollmentCount}`,
+        );
+        for (const finding of report.regression.findings) {
+          console.log(` - [${finding.severity}] ${finding.code}: ${finding.message}`);
+        }
+        if (report.status === 'READY_FOR_OWNER_APPROVAL') {
+          console.log(`Scope hash: ${report.scopeHash}`);
+          console.log(`Next human token: APPROVE_RELEASE:${report.scopeHash}`);
+        }
+        console.log(`Release activation: NOT PERFORMED`);
+        break;
+      }
+
+      case 'cf5-approve-release': {
+        // Human-only activation approval. Automated agents MUST NOT invent owner
+        // identity, rationale, or APPROVE_RELEASE:<scopeHash>.
+        const runId = args[1];
+        const scopeHash = args[2];
+        const owner = args[3];
+        const rationale = args[4];
+        const confirmation = args[5];
+        if (!runId || !scopeHash || !owner || !rationale || !confirmation) {
+          throw new Error('Missing release approval arguments');
+        }
+        const approval = await curriculumRelease.recordActivationApproval({
+          runId,
+          expectedScopeHash: scopeHash,
+          approvedBy: owner,
+          rationale,
+          confirmation,
+        });
+        console.log(`✅ RECORDED CF5 RELEASE ACTIVATION APPROVAL`);
+        console.log(`Approved by: ${approval.approvedBy}`);
+        console.log(`Scope hash: ${approval.scopeHash}`);
+        console.log(`Activation: NOT PERFORMED`);
+        break;
+      }
+
+      case 'cf5-activate-release': {
+        // Human-triggered activation after the separate owner approval above.
+        const runId = args[1];
+        const scopeHash = args[2];
+        const confirmation = args[3];
+        if (!runId || !scopeHash || !confirmation) {
+          throw new Error('Missing runId, scopeHash, or exact activation confirmation');
+        }
+        const result = await curriculumRelease.activateRelease({
+          runId,
+          expectedScopeHash: scopeHash,
+          confirmation,
+        });
+        console.log(`✅ CF5 CURRICULUM RELEASE ACTIVATED`);
+        console.log(`Release: ${result.releaseCode} v${result.releaseVersion}`);
+        console.log(`Previous release: ${result.previousReleaseId ?? 'none'}`);
+        console.log(`Migrated active enrollments: ${result.migratedEnrollmentCount}`);
+        console.log(`Activated at: ${result.activatedAt}`);
         break;
       }
 
