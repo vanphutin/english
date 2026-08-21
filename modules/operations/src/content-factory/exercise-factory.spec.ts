@@ -78,23 +78,49 @@ const activityTypes = [
   'COMPLETE_SENTENCE',
 ] as const;
 
+function presentationPayload(type: (typeof activityTypes)[number], index: number) {
+  switch (type) {
+    case 'CORRECT_ERROR':
+      return { incorrectSentence: `I is student number ${index + 1}.` };
+    case 'TRANSFORM_SENTENCE':
+      return {
+        sourceSentence: `You are learner number ${index + 1}.`,
+        transformationGoalVi: 'Đổi chủ ngữ sang I và giữ nguyên ý chính.',
+      };
+    case 'COMPLETE_SENTENCE':
+      return { starter: `I am learner number ${index + 1}` };
+    case 'TRANSLATE_CONTEXT':
+      return {};
+  }
+}
+
 class FakeExerciseProvider implements ContentFactoryJsonProvider {
   public readonly provider = 'OPENAI' as const;
   public readonly model = 'exercise-author-model';
 
-  constructor(private readonly duplicateSemanticHash = false) {}
+  constructor(
+    private readonly duplicateSemanticHash = false,
+    private readonly leakEvaluatorData = false,
+  ) {}
 
   async generateJson() {
     return {
       exercises: Array.from({ length: 12 }, (_, index) => {
         const semanticSource =
           this.duplicateSemanticHash && index === 11 ? 'exercise-10' : `exercise-${index}`;
+        const activityType = activityTypes[index % activityTypes.length]!;
+        const promptPayload = presentationPayload(activityType, index);
         return {
           contentKey: `exercise-content-${index}`,
-          activityType: activityTypes[index % activityTypes.length],
+          activityType,
           topicCode: `TOPIC_${(index % 6) + 1}`,
           contextVi: `Ngữ cảnh giao tiếp số ${index + 1} dành cho người học A1.`,
+          sourceTextVi: `Tôi là học viên số ${index + 1}.`,
           instructionVi: `Hoàn thành nhiệm vụ số ${index + 1} bằng cấu trúc mục tiêu.`,
+          promptPayload:
+            this.leakEvaluatorData && index === 0
+              ? { ...promptPayload, correctAnswer: 'I am a student.' }
+              : promptPayload,
           targetNecessity: 'Câu trả lời phải thể hiện đúng dạng be phù hợp với chủ ngữ đã cho.',
           semanticRequirements: ['Giữ nguyên chủ thể và ý nghĩa nhận diện.'],
           allowedAnswers: [`Valid answer ${index + 1}`],
@@ -146,6 +172,8 @@ describe('ExerciseFactory', () => {
     expect(
       new Set(batch.exercises.map((exercise) => exercise.topicCode)).size,
     ).toBeGreaterThanOrEqual(6);
+    expect(batch.exercises[0]?.sourceTextVi).toBeTruthy();
+    expect(batch.exercises[1]?.promptPayload.incorrectSentence).toBeTruthy();
     expect(batch.provenance.provider).toBe('OPENAI');
     expect(batch.provenance.model).toBe('exercise-author-model');
     expect(batch.provenance.promptVersion).toBe('cf3-exercise-author-v1');
@@ -164,6 +192,17 @@ describe('ExerciseFactory', () => {
     const factory = new ExerciseFactory(new FakeExerciseProvider(), new FakePreflight());
     await expect(factory.generateMinimumBank({ grammarPoint, count: 11 })).rejects.toThrow(
       'EXERCISE_COUNT_MUST_BE_12_TO_30',
+    );
+  });
+
+  it('rejects evaluator-only answer data in learner prompt payload', async () => {
+    const factory = new ExerciseFactory(
+      new FakeExerciseProvider(false, true),
+      new FakePreflight(),
+    );
+
+    await expect(factory.generateMinimumBank({ grammarPoint, count: 12 })).rejects.toThrow(
+      'EXERCISE_PROMPT_PAYLOAD_LEAKS_EVALUATOR_DATA:exercise-content-0:correctAnswer',
     );
   });
 
