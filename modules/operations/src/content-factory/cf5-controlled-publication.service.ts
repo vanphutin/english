@@ -439,6 +439,13 @@ export class Cf5ControlledPublicationService {
         instructionVi: true,
         semanticHash: true,
         topicCode: true,
+        constraintsJson: true,
+        contentSnapshotJson: true,
+        sentences: {
+          orderBy: { position: 'asc' },
+          take: 1,
+          select: { sourceTextVi: true },
+        },
         targets: { select: { grammarPointVersionId: true, targetRole: true } },
       },
     });
@@ -447,6 +454,8 @@ export class Cf5ControlledPublicationService {
         (target) =>
           target.grammarPointVersionId === grammarPointVersionId && target.targetRole === 'PRIMARY',
       );
+      const constraints = this.asJsonRecord(existing.constraintsJson);
+      const storedPromptPayload = constraints?.promptPayload;
       const exactFields =
         existing.origin === 'AI_GENERATED' &&
         existing.type === item.activityType &&
@@ -456,7 +465,10 @@ export class Cf5ControlledPublicationService {
         existing.promptContextVi === item.contextVi &&
         existing.instructionVi === item.instructionVi &&
         existing.semanticHash === item.semanticHash &&
-        existing.topicCode === item.topicCode;
+        existing.topicCode === item.topicCode &&
+        existing.sentences[0]?.sourceTextVi === item.sourceTextVi &&
+        this.canonicalJson(storedPromptPayload) === this.canonicalJson(item.promptPayload) &&
+        this.canonicalJson(existing.contentSnapshotJson) === this.canonicalJson(item);
       if (!exactFields || !exactTarget || existing.contentStatus === 'RETIRED') {
         throw new Error(`CF5_EXERCISE_IMMUTABILITY_CONFLICT:${item.contentKey}`);
       }
@@ -484,10 +496,7 @@ export class Cf5ControlledPublicationService {
         semanticHash: item.semanticHash,
         topicCode: item.topicCode,
         constraintsJson: {
-          promptPayload: {
-            activityType: item.activityType,
-            variationGroup: item.variationGroup,
-          },
+          promptPayload: item.promptPayload,
           forbiddenMeaningChanges: item.forbiddenMeaningChanges,
           targetNecessity: item.targetNecessity,
           grammarPointCode: grammar.code,
@@ -503,7 +512,7 @@ export class Cf5ControlledPublicationService {
         sentences: {
           create: {
             position: 0,
-            sourceTextVi: item.instructionVi,
+            sourceTextVi: item.sourceTextVi,
             referenceAnswersJson: item.allowedAnswers,
             semanticRequirementsJson: item.semanticRequirements,
           },
@@ -559,6 +568,18 @@ export class Cf5ControlledPublicationService {
         }
       }
     }
+
+    // A relationship authored in an earlier batch may have stayed DRAFT because
+    // its target was not published yet. Promote only edges whose two endpoints
+    // now both have at least one published version.
+    await tx.grammarRelationship.updateMany({
+      where: {
+        status: 'DRAFT',
+        sourcePoint: { versions: { some: { status: 'PUBLISHED' } } },
+        targetPoint: { versions: { some: { status: 'PUBLISHED' } } },
+      },
+      data: { status: 'PUBLISHED' },
+    });
   }
 
   private relationshipCodes(grammar: GrammarPointBundleSpec): string[] {
@@ -690,5 +711,23 @@ export class Cf5ControlledPublicationService {
         })),
       }),
     );
+  }
+
+  private asJsonRecord(value: unknown): Record<string, unknown> | null {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+    return value as Record<string, unknown>;
+  }
+
+  private canonicalJson(value: unknown): string {
+    const normalize = (node: unknown): unknown => {
+      if (Array.isArray(node)) return node.map(normalize);
+      if (!node || typeof node !== 'object') return node;
+      return Object.fromEntries(
+        Object.entries(node as Record<string, unknown>)
+          .sort(([a], [b]) => a.localeCompare(b))
+          .map(([key, nested]) => [key, normalize(nested)]),
+      );
+    };
+    return JSON.stringify(normalize(value));
   }
 }
