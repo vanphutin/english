@@ -3,37 +3,39 @@ import type { ContentFactoryJsonProvider } from './ai-content-provider.js';
 import { BudgetedContentFactoryJsonProvider } from './budgeted-content-provider.js';
 import type { Cf4ExecutionControl } from './cf4-execution-control.js';
 
-function delegate(): ContentFactoryJsonProvider {
+function delegate(generateJson = vi.fn(async () => ({ ok: true }))): ContentFactoryJsonProvider {
   return {
     provider: 'OPENAI',
     model: 'review-model',
-    generateJson: vi.fn(async () => ({ ok: true })),
+    generateJson,
   };
 }
 
 describe('BudgetedContentFactoryJsonProvider', () => {
   it('reserves budget before delegating the provider call', async () => {
-    const reserveAiCallBudget = vi.fn(async () => ({
-      requests: 1,
-      inputTokens: 10,
-      outputTokens: 100,
-      estimatedCost: 0,
-    }));
-    const execution = { reserveAiCallBudget } as unknown as Cf4ExecutionControl;
-    const raw = delegate();
-    const provider = new BudgetedContentFactoryJsonProvider(raw, execution, 'run-id', {
-      outputTokens: 100,
-      estimatedCost: 0,
+    const order: string[] = [];
+    const reserveAiCallBudget = vi.fn(async () => {
+      order.push('reserve');
+      return { requests: 1, inputTokens: 10, outputTokens: 100, estimatedCost: 0 };
     });
+    const generateJson = vi.fn(async () => {
+      order.push('delegate');
+      return { ok: true };
+    });
+    const execution = { reserveAiCallBudget } as unknown as Cf4ExecutionControl;
+    const provider = new BudgetedContentFactoryJsonProvider(
+      delegate(generateJson),
+      execution,
+      'run-id',
+      { outputTokens: 100, estimatedCost: 0 },
+    );
 
     await expect(
       provider.generateJson({ purpose: 'REVIEW', system: 'system', input: '{}' }),
     ).resolves.toEqual({ ok: true });
+    expect(order).toEqual(['reserve', 'delegate']);
     expect(reserveAiCallBudget).toHaveBeenCalledOnce();
-    expect(vi.mocked(raw.generateJson)).toHaveBeenCalledOnce();
-    expect(reserveAiCallBudget.mock.invocationCallOrder[0]).toBeLessThan(
-      vi.mocked(raw.generateJson).mock.invocationCallOrder[0]!,
-    );
+    expect(generateJson).toHaveBeenCalledOnce();
   });
 
   it('does not call the provider when the budget guard rejects', async () => {
@@ -42,15 +44,18 @@ describe('BudgetedContentFactoryJsonProvider', () => {
         throw new Error('CF4_RUN_BUDGET_EXHAUSTED');
       }),
     } as unknown as Cf4ExecutionControl;
-    const raw = delegate();
-    const provider = new BudgetedContentFactoryJsonProvider(raw, execution, 'run-id', {
-      outputTokens: 100,
-    });
+    const generateJson = vi.fn(async () => ({ ok: true }));
+    const provider = new BudgetedContentFactoryJsonProvider(
+      delegate(generateJson),
+      execution,
+      'run-id',
+      { outputTokens: 100 },
+    );
 
     await expect(
       provider.generateJson({ purpose: 'REVIEW', system: 'system', input: '{}' }),
     ).rejects.toThrow('CF4_RUN_BUDGET_EXHAUSTED');
-    expect(raw.generateJson).not.toHaveBeenCalled();
+    expect(generateJson).not.toHaveBeenCalled();
   });
 
   it('rejects non-finite cost estimates at construction', () => {
