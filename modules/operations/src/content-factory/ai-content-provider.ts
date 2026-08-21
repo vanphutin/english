@@ -50,8 +50,11 @@ export class OpenAiCompatibleJsonProvider implements ContentFactoryJsonProvider 
           );
 
     if (!result.ok) {
+      // Coordinators normalize by the first colon-delimited segment. Keep the
+      // provider code first so AUTHENTICATION/SCHEMA hard stops are not erased
+      // into a generic retryable CONTENT_FACTORY_PROVIDER_FAILED code.
       throw new Error(
-        `CONTENT_FACTORY_PROVIDER_FAILED:${request.purpose}:${result.errorCode ?? 'UNKNOWN'}`,
+        `${result.errorCode ?? 'UNKNOWN'}:CONTENT_FACTORY_PROVIDER_FAILED:${request.purpose}`,
       );
     }
 
