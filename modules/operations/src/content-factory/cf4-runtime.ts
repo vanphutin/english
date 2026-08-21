@@ -226,6 +226,14 @@ export async function createCf4Runtime(params: {
     },
     async runBatch(runParams): Promise<Cf4RetryBudgetRunResult> {
       const targetVersion = runParams.targetVersion ?? 1;
+
+      // Validate immutable owner-approved manifest scope before recording any
+      // run-bound marker. An invalid/tampered batch must never poison a fresh run.
+      await manifestGate.assertApprovedBatch({
+        manifestRunId: runParams.manifestRunId,
+        batch: runParams.batch,
+      });
+
       await execution.assertOrBindRunScope({
         runId: params.runId,
         scope: {
