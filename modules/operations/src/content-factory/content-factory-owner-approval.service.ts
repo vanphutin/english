@@ -84,28 +84,46 @@ export class ContentFactoryOwnerApprovalService {
     const existing = await this.prisma.contentFactoryApproval.findFirst({
       where: { runId: params.runId, scopeHash },
     });
-    if (existing) {
-      if (existing.requestHash !== requestHash) {
-        throw new Error('OWNER_APPROVAL_ALREADY_RECORDED');
-      }
-      return existing;
-    }
+    if (existing) return this.assertSameApprovalRequest(existing, requestHash);
 
-    const approval = await this.prisma.contentFactoryApproval.create({
-      data: {
-        runId: params.runId,
-        approvedBy,
-        scopeHash,
-        approvalHash,
-        rationale,
-        requestHash,
-        decisionSource: 'OWNER_CLI',
-      },
-    });
-    await this.prisma.contentFactoryRun.update({
-      where: { id: params.runId },
-      data: { status: 'OWNER APPROVED', manifestHash: scopeHash },
-    });
+    try {
+      const approval = await this.prisma.contentFactoryApproval.create({
+        data: {
+          runId: params.runId,
+          approvedBy,
+          scopeHash,
+          approvalHash,
+          rationale,
+          requestHash,
+          decisionSource: 'OWNER_CLI',
+        },
+      });
+      await this.prisma.contentFactoryRun.update({
+        where: { id: params.runId },
+        data: { status: 'OWNER APPROVED', manifestHash: scopeHash },
+      });
+      return approval;
+    } catch (error: unknown) {
+      const code =
+        error && typeof error === 'object' && 'code' in error
+          ? (error as { code?: unknown }).code
+          : undefined;
+      if (code !== 'P2002') throw error;
+      const concurrent = await this.prisma.contentFactoryApproval.findFirst({
+        where: { runId: params.runId, scopeHash },
+      });
+      if (!concurrent) throw error;
+      return this.assertSameApprovalRequest(concurrent, requestHash);
+    }
+  }
+
+  private assertSameApprovalRequest<T extends { requestHash: string }>(
+    approval: T,
+    requestHash: string,
+  ): T {
+    if (approval.requestHash !== requestHash) {
+      throw new Error('OWNER_APPROVAL_ALREADY_RECORDED');
+    }
     return approval;
   }
 
@@ -121,7 +139,10 @@ export class ContentFactoryOwnerApprovalService {
     artifact: Cf4ReadinessArtifactRef,
   ): Promise<Cf4BatchReadinessReport> {
     const run = await this.prisma.contentFactoryRun.findUnique({ where: { id: runId } });
-    if (!run || run.status !== 'READY FOR OWNER APPROVAL') {
+    if (
+      !run ||
+      (run.status !== 'READY FOR OWNER APPROVAL' && run.status !== 'OWNER APPROVED')
+    ) {
       throw new Error('RUN_NOT_READY_FOR_OWNER_APPROVAL');
     }
     const filename = artifact.artifactPath.split('/').at(-1);
