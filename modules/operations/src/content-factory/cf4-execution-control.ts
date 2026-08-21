@@ -35,9 +35,20 @@ export interface Cf4BudgetReservation {
   estimatedCost: number;
 }
 
+export interface Cf4BudgetReservationReceipt {
+  reservation: Cf4BudgetReservation;
+  reused: boolean;
+  markerHash: string;
+}
+
 export interface Cf4AiBudgetEstimate {
   outputTokens: number;
   estimatedCost?: number;
+}
+
+export interface Cf4RunScopeReceipt {
+  scopeHash: string;
+  reused: boolean;
 }
 
 /**
@@ -75,6 +86,19 @@ export class Cf4ExecutionControl {
   ): Promise<Cf4BudgetReservation> {
     this.assertReservation(reservation);
 
+    // The only multi-request reservation in CF4 is the attempt-1 batch envelope.
+    // Make that envelope durable/idempotent so a crash before readiness evidence
+    // cannot charge it a second time on resume. Per-provider retry calls remain
+    // requests=1 and are charged independently on every real call.
+    if (reservation.requests > 1) {
+      const receipt = await this.reserveRunBudgetOnce({
+        runId,
+        reservationKey: 'cf4-initial-attempt-envelope-v1',
+        reservation,
+      });
+      return receipt.reservation;
+    }
+
     const updated = await this.prisma.$queryRaw<Array<{ id: string }>>(Prisma.sql`
       UPDATE "content_factory_runs"
       SET "used_requests" = "used_requests" + ${reservation.requests},
@@ -95,6 +119,141 @@ export class Cf4ExecutionControl {
     const run = await this.prisma.contentFactoryRun.findUnique({ where: { id: runId } });
     if (!run) throw new Error('CF4_RUN_NOT_FOUND');
     throw new Error('CF4_RUN_BUDGET_EXHAUSTED');
+  }
+
+  /**
+   * Reserves a named envelope exactly once. The advisory lock, counter update,
+   * and DB-only immutable marker live in one PostgreSQL transaction, so a crash
+   * cannot leave a charged budget without durable evidence that prevents the
+   * same reservation from being charged again on resume.
+   */
+  public async reserveRunBudgetOnce(params: {
+    runId: string;
+    reservationKey: string;
+    reservation: Cf4BudgetReservation;
+  }): Promise<Cf4BudgetReservationReceipt> {
+    this.assertReservation(params.reservation);
+    const reservationKey = params.reservationKey.trim();
+    if (!reservationKey) throw new Error('CF4_BUDGET_RESERVATION_KEY_REQUIRED');
+
+    const markerPayload = JSON.stringify({
+      schemaVersion: '1.0',
+      reservationKey,
+      reservation: params.reservation,
+    });
+    const markerHash = computeSha256(markerPayload);
+    const markerPath = `budget-reservations/${computeSha256(reservationKey).slice(0, 32)}.json`;
+    const lockKey = `cf4-budget:${params.runId}:${reservationKey}`;
+
+    return this.prisma.$transaction(async (tx) => {
+      await tx.$queryRaw<unknown[]>(Prisma.sql`
+        SELECT pg_advisory_xact_lock(hashtext(${lockKey}))
+      `);
+
+      const existing = await tx.contentFactoryArtifact.findFirst({
+        where: {
+          runId: params.runId,
+          artifactType: 'CF4_BUDGET_RESERVATION',
+          artifactPath: markerPath,
+        },
+      });
+      if (existing) {
+        if (existing.contentHash !== markerHash) {
+          throw new Error('CF4_BUDGET_RESERVATION_KEY_MISMATCH');
+        }
+        return { reservation: params.reservation, reused: true, markerHash };
+      }
+
+      const updated = await tx.$queryRaw<Array<{ id: string }>>(Prisma.sql`
+        UPDATE "content_factory_runs"
+        SET "used_requests" = "used_requests" + ${params.reservation.requests},
+            "used_input_tokens" = "used_input_tokens" + ${params.reservation.inputTokens},
+            "used_output_tokens" = "used_output_tokens" + ${params.reservation.outputTokens},
+            "used_cost" = "used_cost" + ${params.reservation.estimatedCost},
+            "updated_at" = ${new Date()}
+        WHERE "id" = ${params.runId}::uuid
+          AND "used_requests" + ${params.reservation.requests} <= "max_requests"
+          AND "used_input_tokens" + ${params.reservation.inputTokens} <= "max_input_tokens"
+          AND "used_output_tokens" + ${params.reservation.outputTokens} <= "max_output_tokens"
+          AND "used_cost" + ${params.reservation.estimatedCost} <= "max_estimated_cost"
+        RETURNING "id"
+      `);
+
+      if (!updated[0]) {
+        const run = await tx.contentFactoryRun.findUnique({ where: { id: params.runId } });
+        if (!run) throw new Error('CF4_RUN_NOT_FOUND');
+        throw new Error('CF4_RUN_BUDGET_EXHAUSTED');
+      }
+
+      await tx.contentFactoryArtifact.create({
+        data: {
+          runId: params.runId,
+          artifactPath: markerPath,
+          artifactType: 'CF4_BUDGET_RESERVATION',
+          contentHash: markerHash,
+          storageUri: `db://content-factory/${params.runId}/${markerPath}`,
+          metadataJson: {
+            schemaVersion: '1.0',
+            reservationKey,
+            reservation: params.reservation,
+          },
+        },
+      });
+
+      return { reservation: params.reservation, reused: false, markerHash };
+    });
+  }
+
+  /**
+   * Binds one ContentFactoryRun to exactly one CF4 manifest/batch/version scope.
+   * Re-delivery of the same scope is idempotent; a different scope on the same
+   * run fails closed before any provider call or job creation.
+   */
+  public async assertOrBindRunScope(params: {
+    runId: string;
+    scope: {
+      phase: 'CF4';
+      manifestRunId: string;
+      batchCode: string;
+      plannedMaximumBatchSize: number;
+      targetVersion: number;
+    };
+  }): Promise<Cf4RunScopeReceipt> {
+    const payload = JSON.stringify({ schemaVersion: '1.0', ...params.scope });
+    const scopeHash = computeSha256(payload);
+    const markerPath = 'run-scopes/cf4-batch-scope-v1.json';
+    const lockKey = `cf4-scope:${params.runId}`;
+
+    return this.prisma.$transaction(async (tx) => {
+      await tx.$queryRaw<unknown[]>(Prisma.sql`
+        SELECT pg_advisory_xact_lock(hashtext(${lockKey}))
+      `);
+      const existing = await tx.contentFactoryArtifact.findFirst({
+        where: {
+          runId: params.runId,
+          artifactType: 'CF4_RUN_SCOPE',
+          artifactPath: markerPath,
+        },
+      });
+      if (existing) {
+        if (existing.contentHash !== scopeHash) throw new Error('CF4_RUN_SCOPE_MISMATCH');
+        return { scopeHash, reused: true };
+      }
+
+      const run = await tx.contentFactoryRun.findUnique({ where: { id: params.runId } });
+      if (!run) throw new Error('CF4_RUN_NOT_FOUND');
+      await tx.contentFactoryArtifact.create({
+        data: {
+          runId: params.runId,
+          artifactPath: markerPath,
+          artifactType: 'CF4_RUN_SCOPE',
+          contentHash: scopeHash,
+          storageUri: `db://content-factory/${params.runId}/${markerPath}`,
+          metadataJson: { schemaVersion: '1.0', ...params.scope },
+        },
+      });
+      return { scopeHash, reused: false };
+    });
   }
 
   public async enqueueAttempt(params: Cf4JobAttemptInput) {
