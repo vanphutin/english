@@ -47,6 +47,8 @@
     "content:publish:intermediate": "tsx scripts/publish-intermediate-content.ts",
     "content:author:advanced": "tsx scripts/author-advanced-content.ts",
     "content:publish:advanced": "tsx scripts/publish-advanced-content.ts",
+    "content:factory:cli": "tsx --env-file=.env scripts/content-factory-cli.ts",
+    "content:factory:cf3": "tsx --env-file=.env scripts/run-cf3-pilot.ts",
     "evaluator:golden": "tsx scripts/evaluator-golden.ts",
     "evaluator:golden:live": "tsx scripts/evaluator-golden.ts --live",
     "engagement:rebuild-errors": "pnpm --filter @english/engagement build && tsx scripts/rebuild-error-patterns.ts",
