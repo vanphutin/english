@@ -124,7 +124,9 @@ export class Cf5CurriculumReleaseService {
       if (existing.manifestRunId !== params.manifestRunId) {
         throw new Error('CF5_RELEASE_RUN_SCOPE_MISMATCH');
       }
-      return existing;
+      if (existing.status === 'READY_FOR_OWNER_APPROVAL') return existing;
+      // DRAFT_ONLY reports are immutable history, not a permanent lock. Re-run
+      // after missing controlled publications or other regression inputs change.
     }
 
     const run = await this.prisma.contentFactoryRun.findUnique({ where: { id: params.runId } });
@@ -161,6 +163,7 @@ export class Cf5CurriculumReleaseService {
           id: true,
           versionNo: true,
           status: true,
+          contentHash: true,
           grammarPoint: { select: { code: true } },
         },
       });
@@ -168,7 +171,8 @@ export class Cf5CurriculumReleaseService {
         !dbVersion ||
         dbVersion.status !== 'PUBLISHED' ||
         dbVersion.grammarPoint.code !== code ||
-        dbVersion.versionNo !== ref.version
+        dbVersion.versionNo !== ref.version ||
+        dbVersion.contentHash !== ref.grammarHash
       ) {
         throw new Error(`CF5_RELEASE_PUBLISHED_VERSION_MISMATCH:${code}`);
       }
@@ -240,7 +244,9 @@ export class Cf5CurriculumReleaseService {
       pointRefs,
       releaseContentHash,
     });
-    const publicationBatchHashes = [...new Set([...pointRefs.values()].map((ref) => ref.batchHash))].sort();
+    const publicationBatchHashes = [
+      ...new Set([...pointRefs.values()].map((ref) => ref.batchHash)),
+    ].sort();
     const scopeHash = computeSha256(
       JSON.stringify({
         schemaVersion: '1.0',
@@ -328,7 +334,9 @@ export class Cf5CurriculumReleaseService {
       where: { runId: params.runId, scopeHash: report.scopeHash },
     });
     if (existing) {
-      if (existing.requestHash !== requestHash) throw new Error('CF5_RELEASE_APPROVAL_ALREADY_RECORDED');
+      if (existing.requestHash !== requestHash) {
+        throw new Error('CF5_RELEASE_APPROVAL_ALREADY_RECORDED');
+      }
       return existing;
     }
 
@@ -452,6 +460,7 @@ export class Cf5CurriculumReleaseService {
           select: {
             id: true,
             enrollments: {
+              where: { status: 'ACTIVE' },
               select: {
                 userId: true,
                 currentLevel: { select: { cefrLevel: true } },
@@ -460,7 +469,9 @@ export class Cf5CurriculumReleaseService {
           },
         });
 
-        const levelByCefr = new Map(candidate.levels.map((level) => [level.cefrLevel, level] as const));
+        const levelByCefr = new Map(
+          candidate.levels.map((level) => [level.cefrLevel, level] as const),
+        );
         const firstLevel = candidate.levels[0];
         if (!firstLevel) throw new Error('CF5_RELEASE_CANDIDATE_HAS_NO_LEVELS');
         let migratedEnrollmentCount = 0;
@@ -618,7 +629,11 @@ export class Cf5CurriculumReleaseService {
                     items: {
                       create: unit.items.map((item, itemOrder) => {
                         const ref = params.pointRefs.get(item.grammarPointCode);
-                        if (!ref) throw new Error(`CF5_RELEASE_POINT_REF_MISSING:${item.grammarPointCode}`);
+                        if (!ref) {
+                          throw new Error(
+                            `CF5_RELEASE_POINT_REF_MISSING:${item.grammarPointCode}`,
+                          );
+                        }
                         return {
                           grammarPointVersionId: ref.grammarPointVersionId,
                           role: item.role,
@@ -642,9 +657,7 @@ export class Cf5CurriculumReleaseService {
   }
 
   private async runLearnerFlowRegression(params: {
-    active: Awaited<ReturnType<Cf5CurriculumReleaseService['loadActiveRelease']>> extends infer T
-      ? NonNullable<T>
-      : never;
+    active: NonNullable<Awaited<ReturnType<Cf5CurriculumReleaseService['loadActiveRelease']>>>;
     spec: Cf5CurriculumReleaseSpec;
     pointRefs: Map<string, PublishedPointRef>;
     releaseContentHash: string;
@@ -734,7 +747,7 @@ export class Cf5CurriculumReleaseService {
     }
 
     const activeEnrollments = await this.prisma.userCurriculumEnrollment.findMany({
-      where: { releaseId: params.active.id },
+      where: { releaseId: params.active.id, status: 'ACTIVE' },
       select: {
         userId: true,
         currentLevel: { select: { cefrLevel: true } },
@@ -755,8 +768,12 @@ export class Cf5CurriculumReleaseService {
       }
     }
 
-    const retainedPointCount = [...activeByCode.keys()].filter((code) => candidateByCode.has(code)).length;
-    const addedPointCount = [...candidateByCode.keys()].filter((code) => !activeByCode.has(code)).length;
+    const retainedPointCount = [...activeByCode.keys()].filter((code) =>
+      candidateByCode.has(code),
+    ).length;
+    const addedPointCount = [...candidateByCode.keys()].filter((code) =>
+      !activeByCode.has(code),
+    ).length;
     return {
       schemaVersion: '1.0',
       phase: 'CF5',
@@ -813,6 +830,10 @@ export class Cf5CurriculumReleaseService {
           typeof point.code !== 'string' ||
           typeof point.version !== 'number' ||
           typeof point.grammarPointVersionId !== 'string' ||
+          typeof point.grammarHash !== 'string' ||
+          !/^[a-f0-9]{64}$/.test(point.grammarHash) ||
+          typeof point.exerciseHash !== 'string' ||
+          !/^[a-f0-9]{64}$/.test(point.exerciseHash) ||
           typeof point.exerciseCount !== 'number'
         ) {
           throw new Error('CF5_PUBLICATION_RESULT_SCHEMA_INVALID');
@@ -822,7 +843,9 @@ export class Cf5CurriculumReleaseService {
         if (
           existing &&
           (existing.version !== next.version ||
-            existing.grammarPointVersionId !== next.grammarPointVersionId)
+            existing.grammarPointVersionId !== next.grammarPointVersionId ||
+            existing.grammarHash !== next.grammarHash ||
+            existing.exerciseHash !== next.exerciseHash)
         ) {
           throw new Error(`CF5_PUBLICATION_POINT_CONFLICT:${point.code}`);
         }
