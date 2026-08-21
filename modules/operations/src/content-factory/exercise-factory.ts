@@ -71,22 +71,33 @@ export interface ExercisePreflightEvidence {
   result: ExercisePreflightResult;
 }
 
+export interface ExerciseBatchPreflightPort {
+  evaluateBatch(params: {
+    grammarPoint: GrammarPointBundleSpec;
+    exercises: ExerciseItemSpec[];
+  }): Promise<ExercisePreflightEvidence[]>;
+}
+
 export interface ExerciseFactoryResult {
   batch: ExerciseAuthoringBatchSpec;
   preflightEvidence: ExercisePreflightEvidence[];
 }
 
+type ExercisePreflight = ExercisePreflightPort | ExerciseBatchPreflightPort;
+
 /**
  * Exercise factory shared by CF3/CF4. It runs only after GrammarPoint
  * deterministic validation and fails closed unless readiness, diversity,
  * duplicate, and independent target/ambiguity/evaluator preflight gates pass.
+ * Production CF4 may use one independent batch preflight call; legacy/test
+ * implementations may continue evaluating one item at a time.
  */
 export class ExerciseFactory {
   private readonly validator = new ContentFactoryValidator();
 
   constructor(
     private readonly authorProvider: ContentFactoryJsonProvider,
-    private readonly preflight: ExercisePreflightPort,
+    private readonly preflight: ExercisePreflight,
   ) {}
 
   public async generateMinimumBank(params: {
@@ -230,27 +241,73 @@ export class ExerciseFactory {
     grammarPoint: GrammarPointBundleSpec,
     exercises: ExerciseItemSpec[],
   ): Promise<ExercisePreflightEvidence[]> {
+    const evidence = this.isBatchPreflight(this.preflight)
+      ? await this.preflight.evaluateBatch({ grammarPoint, exercises })
+      : await this.evaluateIndividually(this.preflight, grammarPoint, exercises);
+
+    this.assertEvidenceCoverage(exercises, evidence);
+    for (const item of evidence) this.assertPreflightResult(item);
+    return evidence;
+  }
+
+  private async evaluateIndividually(
+    preflight: ExercisePreflightPort,
+    grammarPoint: GrammarPointBundleSpec,
+    exercises: ExerciseItemSpec[],
+  ): Promise<ExercisePreflightEvidence[]> {
     const evidence: ExercisePreflightEvidence[] = [];
     for (const exercise of exercises) {
-      const result = await this.preflight.evaluate({ grammarPoint, exercise });
-      evidence.push({ contentKey: exercise.contentKey, result });
-      if (!result.targetNecessityPassed) {
-        throw new Error(
-          `EXERCISE_PREFLIGHT_FAILED:TARGET:${exercise.contentKey}:${result.findingCodes.join(',')}`,
-        );
-      }
-      if (!result.ambiguityPassed) {
-        throw new Error(
-          `EXERCISE_PREFLIGHT_FAILED:AMBIGUITY:${exercise.contentKey}:${result.findingCodes.join(',')}`,
-        );
-      }
-      if (!result.evaluatorPassed) {
-        throw new Error(
-          `EXERCISE_PREFLIGHT_FAILED:EVALUATOR:${exercise.contentKey}:${result.findingCodes.join(',')}`,
-        );
-      }
+      evidence.push({
+        contentKey: exercise.contentKey,
+        result: await preflight.evaluate({ grammarPoint, exercise }),
+      });
     }
     return evidence;
+  }
+
+  private assertEvidenceCoverage(
+    exercises: ExerciseItemSpec[],
+    evidence: ExercisePreflightEvidence[],
+  ): void {
+    if (evidence.length !== exercises.length) {
+      throw new Error('EXERCISE_PREFLIGHT_EVIDENCE_COUNT_MISMATCH');
+    }
+    const expected = new Set(exercises.map((exercise) => exercise.contentKey));
+    const observed = new Set<string>();
+    for (const item of evidence) {
+      if (!expected.has(item.contentKey)) {
+        throw new Error(`EXERCISE_PREFLIGHT_UNKNOWN_CONTENT_KEY:${item.contentKey}`);
+      }
+      if (observed.has(item.contentKey)) {
+        throw new Error(`EXERCISE_PREFLIGHT_DUPLICATE_CONTENT_KEY:${item.contentKey}`);
+      }
+      observed.add(item.contentKey);
+    }
+    if (observed.size !== expected.size) {
+      throw new Error('EXERCISE_PREFLIGHT_EVIDENCE_INCOMPLETE');
+    }
+  }
+
+  private assertPreflightResult(item: ExercisePreflightEvidence): void {
+    if (!item.result.targetNecessityPassed) {
+      throw new Error(
+        `EXERCISE_PREFLIGHT_FAILED:TARGET:${item.contentKey}:${item.result.findingCodes.join(',')}`,
+      );
+    }
+    if (!item.result.ambiguityPassed) {
+      throw new Error(
+        `EXERCISE_PREFLIGHT_FAILED:AMBIGUITY:${item.contentKey}:${item.result.findingCodes.join(',')}`,
+      );
+    }
+    if (!item.result.evaluatorPassed) {
+      throw new Error(
+        `EXERCISE_PREFLIGHT_FAILED:EVALUATOR:${item.contentKey}:${item.result.findingCodes.join(',')}`,
+      );
+    }
+  }
+
+  private isBatchPreflight(preflight: ExercisePreflight): preflight is ExerciseBatchPreflightPort {
+    return 'evaluateBatch' in preflight && typeof preflight.evaluateBatch === 'function';
   }
 
   private asRecord(value: unknown): Record<string, unknown> {
