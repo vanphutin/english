@@ -103,11 +103,6 @@ interface PublishedPointRef extends Cf5PublishedPointResult {
   batchHash: string;
 }
 
-/**
- * CF5 creates an immutable candidate curriculum release, compares it with the
- * currently active release, verifies learner-flow migration, and requires a
- * separate human activation approval before switching the active release.
- */
 export class Cf5CurriculumReleaseService {
   constructor(
     private readonly prisma: PrismaClient,
@@ -125,8 +120,6 @@ export class Cf5CurriculumReleaseService {
         throw new Error('CF5_RELEASE_RUN_SCOPE_MISMATCH');
       }
       if (existing.status === 'READY_FOR_OWNER_APPROVAL') return existing;
-      // DRAFT_ONLY reports are immutable history, not a permanent lock. Re-run
-      // after missing controlled publications or other regression inputs change.
     }
 
     const run = await this.prisma.contentFactoryRun.findUnique({ where: { id: params.runId } });
@@ -139,7 +132,6 @@ export class Cf5CurriculumReleaseService {
     const active = await this.loadActiveRelease();
     if (!active) throw new Error('CF5_ACTIVE_RELEASE_REQUIRED_FOR_REGRESSION');
 
-    const publicationRefs = await this.loadPublishedPointRefs(params.manifestRunId);
     const minimumEvidenceCount = params.minimumEvidenceCount ?? 5;
     if (!Number.isSafeInteger(minimumEvidenceCount) || minimumEvidenceCount < 1) {
       throw new Error('CF5_MINIMUM_EVIDENCE_COUNT_INVALID');
@@ -148,50 +140,18 @@ export class Cf5CurriculumReleaseService {
     const latestRelease = await this.prisma.curriculumRelease.findFirst({
       where: { curriculumId: active.curriculumId },
       orderBy: { versionNo: 'desc' },
-      select: { versionNo: true },
+      select: { versionNo: true, status: true },
     });
-    const candidateVersion = (latestRelease?.versionNo ?? active.versionNo) + 1;
+    const candidateVersion =
+      latestRelease && ['DRAFT', 'IN_REVIEW'].includes(latestRelease.status)
+        ? latestRelease.versionNo
+        : (latestRelease?.versionNo ?? active.versionNo) + 1;
+
+    const publicationRefs = await this.loadPublishedPointRefs(params.manifestRunId);
+    const pointRefs = await this.verifyPublishedPointRefs(publicationRefs);
     const activeLevelByCefr = new Map(
       active.levels.map((level) => [level.cefrLevel as Cefr, level] as const),
     );
-
-    const pointRefs = new Map<string, PublishedPointRef>();
-    for (const [code, ref] of publicationRefs.entries()) {
-      const dbVersion = await this.prisma.grammarPointVersion.findUnique({
-        where: { id: ref.grammarPointVersionId },
-        select: {
-          id: true,
-          versionNo: true,
-          status: true,
-          contentHash: true,
-          grammarPoint: { select: { code: true } },
-        },
-      });
-      if (
-        !dbVersion ||
-        dbVersion.status !== 'PUBLISHED' ||
-        dbVersion.grammarPoint.code !== code ||
-        dbVersion.versionNo !== ref.version ||
-        dbVersion.contentHash !== ref.grammarHash
-      ) {
-        throw new Error(`CF5_RELEASE_PUBLISHED_VERSION_MISMATCH:${code}`);
-      }
-      const exerciseCount = await this.prisma.exercise.count({
-        where: {
-          contentStatus: 'PUBLISHED',
-          targets: {
-            some: {
-              grammarPointVersionId: ref.grammarPointVersionId,
-              targetRole: 'PRIMARY',
-            },
-          },
-        },
-      });
-      if (exerciseCount < ref.exerciseCount || exerciseCount < 12) {
-        throw new Error(`CF5_RELEASE_EXERCISE_READINESS_FAILED:${code}`);
-      }
-      pointRefs.set(code, ref);
-    }
 
     const spec: Cf5CurriculumReleaseSpec = {
       schemaVersion: '1.0',
@@ -291,6 +251,7 @@ export class Cf5CurriculumReleaseService {
       spec,
       generatedAt: run.createdAt.toISOString(),
     };
+
     await this.persistReadinessReport(report);
     if (regression.passed) {
       await this.prisma.contentFactoryRun.update({
@@ -301,7 +262,6 @@ export class Cf5CurriculumReleaseService {
     return report;
   }
 
-  /** Human-only command boundary; automated agents must not synthesize this decision. */
   public async recordActivationApproval(params: {
     runId: string;
     expectedScopeHash: string;
@@ -318,6 +278,7 @@ export class Cf5CurriculumReleaseService {
     if (!approvedBy || !rationale) {
       throw new Error('CF5_RELEASE_APPROVAL_IDENTITY_AND_RATIONALE_REQUIRED');
     }
+
     const requestHash = computeSha256(
       JSON.stringify({
         runId: params.runId,
@@ -373,7 +334,6 @@ export class Cf5CurriculumReleaseService {
     }
   }
 
-  /** Explicit activation after a separate owner approval. */
   public async activateRelease(params: {
     runId: string;
     expectedScopeHash: string;
@@ -395,19 +355,12 @@ export class Cf5CurriculumReleaseService {
     });
     if (!approval) throw new Error('CF5_RELEASE_ACTIVATION_APPROVAL_EVIDENCE_MISSING');
 
-    const existingPublication = await this.prisma.contentPublication.findUnique({
+    const replay = await this.prisma.contentPublication.findUnique({
       where: { batchHash: report.scopeHash },
     });
-    if (existingPublication) {
-      if (
-        existingPublication.runId !== params.runId ||
-        existingPublication.approvalId !== approval.id ||
-        existingPublication.releaseId !== report.releaseId ||
-        existingPublication.status !== 'RELEASE_ACTIVE'
-      ) {
-        throw new Error('CF5_RELEASE_ACTIVATION_IDEMPOTENCY_CONFLICT');
-      }
-      return existingPublication.resultJson as unknown as Cf5ReleaseActivationResult;
+    if (replay) {
+      this.assertActivationPublicationReplay(replay, params.runId, approval.id, report.releaseId);
+      return replay.resultJson as unknown as Cf5ReleaseActivationResult;
     }
 
     return this.prisma.$transaction(
@@ -416,14 +369,12 @@ export class Cf5CurriculumReleaseService {
           where: { batchHash: report.scopeHash },
         });
         if (concurrent) {
-          if (
-            concurrent.runId !== params.runId ||
-            concurrent.approvalId !== approval.id ||
-            concurrent.releaseId !== report.releaseId ||
-            concurrent.status !== 'RELEASE_ACTIVE'
-          ) {
-            throw new Error('CF5_RELEASE_ACTIVATION_IDEMPOTENCY_CONFLICT');
-          }
+          this.assertActivationPublicationReplay(
+            concurrent,
+            params.runId,
+            approval.id,
+            report.releaseId!,
+          );
           return concurrent.resultJson as unknown as Cf5ReleaseActivationResult;
         }
 
@@ -474,6 +425,7 @@ export class Cf5CurriculumReleaseService {
         );
         const firstLevel = candidate.levels[0];
         if (!firstLevel) throw new Error('CF5_RELEASE_CANDIDATE_HAS_NO_LEVELS');
+
         let migratedEnrollmentCount = 0;
         if (previous) {
           for (const enrollment of previous.enrollments) {
@@ -481,6 +433,7 @@ export class Cf5CurriculumReleaseService {
               (enrollment.currentLevel
                 ? levelByCefr.get(enrollment.currentLevel.cefrLevel)
                 : undefined) ?? firstLevel;
+
             await tx.userCurriculumEnrollment.upsert({
               where: {
                 userId_releaseId: {
@@ -584,6 +537,70 @@ export class Cf5CurriculumReleaseService {
     );
   }
 
+  private assertActivationPublicationReplay(
+    publication: {
+      runId: string;
+      approvalId: string;
+      releaseId: string | null;
+      status: string;
+    },
+    runId: string,
+    approvalId: string,
+    releaseId: string,
+  ): void {
+    if (
+      publication.runId !== runId ||
+      publication.approvalId !== approvalId ||
+      publication.releaseId !== releaseId ||
+      publication.status !== 'RELEASE_ACTIVE'
+    ) {
+      throw new Error('CF5_RELEASE_ACTIVATION_IDEMPOTENCY_CONFLICT');
+    }
+  }
+
+  private async verifyPublishedPointRefs(
+    publicationRefs: Map<string, PublishedPointRef>,
+  ): Promise<Map<string, PublishedPointRef>> {
+    const refs = new Map<string, PublishedPointRef>();
+    for (const [code, ref] of publicationRefs.entries()) {
+      const dbVersion = await this.prisma.grammarPointVersion.findUnique({
+        where: { id: ref.grammarPointVersionId },
+        select: {
+          id: true,
+          versionNo: true,
+          status: true,
+          contentHash: true,
+          grammarPoint: { select: { code: true } },
+        },
+      });
+      if (
+        !dbVersion ||
+        dbVersion.status !== 'PUBLISHED' ||
+        dbVersion.grammarPoint.code !== code ||
+        dbVersion.versionNo !== ref.version ||
+        dbVersion.contentHash !== ref.grammarHash
+      ) {
+        throw new Error(`CF5_RELEASE_PUBLISHED_VERSION_MISMATCH:${code}`);
+      }
+      const exerciseCount = await this.prisma.exercise.count({
+        where: {
+          contentStatus: 'PUBLISHED',
+          targets: {
+            some: {
+              grammarPointVersionId: ref.grammarPointVersionId,
+              targetRole: 'PRIMARY',
+            },
+          },
+        },
+      });
+      if (exerciseCount < ref.exerciseCount || exerciseCount < 12) {
+        throw new Error(`CF5_RELEASE_EXERCISE_READINESS_FAILED:${code}`);
+      }
+      refs.set(code, ref);
+    }
+    return refs;
+  }
+
   private async createCandidateRelease(params: {
     curriculumId: string;
     spec: Cf5CurriculumReleaseSpec;
@@ -602,7 +619,10 @@ export class Cf5CurriculumReleaseService {
           select: { id: true, contentHash: true, status: true },
         });
         if (existing) {
-          if (existing.contentHash !== params.contentHash || existing.status === 'PUBLISHED') {
+          if (
+            existing.contentHash !== params.contentHash ||
+            !['DRAFT', 'IN_REVIEW'].includes(existing.status)
+          ) {
             throw new Error('CF5_RELEASE_VERSION_CONFLICT');
           }
           return existing.id;
@@ -630,9 +650,7 @@ export class Cf5CurriculumReleaseService {
                       create: unit.items.map((item, itemOrder) => {
                         const ref = params.pointRefs.get(item.grammarPointCode);
                         if (!ref) {
-                          throw new Error(
-                            `CF5_RELEASE_POINT_REF_MISSING:${item.grammarPointCode}`,
-                          );
+                          throw new Error(`CF5_RELEASE_POINT_REF_MISSING:${item.grammarPointCode}`);
                         }
                         return {
                           grammarPointVersionId: ref.grammarPointVersionId,
@@ -681,6 +699,7 @@ export class Cf5CurriculumReleaseService {
     );
     const activeByCode = new Map(activeItems.map((item) => [item.code, item.version]));
     const candidateByCode = new Map(candidateItems.map((item) => [item.code, item.version]));
+
     if (candidateByCode.size !== candidateItems.length) {
       findings.push({
         code: 'CF5_RELEASE_DUPLICATE_POINT_CODE',
@@ -774,6 +793,7 @@ export class Cf5CurriculumReleaseService {
     const addedPointCount = [...candidateByCode.keys()].filter((code) =>
       !activeByCode.has(code),
     ).length;
+
     return {
       schemaVersion: '1.0',
       phase: 'CF5',
@@ -828,18 +848,20 @@ export class Cf5CurriculumReleaseService {
         if (
           !point ||
           typeof point.code !== 'string' ||
-          typeof point.version !== 'number' ||
+          !Number.isSafeInteger(point.version) ||
+          point.version < 1 ||
           typeof point.grammarPointVersionId !== 'string' ||
           typeof point.grammarHash !== 'string' ||
           !/^[a-f0-9]{64}$/.test(point.grammarHash) ||
           typeof point.exerciseHash !== 'string' ||
           !/^[a-f0-9]{64}$/.test(point.exerciseHash) ||
-          typeof point.exerciseCount !== 'number'
+          !Number.isSafeInteger(point.exerciseCount) ||
+          point.exerciseCount < 12
         ) {
           throw new Error('CF5_PUBLICATION_RESULT_SCHEMA_INVALID');
         }
-        const existing = refs.get(point.code);
         const next: PublishedPointRef = { ...point, batchHash: publication.batchHash };
+        const existing = refs.get(point.code);
         if (
           existing &&
           (existing.version !== next.version ||
@@ -905,6 +927,7 @@ export class Cf5CurriculumReleaseService {
       where: { runId: manifestRunId, scopeHash: run.manifestHash },
     });
     if (!approval) throw new Error('CF5_RELEASE_MANIFEST_APPROVAL_EVIDENCE_MISSING');
+
     const job = await this.prisma.contentFactoryJob.findFirst({
       where: { runId: manifestRunId, purpose: 'PLAN_MANIFEST' },
       include: { artifacts: true },
