@@ -1,9 +1,10 @@
 import type { PrismaClient } from '@prisma/client';
-import { ContentFactoryValidator } from '@english/contracts';
+import { ContentFactoryValidator, validateContentReviewReport } from '@english/contracts';
 import { canTransitionState } from './job-state-machine.js';
 import { computeSha256 } from './idempotency-lease-manager.js';
 import {
   CF4_GRAMMAR_AUTHOR_PROMPT_VERSION,
+  type GrammarPointBundleSpec,
   type LessonGenerator,
 } from './lesson-generator.js';
 import {
@@ -14,6 +15,8 @@ import {
 import {
   CF4_ADVANCED_REVIEW_PROMPT_VERSION,
   CF4_REVIEW_PROMPT_VERSION,
+  getContentReviewPolicy,
+  isContentReviewReady,
   type IndependentContentReviewer,
 } from './independent-reviewer.js';
 import type { ContentReviewRunRepository } from './review-run-repository.js';
@@ -82,6 +85,18 @@ interface OutputArtifactOwner {
     artifactType: string;
     contentHash: string;
   }>;
+}
+
+interface ReviewedGrammarCheckpoint {
+  grammar: GrammarPointBundleSpec;
+  grammarJson: string;
+  grammarJobId: string;
+  grammarHash: string;
+  grammarValidationRunId: string;
+  reviewJobId: string;
+  reviewRunId: string;
+  reviewReportHash: string;
+  reviewProfile: Cf4ReviewProfile;
 }
 
 /**
@@ -207,230 +222,271 @@ export class Cf4LevelBatchService {
     const activeJobs: ActiveJob[] = [];
 
     try {
-      const grammarInput = this.buildGrammarInput(params.target, params.batch);
-      const grammarJob = await this.orchestrator.enqueueJob({
-        runId: params.runId,
-        purpose: 'AUTHOR_GRAMMAR',
-        targetCode: params.target.code,
-        targetVersion: params.targetVersion,
-        inputContent: grammarInput,
-        policyVersions: {
-          factory: FACTORY_POLICY_VERSION,
-          schema: SCHEMA_VERSION,
-          prompt: CF4_GRAMMAR_AUTHOR_PROMPT_VERSION,
-        },
-      });
-      result.grammarJobId = grammarJob.job.id;
-      const grammarWorker = `${params.workerPrefix}:grammar:${params.target.code}`;
-      await this.requireClaim(grammarJob.job.id, grammarWorker);
-      activeJobs.push({ id: grammarJob.job.id, workerId: grammarWorker });
-      await this.orchestrator.advanceJobState(grammarJob.job.id, grammarWorker, 'GENERATING');
+      const checkpoint = await this.tryLoadReviewedGrammarCheckpoint(params);
+      let grammar: GrammarPointBundleSpec;
+      let grammarJson: string;
 
-      const grammar = await this.grammarAuthor.authorPointWithinBatch(
-        params.target,
-        params.batch.points,
-        params.targetVersion,
-      );
-      const grammarJson = JSON.stringify(grammar);
-      result.grammarHash = computeSha256(grammarJson);
-      await this.orchestrator.advanceJobState(
-        grammarJob.job.id,
-        grammarWorker,
-        'GENERATED',
-        grammarJson,
-      );
-      await this.orchestrator.advanceJobState(grammarJob.job.id, grammarWorker, 'VALIDATING');
+      if (checkpoint) {
+        grammar = checkpoint.grammar;
+        grammarJson = checkpoint.grammarJson;
+        result.grammarJobId = checkpoint.grammarJobId;
+        result.grammarHash = checkpoint.grammarHash;
+        result.grammarValidationRunId = checkpoint.grammarValidationRunId;
+        result.reviewJobId = checkpoint.reviewJobId;
+        result.reviewRunId = checkpoint.reviewRunId;
+        result.reviewReportHash = checkpoint.reviewReportHash;
+        result.reviewProfile = checkpoint.reviewProfile;
+      } else {
+        const grammarInput = this.buildGrammarInput(params.target, params.batch);
+        const grammarJob = await this.orchestrator.enqueueJob({
+          runId: params.runId,
+          purpose: 'AUTHOR_GRAMMAR',
+          targetCode: params.target.code,
+          targetVersion: params.targetVersion,
+          inputContent: grammarInput,
+          policyVersions: {
+            factory: FACTORY_POLICY_VERSION,
+            schema: SCHEMA_VERSION,
+            prompt: CF4_GRAMMAR_AUTHOR_PROMPT_VERSION,
+          },
+        });
+        result.grammarJobId = grammarJob.job.id;
+        const grammarWorker = `${params.workerPrefix}:grammar:${params.target.code}`;
+        await this.requireClaim(grammarJob.job.id, grammarWorker);
+        activeJobs.push({ id: grammarJob.job.id, workerId: grammarWorker });
+        await this.orchestrator.advanceJobState(grammarJob.job.id, grammarWorker, 'GENERATING');
 
-      const grammarValidation = this.validator.validateGrammarPointArtifact(
-        grammar,
-        `${params.target.code}.v${params.targetVersion}.json`,
-      );
-      const grammarValidationEvidence = await this.runValidationJob({
-        runId: params.runId,
-        targetCode: params.target.code,
-        targetVersion: params.targetVersion,
-        inputContent: grammarJson,
-        promptVersion: GRAMMAR_VALIDATOR_VERSION,
-        validatorVersion: GRAMMAR_VALIDATOR_VERSION,
-        report: grammarValidation,
-        passed: grammarValidation.valid,
-        workerId: `${params.workerPrefix}:validate-grammar:${params.target.code}`,
-      });
-      result.grammarValidationRunId = grammarValidationEvidence.validationRunId;
-      if (!grammarValidation.valid) {
+        grammar = await this.grammarAuthor.authorPointWithinBatch(
+          params.target,
+          params.batch.points,
+          params.targetVersion,
+        );
+        grammarJson = JSON.stringify(grammar);
+        result.grammarHash = computeSha256(grammarJson);
         await this.orchestrator.advanceJobState(
           grammarJob.job.id,
           grammarWorker,
-          'QUARANTINED',
-          undefined,
-          grammarValidation.findings[0]?.code ?? 'CF4_GRAMMAR_VALIDATION_FAILED',
+          'GENERATED',
+          grammarJson,
         );
-        result.errorCode = grammarValidation.findings[0]?.code ?? 'CF4_GRAMMAR_VALIDATION_FAILED';
-        return result;
-      }
+        await this.orchestrator.advanceJobState(grammarJob.job.id, grammarWorker, 'VALIDATING');
 
-      await this.orchestrator.advanceJobState(grammarJob.job.id, grammarWorker, 'IN_REVIEW');
-      const reviewPromptVersion = this.reviewPromptVersion(params.batch.reviewProfile);
-      const reviewJob = await this.orchestrator.enqueueJob({
-        runId: params.runId,
-        purpose: 'REVIEW',
-        targetCode: params.target.code,
-        targetVersion: params.targetVersion,
-        inputContent: grammarJson,
-        policyVersions: {
-          factory: FACTORY_POLICY_VERSION,
-          schema: SCHEMA_VERSION,
-          prompt: reviewPromptVersion,
-        },
-      });
-      result.reviewJobId = reviewJob.job.id;
-      const reviewWorker = `${params.workerPrefix}:review:${params.target.code}`;
-      await this.requireClaim(reviewJob.job.id, reviewWorker);
-      activeJobs.push({ id: reviewJob.job.id, workerId: reviewWorker });
-      await this.orchestrator.advanceJobState(reviewJob.job.id, reviewWorker, 'GENERATING');
+        const grammarValidation = this.validator.validateGrammarPointArtifact(
+          grammar,
+          `${params.target.code}.v${params.targetVersion}.json`,
+        );
+        const grammarValidationEvidence = await this.runValidationJob({
+          runId: params.runId,
+          targetCode: params.target.code,
+          targetVersion: params.targetVersion,
+          inputContent: grammarJson,
+          promptVersion: GRAMMAR_VALIDATOR_VERSION,
+          validatorVersion: GRAMMAR_VALIDATOR_VERSION,
+          report: grammarValidation,
+          passed: grammarValidation.valid,
+          workerId: `${params.workerPrefix}:validate-grammar:${params.target.code}`,
+        });
+        result.grammarValidationRunId = grammarValidationEvidence.validationRunId;
+        if (!grammarValidation.valid) {
+          await this.orchestrator.advanceJobState(
+            grammarJob.job.id,
+            grammarWorker,
+            'QUARANTINED',
+            undefined,
+            grammarValidation.findings[0]?.code ?? 'CF4_GRAMMAR_VALIDATION_FAILED',
+          );
+          result.errorCode =
+            grammarValidation.findings[0]?.code ?? 'CF4_GRAMMAR_VALIDATION_FAILED';
+          return result;
+        }
 
-      const review = await this.reviewer.reviewGrammarPoint({
-        runId: params.runId,
-        artifact: grammar,
-        authorProvider: grammar.provenance.provider,
-        authorModel: grammar.provenance.model,
-        phase: 'CF4',
-        reviewProfile: params.batch.reviewProfile,
-      });
-      result.reviewProfile = review.reviewProfile;
-      const reviewRecord = await this.reviewRuns.record({
-        runId: params.runId,
-        jobId: reviewJob.job.id,
-        report: review.report,
-      });
-      result.reviewRunId = reviewRecord.id;
-      result.reviewReportHash = reviewRecord.reportHash;
-      const reviewJson = JSON.stringify(review.report);
-      await this.orchestrator.advanceJobState(
-        reviewJob.job.id,
-        reviewWorker,
-        'GENERATED',
-        reviewJson,
-      );
-      await this.orchestrator.advanceJobState(reviewJob.job.id, reviewWorker, 'VALIDATING');
-      await this.orchestrator.advanceJobState(reviewJob.job.id, reviewWorker, 'IN_REVIEW');
+        await this.orchestrator.advanceJobState(grammarJob.job.id, grammarWorker, 'IN_REVIEW');
+        const reviewPromptVersion = this.reviewPromptVersion(params.batch.reviewProfile);
+        const reviewJob = await this.orchestrator.enqueueJob({
+          runId: params.runId,
+          purpose: 'REVIEW',
+          targetCode: params.target.code,
+          targetVersion: params.targetVersion,
+          inputContent: grammarJson,
+          policyVersions: {
+            factory: FACTORY_POLICY_VERSION,
+            schema: SCHEMA_VERSION,
+            prompt: reviewPromptVersion,
+          },
+        });
+        result.reviewJobId = reviewJob.job.id;
+        const reviewWorker = `${params.workerPrefix}:review:${params.target.code}`;
+        await this.requireClaim(reviewJob.job.id, reviewWorker);
+        activeJobs.push({ id: reviewJob.job.id, workerId: reviewWorker });
+        await this.orchestrator.advanceJobState(reviewJob.job.id, reviewWorker, 'GENERATING');
 
-      if (!review.readyForOwnerApproval) {
+        const review = await this.reviewer.reviewGrammarPoint({
+          runId: params.runId,
+          artifact: grammar,
+          authorProvider: grammar.provenance.provider,
+          authorModel: grammar.provenance.model,
+          phase: 'CF4',
+          reviewProfile: params.batch.reviewProfile,
+        });
+        result.reviewProfile = review.reviewProfile;
+        const reviewRecord = await this.reviewRuns.record({
+          runId: params.runId,
+          jobId: reviewJob.job.id,
+          report: review.report,
+        });
+        result.reviewRunId = reviewRecord.id;
+        result.reviewReportHash = reviewRecord.reportHash;
+        const reviewJson = JSON.stringify(review.report);
         await this.orchestrator.advanceJobState(
           reviewJob.job.id,
           reviewWorker,
-          'CHANGES_REQUESTED',
-          undefined,
-          'CF4_REVIEW_CHANGES_REQUESTED',
+          'GENERATED',
+          reviewJson,
+        );
+        await this.orchestrator.advanceJobState(reviewJob.job.id, reviewWorker, 'VALIDATING');
+        await this.orchestrator.advanceJobState(reviewJob.job.id, reviewWorker, 'IN_REVIEW');
+
+        if (!review.readyForOwnerApproval) {
+          await this.orchestrator.advanceJobState(
+            reviewJob.job.id,
+            reviewWorker,
+            'CHANGES_REQUESTED',
+            undefined,
+            'CF4_REVIEW_CHANGES_REQUESTED',
+          );
+          await this.orchestrator.advanceJobState(
+            grammarJob.job.id,
+            grammarWorker,
+            'CHANGES_REQUESTED',
+            undefined,
+            'CF4_REVIEW_CHANGES_REQUESTED',
+          );
+          result.status = 'CHANGES_REQUESTED';
+          result.errorCode = 'CF4_REVIEW_CHANGES_REQUESTED';
+          return result;
+        }
+
+        await this.orchestrator.advanceJobState(
+          reviewJob.job.id,
+          reviewWorker,
+          'READY_FOR_APPROVAL',
         );
         await this.orchestrator.advanceJobState(
           grammarJob.job.id,
           grammarWorker,
-          'CHANGES_REQUESTED',
-          undefined,
-          'CF4_REVIEW_CHANGES_REQUESTED',
+          'READY_FOR_APPROVAL',
         );
-        result.status = 'CHANGES_REQUESTED';
-        result.errorCode = 'CF4_REVIEW_CHANGES_REQUESTED';
-        return result;
       }
 
-      await this.orchestrator.advanceJobState(reviewJob.job.id, reviewWorker, 'READY_FOR_APPROVAL');
-      await this.orchestrator.advanceJobState(
-        grammarJob.job.id,
-        grammarWorker,
-        'READY_FOR_APPROVAL',
-      );
-
-      const exerciseSeed = `${params.runId}:${params.batch.batchCode}:${params.target.code}:v${params.targetVersion}`;
-      const exerciseInput = this.buildExerciseJobInput(
+      return await this.runExerciseStage({
+        ...params,
+        grammar,
         grammarJson,
-        params.batch.exerciseTargetPerPoint,
-        exerciseSeed,
-      );
-      const exerciseJob = await this.orchestrator.enqueueJob({
-        runId: params.runId,
-        purpose: 'AUTHOR_EXERCISES',
-        targetCode: params.target.code,
-        targetVersion: params.targetVersion,
-        inputContent: exerciseInput,
-        policyVersions: {
-          factory: FACTORY_POLICY_VERSION,
-          schema: SCHEMA_VERSION,
-          prompt: CF4_EXERCISE_AUTHOR_PROMPT_VERSION,
-        },
+        result,
+        activeJobs,
       });
-      result.exerciseJobId = exerciseJob.job.id;
-      const exerciseWorker = `${params.workerPrefix}:exercise:${params.target.code}`;
-      await this.requireClaim(exerciseJob.job.id, exerciseWorker);
-      activeJobs.push({ id: exerciseJob.job.id, workerId: exerciseWorker });
-      await this.orchestrator.advanceJobState(exerciseJob.job.id, exerciseWorker, 'GENERATING');
-
-      const exercises = await this.exerciseFactory.generateMinimumBankWithEvidence({
-        grammarPoint: grammar,
-        count: params.batch.exerciseTargetPerPoint,
-        seed: exerciseSeed,
-        promptVersion: CF4_EXERCISE_AUTHOR_PROMPT_VERSION,
-      });
-      const exerciseJson = JSON.stringify(exercises.batch);
-      result.exerciseHash = computeSha256(exerciseJson);
-      result.exerciseCount = exercises.batch.exercises.length;
-      await this.orchestrator.advanceJobState(
-        exerciseJob.job.id,
-        exerciseWorker,
-        'GENERATED',
-        exerciseJson,
-      );
-      await this.orchestrator.advanceJobState(exerciseJob.job.id, exerciseWorker, 'VALIDATING');
-
-      const exerciseValidation = this.validator.validateExerciseBatchArtifact(
-        exercises.batch,
-        `${params.target.code}.exercise-batch.json`,
-      );
-      const exerciseReport = {
-        deterministic: exerciseValidation,
-        preflight: exercises.preflightEvidence,
-      };
-      const exercisePassed =
-        exerciseValidation.valid && this.allPreflightEvidencePassed(exercises.preflightEvidence);
-      const exerciseValidationEvidence = await this.runValidationJob({
-        runId: params.runId,
-        targetCode: params.target.code,
-        targetVersion: params.targetVersion,
-        inputContent: exerciseJson,
-        promptVersion: EXERCISE_VALIDATOR_VERSION,
-        validatorVersion: EXERCISE_VALIDATOR_VERSION,
-        report: exerciseReport,
-        passed: exercisePassed,
-        workerId: `${params.workerPrefix}:validate-exercise:${params.target.code}`,
-      });
-      result.exerciseValidationRunId = exerciseValidationEvidence.validationRunId;
-
-      if (!exercisePassed) {
-        await this.orchestrator.advanceJobState(
-          exerciseJob.job.id,
-          exerciseWorker,
-          'QUARANTINED',
-          undefined,
-          'CF4_EXERCISE_VALIDATION_FAILED',
-        );
-        result.errorCode = 'CF4_EXERCISE_VALIDATION_FAILED';
-        return result;
-      }
-
-      await this.orchestrator.advanceJobState(
-        exerciseJob.job.id,
-        exerciseWorker,
-        'READY_FOR_APPROVAL',
-      );
-      result.status = 'READY_FOR_APPROVAL';
-      return result;
     } catch (error: unknown) {
       const errorCode = this.normalizeErrorCode(error);
       result.errorCode = errorCode;
       await this.quarantineActiveJobs(activeJobs, errorCode);
       return result;
     }
+  }
+
+  private async runExerciseStage(params: {
+    runId: string;
+    batch: Cf4LevelBatch;
+    target: Cf4BatchPoint;
+    targetVersion: number;
+    workerPrefix: string;
+    grammar: GrammarPointBundleSpec;
+    grammarJson: string;
+    result: Cf4BatchPointResult;
+    activeJobs: ActiveJob[];
+  }): Promise<Cf4BatchPointResult> {
+    const exerciseSeed = `${params.runId}:${params.batch.batchCode}:${params.target.code}:v${params.targetVersion}`;
+    const exerciseInput = this.buildExerciseJobInput(
+      params.grammarJson,
+      params.batch.exerciseTargetPerPoint,
+      exerciseSeed,
+    );
+    const exerciseJob = await this.orchestrator.enqueueJob({
+      runId: params.runId,
+      purpose: 'AUTHOR_EXERCISES',
+      targetCode: params.target.code,
+      targetVersion: params.targetVersion,
+      inputContent: exerciseInput,
+      policyVersions: {
+        factory: FACTORY_POLICY_VERSION,
+        schema: SCHEMA_VERSION,
+        prompt: CF4_EXERCISE_AUTHOR_PROMPT_VERSION,
+      },
+    });
+    params.result.exerciseJobId = exerciseJob.job.id;
+    const exerciseWorker = `${params.workerPrefix}:exercise:${params.target.code}`;
+    await this.requireClaim(exerciseJob.job.id, exerciseWorker);
+    params.activeJobs.push({ id: exerciseJob.job.id, workerId: exerciseWorker });
+    await this.orchestrator.advanceJobState(exerciseJob.job.id, exerciseWorker, 'GENERATING');
+
+    const exercises = await this.exerciseFactory.generateMinimumBankWithEvidence({
+      grammarPoint: params.grammar,
+      count: params.batch.exerciseTargetPerPoint,
+      seed: exerciseSeed,
+      promptVersion: CF4_EXERCISE_AUTHOR_PROMPT_VERSION,
+    });
+    const exerciseJson = JSON.stringify(exercises.batch);
+    params.result.exerciseHash = computeSha256(exerciseJson);
+    params.result.exerciseCount = exercises.batch.exercises.length;
+    await this.orchestrator.advanceJobState(
+      exerciseJob.job.id,
+      exerciseWorker,
+      'GENERATED',
+      exerciseJson,
+    );
+    await this.orchestrator.advanceJobState(exerciseJob.job.id, exerciseWorker, 'VALIDATING');
+
+    const exerciseValidation = this.validator.validateExerciseBatchArtifact(
+      exercises.batch,
+      `${params.target.code}.exercise-batch.json`,
+    );
+    const exerciseReport = {
+      deterministic: exerciseValidation,
+      preflight: exercises.preflightEvidence,
+    };
+    const exercisePassed =
+      exerciseValidation.valid && this.allPreflightEvidencePassed(exercises.preflightEvidence);
+    const exerciseValidationEvidence = await this.runValidationJob({
+      runId: params.runId,
+      targetCode: params.target.code,
+      targetVersion: params.targetVersion,
+      inputContent: exerciseJson,
+      promptVersion: EXERCISE_VALIDATOR_VERSION,
+      validatorVersion: EXERCISE_VALIDATOR_VERSION,
+      report: exerciseReport,
+      passed: exercisePassed,
+      workerId: `${params.workerPrefix}:validate-exercise:${params.target.code}`,
+    });
+    params.result.exerciseValidationRunId = exerciseValidationEvidence.validationRunId;
+
+    if (!exercisePassed) {
+      await this.orchestrator.advanceJobState(
+        exerciseJob.job.id,
+        exerciseWorker,
+        'QUARANTINED',
+        undefined,
+        'CF4_EXERCISE_VALIDATION_FAILED',
+      );
+      params.result.errorCode = 'CF4_EXERCISE_VALIDATION_FAILED';
+      return params.result;
+    }
+
+    await this.orchestrator.advanceJobState(
+      exerciseJob.job.id,
+      exerciseWorker,
+      'READY_FOR_APPROVAL',
+    );
+    params.result.status = 'READY_FOR_APPROVAL';
+    return params.result;
   }
 
   private async tryLoadCompletedPoint(params: {
@@ -492,6 +548,21 @@ export class Cf4LevelBatchService {
         review.decision === 'PASS',
     );
     if (!reviewJob || !reviewRun) return null;
+    if (
+      !this.isStoredReviewReady({
+        reportJson: reviewRun.reportJson,
+        runId: params.runId,
+        targetCode: params.target.code,
+        targetVersion: params.targetVersion,
+        grammarHash,
+        grammarProvider: this.readGrammarProvider(grammarJson),
+        grammarModel: this.readGrammarModel(grammarJson),
+        reviewProfile: params.batch.reviewProfile,
+        expectedPromptVersion: expectedReviewPrompt,
+      })
+    ) {
+      return null;
+    }
 
     const exerciseSeed = `${params.runId}:${params.batch.batchCode}:${params.target.code}:v${params.targetVersion}`;
     const exerciseInputHash = computeSha256(
@@ -549,6 +620,160 @@ export class Cf4LevelBatchService {
       exerciseCount,
       errorCode: null,
     };
+  }
+
+  private async tryLoadReviewedGrammarCheckpoint(params: {
+    runId: string;
+    batch: Cf4LevelBatch;
+    target: Cf4BatchPoint;
+    targetVersion: number;
+  }): Promise<ReviewedGrammarCheckpoint | null> {
+    const grammarInputHash = computeSha256(this.buildGrammarInput(params.target, params.batch));
+    const jobs = await this.prisma.contentFactoryJob.findMany({
+      where: {
+        runId: params.runId,
+        targetCode: params.target.code,
+        targetVersion: params.targetVersion,
+      },
+      include: { artifacts: true, validations: true, reviews: true },
+    });
+    const grammarJob = jobs.find(
+      (job) =>
+        job.purpose === 'AUTHOR_GRAMMAR' &&
+        job.state === 'READY_FOR_APPROVAL' &&
+        job.inputHash === grammarInputHash &&
+        this.hasPinnedPolicy(job.policyVersionsJson, CF4_GRAMMAR_AUTHOR_PROMPT_VERSION),
+    );
+    if (!grammarJob?.outputHash) return null;
+    const grammarJson = this.readVerifiedOutput(grammarJob);
+    if (!grammarJson || computeSha256(grammarJson) !== grammarJob.outputHash) return null;
+
+    let grammar: GrammarPointBundleSpec;
+    try {
+      const parsed: unknown = JSON.parse(grammarJson);
+      const validation = this.validator.validateGrammarPointArtifact(
+        parsed,
+        `${params.target.code}.v${params.targetVersion}.json`,
+      );
+      if (!validation.valid) return null;
+      grammar = parsed as GrammarPointBundleSpec;
+    } catch {
+      return null;
+    }
+    const grammarHash = grammarJob.outputHash;
+
+    const grammarValidationJob = jobs.find(
+      (job) =>
+        job.purpose === 'VALIDATE' &&
+        job.state === 'READY_FOR_APPROVAL' &&
+        job.inputHash === grammarHash &&
+        this.hasPinnedPolicy(job.policyVersionsJson, GRAMMAR_VALIDATOR_VERSION),
+    );
+    const grammarValidationRun = grammarValidationJob?.validations.find(
+      (validation) =>
+        validation.artifactHash === grammarHash &&
+        validation.validatorVersion === GRAMMAR_VALIDATOR_VERSION &&
+        validation.passed,
+    );
+    if (!grammarValidationJob || !grammarValidationRun) return null;
+
+    const expectedReviewPrompt = this.reviewPromptVersion(params.batch.reviewProfile);
+    const reviewJob = jobs.find(
+      (job) =>
+        job.purpose === 'REVIEW' &&
+        job.state === 'READY_FOR_APPROVAL' &&
+        job.inputHash === grammarHash &&
+        this.hasPinnedPolicy(job.policyVersionsJson, expectedReviewPrompt),
+    );
+    const reviewRun = reviewJob?.reviews.find(
+      (review) =>
+        review.artifactHash === grammarHash &&
+        review.promptVersion === expectedReviewPrompt &&
+        review.decision === 'PASS',
+    );
+    if (!reviewJob || !reviewRun) return null;
+    if (
+      !this.isStoredReviewReady({
+        reportJson: reviewRun.reportJson,
+        runId: params.runId,
+        targetCode: params.target.code,
+        targetVersion: params.targetVersion,
+        grammarHash,
+        grammarProvider: grammar.provenance.provider,
+        grammarModel: grammar.provenance.model,
+        reviewProfile: params.batch.reviewProfile,
+        expectedPromptVersion: expectedReviewPrompt,
+      })
+    ) {
+      return null;
+    }
+
+    return {
+      grammar,
+      grammarJson,
+      grammarJobId: grammarJob.id,
+      grammarHash,
+      grammarValidationRunId: grammarValidationRun.id,
+      reviewJobId: reviewJob.id,
+      reviewRunId: reviewRun.id,
+      reviewReportHash: reviewRun.reportHash,
+      reviewProfile: params.batch.reviewProfile,
+    };
+  }
+
+  private isStoredReviewReady(params: {
+    reportJson: unknown;
+    runId: string;
+    targetCode: string;
+    targetVersion: number;
+    grammarHash: string;
+    grammarProvider: string | null;
+    grammarModel: string | null;
+    reviewProfile: Cf4ReviewProfile;
+    expectedPromptVersion: string;
+  }): boolean {
+    const validation = validateContentReviewReport(params.reportJson);
+    if (!validation.valid) return false;
+    const report = validation.value;
+    if (
+      report.artifactCode !== params.targetCode ||
+      report.artifactVersion !== params.targetVersion ||
+      report.artifactHash !== params.grammarHash ||
+      report.reviewer.runId !== params.runId ||
+      report.reviewer.promptVersion !== params.expectedPromptVersion ||
+      (report.reviewer.provider === params.grammarProvider &&
+        report.reviewer.model === params.grammarModel)
+    ) {
+      return false;
+    }
+    const policy = getContentReviewPolicy('CF4', params.reviewProfile);
+    return policy.promptVersion === params.expectedPromptVersion && isContentReviewReady(report, policy);
+  }
+
+  private readGrammarProvider(grammarJson: string): string | null {
+    try {
+      const value: unknown = JSON.parse(grammarJson);
+      if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+      const provenance = (value as Record<string, unknown>).provenance;
+      if (!provenance || typeof provenance !== 'object' || Array.isArray(provenance)) return null;
+      const provider = (provenance as Record<string, unknown>).provider;
+      return typeof provider === 'string' ? provider : null;
+    } catch {
+      return null;
+    }
+  }
+
+  private readGrammarModel(grammarJson: string): string | null {
+    try {
+      const value: unknown = JSON.parse(grammarJson);
+      if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+      const provenance = (value as Record<string, unknown>).provenance;
+      if (!provenance || typeof provenance !== 'object' || Array.isArray(provenance)) return null;
+      const model = (provenance as Record<string, unknown>).model;
+      return typeof model === 'string' ? model : null;
+    } catch {
+      return null;
+    }
   }
 
   private async runValidationJob(params: {
