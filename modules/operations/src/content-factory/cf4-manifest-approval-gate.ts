@@ -1,10 +1,12 @@
 import type { PrismaClient } from '@prisma/client';
+import { ContentFactoryValidator } from '@english/contracts';
 import type { AutonomousManifest, CurriculumPointSpec } from './manifest-planner.js';
 import {
   Cf4LevelBatchPlanner,
   type Cf4BatchPoint,
   type Cf4LevelBatch,
 } from './cf4-level-batch-planner.js';
+import { computeSha256 } from './idempotency-lease-manager.js';
 import type { ContentFactoryStorageRepository } from './storage-repository.js';
 
 export interface Cf4ManifestApprovalGate {
@@ -22,6 +24,7 @@ export interface Cf4ManifestApprovalGate {
  */
 export class PrismaCf4ManifestApprovalGate implements Cf4ManifestApprovalGate {
   private readonly planner = new Cf4LevelBatchPlanner();
+  private readonly validator = new ContentFactoryValidator();
 
   constructor(
     private readonly prisma: PrismaClient,
@@ -56,17 +59,37 @@ export class PrismaCf4ManifestApprovalGate implements Cf4ManifestApprovalGate {
       (artifact) => artifact.artifactType === 'INPUT_SNAPSHOT',
     );
     const filename = inputArtifact?.artifactPath.split('/').at(-1);
-    if (!filename) throw new Error('CF4_APPROVED_MANIFEST_ARTIFACT_MISSING');
+    if (!inputArtifact || !filename) throw new Error('CF4_APPROVED_MANIFEST_ARTIFACT_MISSING');
     const content = this.storage.readArtifact(params.manifestRunId, filename);
     if (!content) throw new Error('CF4_APPROVED_MANIFEST_BYTES_MISSING');
+    if (computeSha256(content) !== inputArtifact.contentHash) {
+      throw new Error('CF4_APPROVED_MANIFEST_HASH_MISMATCH');
+    }
 
-    const manifest = JSON.parse(content) as AutonomousManifest;
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(content) as unknown;
+    } catch {
+      throw new Error('CF4_APPROVED_MANIFEST_JSON_INVALID');
+    }
+    const validation = this.validator.validateManifestArtifact(parsed, inputArtifact.artifactPath);
+    if (!validation.valid) {
+      throw new Error(
+        `CF4_APPROVED_MANIFEST_VALIDATION_FAILED:${validation.findings
+          .map((finding) => finding.code)
+          .join(',')}`,
+      );
+    }
+
+    const manifest = parsed as AutonomousManifest;
     const expectedPlan = this.planner.plan(manifest, params.batch.plannedMaximumBatchSize);
     const expectedBatch = expectedPlan.levels
       .flatMap((level) => level.batches)
       .find((batch) => batch.batchCode === params.batch.batchCode);
 
-    if (!expectedBatch) throw new Error(`CF4_BATCH_NOT_IN_APPROVED_MANIFEST:${params.batch.batchCode}`);
+    if (!expectedBatch) {
+      throw new Error(`CF4_BATCH_NOT_IN_APPROVED_MANIFEST:${params.batch.batchCode}`);
+    }
     if (!this.sameBatch(params.batch, expectedBatch)) {
       throw new Error(`CF4_BATCH_DIFFERS_FROM_APPROVED_MANIFEST:${params.batch.batchCode}`);
     }
