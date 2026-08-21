@@ -51,7 +51,7 @@ describe('Cf4ExecutionControl', () => {
     expect(String(create.mock.calls[0]?.[0].data.idempotencyKey)).toContain('-att2-');
   });
 
-  it('fails closed when an atomic budget reservation does not fit', async () => {
+  it('fails closed when an atomic per-call budget reservation does not fit', async () => {
     const prisma = {
       $queryRaw: vi.fn(async () => []),
       contentFactoryRun: { findUnique: vi.fn(async () => ({ id: 'run-id' })) },
@@ -66,6 +66,87 @@ describe('Cf4ExecutionControl', () => {
         estimatedCost: 0.1,
       }),
     ).rejects.toThrow('CF4_RUN_BUDGET_EXHAUSTED');
+  });
+
+  it('charges a multi-request initial envelope only once across replay', async () => {
+    let marker: { contentHash: string } | null = null;
+    const queryRaw = vi.fn(async () =>
+      queryRaw.mock.calls.length === 2 ? [{ id: 'run-id' }] : [],
+    );
+    const create = vi.fn(async (args: { data: { contentHash: string } }) => {
+      marker = { contentHash: args.data.contentHash };
+      return { id: 'marker' };
+    });
+    const tx = {
+      $queryRaw: queryRaw,
+      contentFactoryArtifact: {
+        findFirst: vi.fn(async () => marker),
+        create,
+      },
+      contentFactoryRun: { findUnique: vi.fn(async () => ({ id: 'run-id' })) },
+    };
+    const prisma = {
+      $transaction: vi.fn(async (callback: (client: typeof tx) => unknown) => callback(tx)),
+    } as unknown as PrismaClient;
+    const control = new Cf4ExecutionControl(prisma, storage());
+    const reservation = {
+      requests: 9,
+      inputTokens: 1000,
+      outputTokens: 2000,
+      estimatedCost: 0.5,
+    };
+
+    await expect(
+      control.reserveRunBudget('11111111-1111-4111-8111-111111111111', reservation),
+    ).resolves.toEqual(reservation);
+    await expect(
+      control.reserveRunBudget('11111111-1111-4111-8111-111111111111', reservation),
+    ).resolves.toEqual(reservation);
+
+    expect(create).toHaveBeenCalledOnce();
+    // First invocation: advisory lock + budget UPDATE. Replay: advisory lock only.
+    expect(queryRaw).toHaveBeenCalledTimes(3);
+  });
+
+  it('binds a run to one CF4 batch scope and rejects a different scope', async () => {
+    let marker: { contentHash: string } | null = null;
+    const create = vi.fn(async (args: { data: { contentHash: string } }) => {
+      marker = { contentHash: args.data.contentHash };
+      return { id: 'scope-marker' };
+    });
+    const tx = {
+      $queryRaw: vi.fn(async () => []),
+      contentFactoryArtifact: {
+        findFirst: vi.fn(async () => marker),
+        create,
+      },
+      contentFactoryRun: { findUnique: vi.fn(async () => ({ id: 'run-id' })) },
+    };
+    const prisma = {
+      $transaction: vi.fn(async (callback: (client: typeof tx) => unknown) => callback(tx)),
+    } as unknown as PrismaClient;
+    const control = new Cf4ExecutionControl(prisma, storage());
+    const base = {
+      phase: 'CF4' as const,
+      manifestRunId: 'manifest-run',
+      batchCode: 'CF4-A1-B001',
+      plannedMaximumBatchSize: 5,
+      targetVersion: 1,
+    };
+
+    await expect(
+      control.assertOrBindRunScope({ runId: 'run-id', scope: base }),
+    ).resolves.toMatchObject({ reused: false });
+    await expect(
+      control.assertOrBindRunScope({ runId: 'run-id', scope: base }),
+    ).resolves.toMatchObject({ reused: true });
+    await expect(
+      control.assertOrBindRunScope({
+        runId: 'run-id',
+        scope: { ...base, batchCode: 'CF4-A1-B002' },
+      }),
+    ).rejects.toThrow('CF4_RUN_SCOPE_MISMATCH');
+    expect(create).toHaveBeenCalledOnce();
   });
 
   it('rejects invalid reservations before touching the database', async () => {
