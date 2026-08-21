@@ -22,3 +22,19 @@ Before coding, read `contracts/README.md`, the product/architecture/domain contr
 - Important policy/idempotency/transaction/safety functions need concise comments explaining why and invariants.
 - Preserve user changes; do not edit an applied migration.
 - Run contract validation, database validation, formatting, lint, typecheck, tests, and relevant builds.
+
+## Verifiable guideline gate
+
+The CI verifier parses this block; the commands are then executed as separate CI steps so failure cannot be hidden by the verifier itself.
+
+```codex-guidelines
+{
+  "version": 1,
+  "scope": ".",
+  "commands": {
+    "format": "pnpm format:check",
+    "lint": "pnpm lint",
+    "test": "pnpm test"
+  }
+}
+```

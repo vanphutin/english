@@ -338,7 +338,7 @@ export class ContentFactoryValidator {
     this.checkPromptInjection(jsonString, findings, artifactPath);
     this.checkPlaceholderContent(jsonString, findings, artifactPath);
 
-    const examples = Array.isArray(point.examples) ? point.examples : [];
+    const examples: unknown[] = Array.isArray(point.examples) ? (point.examples as unknown[]) : [];
     const exampleTypes = new Set(
       examples.flatMap((example) =>
         example &&

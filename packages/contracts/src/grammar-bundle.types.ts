@@ -38,6 +38,7 @@ export interface GrammarBundle {
   evaluationPolicy: Record<string, unknown>;
   provenance: {
     origin: 'AI_GENERATED';
+    provider?: string;
     model: string;
     promptVersion: string;
     generatedAt: string;

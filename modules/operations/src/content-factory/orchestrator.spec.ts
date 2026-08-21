@@ -1,4 +1,4 @@
-import { describe, expect, it, beforeEach, afterEach } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { PrismaClient } from '@prisma/client';
 import fs from 'fs';
 import path from 'path';
@@ -32,63 +32,130 @@ describe('ContentFactoryOrchestratorService (Phase CF1 Durable Orchestration)', 
     }
   });
 
-  it('guarantees idempotency on duplicate job enqueue requests', async () => {
-    const inputContent = JSON.stringify({ code: 'PILOT_POINT_1', license: 'PUBLIC_CONTENT' });
-
-    const res1 = await orchestrator.enqueueJob({
+  it('guarantees idempotency when identical enqueue requests race', async () => {
+    const request = {
       runId: testRunId,
-      purpose: 'PLAN_MANIFEST',
+      purpose: 'PLAN_MANIFEST' as const,
       targetCode: 'PILOT_POINT_1',
-      inputContent,
-    });
+      inputContent: JSON.stringify({ code: 'PILOT_POINT_1', license: 'PUBLIC_CONTENT' }),
+    };
 
-    const res2 = await orchestrator.enqueueJob({
-      runId: testRunId,
-      purpose: 'PLAN_MANIFEST',
-      targetCode: 'PILOT_POINT_1',
-      inputContent,
-    });
+    const [res1, res2] = await Promise.all([
+      orchestrator.enqueueJob(request),
+      orchestrator.enqueueJob(request),
+    ]);
 
-    expect(res1.isDuplicate).toBe(false);
-    expect(res2.isDuplicate).toBe(true);
     expect(res1.job.id).toBe(res2.job.id);
     expect(res1.job.idempotencyKey).toBe(res2.job.idempotencyKey);
+    expect([res1.isDuplicate, res2.isDuplicate].filter(Boolean)).toHaveLength(1);
+    expect(await prisma.contentFactoryJob.count({ where: { runId: testRunId } })).toBe(1);
   });
 
-  it('atomically claims next QUEUED job with worker lease', async () => {
-    const inputContent = JSON.stringify({ code: 'PILOT_POINT_2', license: 'PUBLIC_CONTENT' });
+  it('allows only one worker to atomically claim a queued job', async () => {
     await orchestrator.enqueueJob({
       runId: testRunId,
       purpose: 'PLAN_MANIFEST',
       targetCode: 'PILOT_POINT_2',
-      inputContent,
+      inputContent: JSON.stringify({ code: 'PILOT_POINT_2', license: 'PUBLIC_CONTENT' }),
     });
 
-    const claimedJob = await orchestrator.claimNextJob('worker-node-1', testRunId, 5);
+    const claims = await Promise.all([
+      orchestrator.claimNextJob('worker-node-1', testRunId, 5),
+      orchestrator.claimNextJob('worker-node-2', testRunId, 5),
+    ]);
 
-    expect(claimedJob).not.toBeNull();
-    expect(claimedJob?.state).toBe('CLAIMED');
-    expect(claimedJob?.workerId).toBe('worker-node-1');
-    expect(claimedJob?.leaseExpiresAt).not.toBeNull();
+    expect(claims.filter(Boolean)).toHaveLength(1);
+    expect(claims.filter((claim) => claim === null)).toHaveLength(1);
+  });
+
+  it('claims the requested job instead of an unrelated older queued job', async () => {
+    const first = await orchestrator.enqueueJob({
+      runId: testRunId,
+      purpose: 'PLAN_MANIFEST',
+      targetCode: 'OLDER_JOB',
+      inputContent: JSON.stringify({ code: 'OLDER_JOB', license: 'PUBLIC_CONTENT' }),
+    });
+    const second = await orchestrator.enqueueJob({
+      runId: testRunId,
+      purpose: 'PLAN_MANIFEST',
+      targetCode: 'TARGET_JOB',
+      inputContent: JSON.stringify({ code: 'TARGET_JOB', license: 'PUBLIC_CONTENT' }),
+    });
+
+    const claimed = await orchestrator.claimJob(second.job.id, 'worker-target', 5);
+    const untouched = await prisma.contentFactoryJob.findUnique({ where: { id: first.job.id } });
+
+    expect(claimed?.id).toBe(second.job.id);
+    expect(claimed?.workerId).toBe('worker-target');
+    expect(untouched?.state).toBe('QUEUED');
+    expect(untouched?.workerId).toBeNull();
+  });
+
+  it('reclaims an expired active lease instead of leaving GENERATING work stuck', async () => {
+    const { job } = await orchestrator.enqueueJob({
+      runId: testRunId,
+      purpose: 'AUTHOR_GRAMMAR',
+      targetCode: 'PILOT_POINT_3',
+      inputContent: JSON.stringify({ code: 'PILOT_POINT_3', license: 'PUBLIC_CONTENT' }),
+    });
+
+    await orchestrator.claimNextJob('worker-node-1', testRunId, 10);
+    await orchestrator.advanceJobState(job.id, 'worker-node-1', 'GENERATING');
+    await prisma.contentFactoryJob.update({
+      where: { id: job.id },
+      data: { leaseExpiresAt: new Date(Date.now() - 1_000) },
+    });
+
+    const reclaimed = await orchestrator.claimNextJob('worker-node-2', testRunId, 5);
+    expect(reclaimed?.id).toBe(job.id);
+    expect(reclaimed?.state).toBe('CLAIMED');
+    expect(reclaimed?.workerId).toBe('worker-node-2');
+    expect(reclaimed?.leaseExpiresAt?.getTime()).toBeGreaterThan(Date.now());
+  });
+
+  it('rejects expired workers before they can persist output artifacts', async () => {
+    const { job } = await orchestrator.enqueueJob({
+      runId: testRunId,
+      purpose: 'AUTHOR_GRAMMAR',
+      targetCode: 'PILOT_POINT_4',
+      inputContent: JSON.stringify({ code: 'PILOT_POINT_4', license: 'PUBLIC_CONTENT' }),
+    });
+
+    await orchestrator.claimNextJob('worker-node-1', testRunId, 10);
+    await prisma.contentFactoryJob.update({
+      where: { id: job.id },
+      data: { leaseExpiresAt: new Date(Date.now() - 1_000) },
+    });
+
+    await expect(
+      orchestrator.advanceJobState(
+        job.id,
+        'worker-node-1',
+        'GENERATING',
+        JSON.stringify({ unauthorized: true }),
+      ),
+    ).rejects.toThrow('does not hold an active lease');
+
+    const outputArtifacts = await prisma.contentFactoryArtifact.count({
+      where: { jobId: job.id, artifactType: 'OUTPUT_SNAPSHOT' },
+    });
+    expect(outputArtifacts).toBe(0);
   });
 
   it('enforces worker lease ownership during state transitions', async () => {
-    const inputContent = JSON.stringify({ code: 'PILOT_POINT_3', license: 'PUBLIC_CONTENT' });
     const { job } = await orchestrator.enqueueJob({
       runId: testRunId,
       purpose: 'PLAN_MANIFEST',
-      targetCode: 'PILOT_POINT_3',
-      inputContent,
+      targetCode: 'PILOT_POINT_5',
+      inputContent: JSON.stringify({ code: 'PILOT_POINT_5', license: 'PUBLIC_CONTENT' }),
     });
 
     await orchestrator.claimNextJob('worker-node-1', testRunId, 10);
 
-    // Unauthorized worker should fail
     await expect(
       orchestrator.advanceJobState(job.id, 'unauthorized-worker-2', 'GENERATING'),
     ).rejects.toThrow('Worker unauthorized-worker-2 does not hold an active lease');
 
-    // Authorized worker succeeds
     const updated = await orchestrator.advanceJobState(job.id, 'worker-node-1', 'GENERATING');
     expect(updated.state).toBe('GENERATING');
   });
@@ -101,12 +168,11 @@ describe('ContentFactoryOrchestratorService (Phase CF1 Durable Orchestration)', 
   });
 
   it('validates manifest and transitions invalid jobs to QUARANTINED', async () => {
-    const invalidManifestContent = JSON.stringify({ code: 'INVALID_MANIFEST' });
     const { job } = await orchestrator.enqueueJob({
       runId: testRunId,
       purpose: 'PLAN_MANIFEST',
       targetCode: 'INVALID_MANIFEST',
-      inputContent: invalidManifestContent,
+      inputContent: JSON.stringify({ code: 'INVALID_MANIFEST' }),
     });
 
     await orchestrator.claimNextJob('worker-node-1', testRunId, 5);
@@ -114,15 +180,16 @@ describe('ContentFactoryOrchestratorService (Phase CF1 Durable Orchestration)', 
 
     expect(resultJob.state).toBe('QUARANTINED');
     expect(resultJob.normalizedErrorCode).toBe('SCHEMA_VALIDATION_FAILED');
+    expect(resultJob.workerId).toBeNull();
+    expect(resultJob.leaseExpiresAt).toBeNull();
   });
 
-  it('records owner approval with hash integrity', async () => {
-    const inputContent = JSON.stringify({ code: 'APPROVED_POINT', license: 'PUBLIC_CONTENT' });
+  it('does not create owner approval without the exact human confirmation token', async () => {
     const { job } = await orchestrator.enqueueJob({
       runId: testRunId,
       purpose: 'PLAN_MANIFEST',
-      targetCode: 'APPROVED_POINT',
-      inputContent,
+      targetCode: 'OWNER_BOUNDARY_POINT',
+      inputContent: JSON.stringify({ code: 'OWNER_BOUNDARY_POINT', license: 'PUBLIC_CONTENT' }),
     });
 
     await prisma.contentFactoryJob.update({
@@ -130,19 +197,19 @@ describe('ContentFactoryOrchestratorService (Phase CF1 Durable Orchestration)', 
       data: { state: 'READY_FOR_APPROVAL', outputHash: job.inputHash },
     });
     const scopeHash = await orchestrator.getApprovalScopeHash(testRunId);
-    const approval = await orchestrator.recordOwnerApproval({
-      runId: testRunId,
-      approvedBy: 'Owner',
-      rationale: 'Approval for CF1 test',
-      expectedScopeHash: scopeHash,
-      confirmation: `APPROVE:${scopeHash}`,
-    });
 
-    expect(approval.approvedBy).toBe('Owner');
-    expect(approval.scopeHash).toBeDefined();
-    expect(approval.approvalHash).toBeDefined();
+    await expect(
+      orchestrator.recordOwnerApproval({
+        runId: testRunId,
+        approvedBy: 'AUTOMATED_TEST_ACTOR',
+        rationale: 'This automated path must not be accepted as owner approval.',
+        expectedScopeHash: scopeHash,
+        confirmation: 'NOT_APPROVED',
+      }),
+    ).rejects.toThrow('OWNER_APPROVAL_HASH_MISMATCH');
 
+    expect(await prisma.contentFactoryApproval.count({ where: { runId: testRunId } })).toBe(0);
     const run = await prisma.contentFactoryRun.findUnique({ where: { id: testRunId } });
-    expect(run?.status).toBe('OWNER APPROVED');
+    expect(run?.status).toBe('DRAFT ONLY');
   });
 });

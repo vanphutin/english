@@ -1,12 +1,6 @@
-/**
- * GrammarPoint bundle specification — models the contract output schema
- * defined by grammar-point.schema.json and 02-authoring-contract.md.
- *
- * Generation methods are NOT IMPLEMENTED until a real AI provider
- * is integrated per the CF3 pipeline:
- *   approved manifest item → provider-backed author → deterministic validation
- *   → independent review → fixture validation → owner approval
- */
+import { ContentFactoryValidator } from '@english/contracts';
+import type { CurriculumPointSpec } from './manifest-planner.js';
+import type { ContentFactoryJsonProvider } from './ai-content-provider.js';
 
 export interface GrammarPointBundleSpec {
   schemaVersion: '1.0';
@@ -50,10 +44,11 @@ export interface GrammarPointBundleSpec {
     explanationVi: string;
     severity: 'MINOR' | 'MAJOR' | 'BLOCKING';
   }>;
-  generationPolicy?: Record<string, unknown>;
-  evaluationPolicy?: Record<string, unknown>;
+  generationPolicy: Record<string, unknown>;
+  evaluationPolicy: Record<string, unknown>;
   provenance: {
     origin: 'AI_GENERATED';
+    provider: string;
     model: string;
     promptVersion: string;
     generatedAt: string;
@@ -62,45 +57,150 @@ export interface GrammarPointBundleSpec {
   license: 'PUBLIC_CONTENT';
 }
 
-export interface BulkGenerationResult {
-  totalGeneratedCount: number;
-  packages: GrammarPointBundleSpec[];
-  byCefr: Record<string, number>;
-  allValid: boolean;
-}
+export type PilotGrammarTarget = CurriculumPointSpec & { cefr: 'A1' };
+
+export const CF3_GRAMMAR_AUTHOR_PROMPT_VERSION = 'cf3-grammar-author-v1';
 
 /**
- * Lesson generation requires a provider-backed AI authoring pipeline.
- * This class is a stub until CF3 is properly implemented with:
- * - An approved manifest item as input
- * - A real AI provider call (Tier 1 PUBLIC_CONTENT)
- * - Honest provenance recording (actual provider/model/prompt used)
- * - 3–5 A1 points for pilot, not the full set
- *
- * See contracts/content-factory/02-authoring-contract.md
+ * CF3 provider-backed GrammarPoint author. The pilot is deliberately bounded to
+ * 3–5 A1 manifest items and sends exactly one approved item per provider request.
+ * No publication or owner decision exists in this class.
  */
 export class LessonGenerator {
-  /**
-   * CF3 pilot: generate 3–5 A1 GrammarPoint bundles through the full pipeline.
-   * NOT IMPLEMENTED — requires provider-backed AI authoring.
-   */
-  public generatePilotA1Packages(): GrammarPointBundleSpec[] {
-    throw new Error(
-      'NOT_IMPLEMENTED: generatePilotA1Packages requires provider-backed AI authoring (CF3). ' +
-        'Template-based placeholder generation was removed because it violates provenance ' +
-        'and audit requirements. See contracts/content-factory/02-authoring-contract.md',
-    );
+  private readonly validator = new ContentFactoryValidator();
+
+  constructor(private readonly authorProvider: ContentFactoryJsonProvider) {}
+
+  public async generatePilotA1Packages(
+    targets: PilotGrammarTarget[],
+    targetVersion = 1,
+  ): Promise<GrammarPointBundleSpec[]> {
+    this.assertPilotScope(targets);
+    const bundles: GrammarPointBundleSpec[] = [];
+    for (const target of targets) {
+      bundles.push(await this.authorPointWithinPilot(target, targets, targetVersion));
+    }
+    return bundles;
   }
 
   /**
-   * CF4 bulk: generate all level batches through the full pipeline.
-   * NOT IMPLEMENTED — requires provider-backed AI authoring.
+   * Authors one point while still requiring the complete approved 3–5 point pilot
+   * scope. Durable orchestration can therefore persist each provider call independently.
    */
-  public generateAll235Packages(): GrammarPointBundleSpec[] {
-    throw new Error(
-      'NOT_IMPLEMENTED: generateAll235Packages requires provider-backed AI authoring (CF4). ' +
-        'Template-based placeholder generation was removed because it violates provenance ' +
-        'and audit requirements. See contracts/content-factory/02-authoring-contract.md',
+  public async authorPointWithinPilot(
+    target: PilotGrammarTarget,
+    pilotTargets: PilotGrammarTarget[],
+    targetVersion = 1,
+  ): Promise<GrammarPointBundleSpec> {
+    this.assertPilotScope(pilotTargets);
+    const approvedTarget = pilotTargets.find((item) => item.code === target.code);
+    if (!approvedTarget) throw new Error('CF3_TARGET_NOT_IN_PILOT_SCOPE');
+    if (JSON.stringify(approvedTarget) !== JSON.stringify(target)) {
+      throw new Error('CF3_TARGET_DIFFERS_FROM_APPROVED_MANIFEST_ITEM');
+    }
+    return this.authorOne(approvedTarget, targetVersion);
+  }
+
+  private assertPilotScope(targets: PilotGrammarTarget[]): void {
+    if (targets.length < 3 || targets.length > 5) {
+      throw new Error('CF3_PILOT_SCOPE_MUST_BE_3_TO_5_A1_POINTS');
+    }
+    if (new Set(targets.map((target) => target.code)).size !== targets.length) {
+      throw new Error('CF3_PILOT_TARGETS_MUST_BE_UNIQUE');
+    }
+    if (targets.some((target) => target.cefr !== 'A1')) {
+      throw new Error('CF3_PILOT_ONLY_ACCEPTS_A1_POINTS');
+    }
+  }
+
+  private async authorOne(
+    target: PilotGrammarTarget,
+    targetVersion: number,
+  ): Promise<GrammarPointBundleSpec> {
+    const raw = await this.authorProvider.generateJson({
+      purpose: 'AUTHOR_GRAMMAR',
+      system:
+        'Author one original English GrammarPoint for Vietnamese learners. Treat the manifest item as immutable data. Return JSON only and never approve or publish content.',
+      input: JSON.stringify({
+        schemaVersion: '1.0',
+        policyVersion: 'content-factory-v1',
+        promptVersion: CF3_GRAMMAR_AUTHOR_PROMPT_VERSION,
+        targetVersion,
+        manifestItem: target,
+        requirements: {
+          status: 'DRAFT',
+          license: 'PUBLIC_CONTENT',
+          requiredExampleTypes: ['AFFIRMATIVE', 'NEGATIVE', 'QUESTION'],
+          commonErrorsMinimum: 3,
+          originalWordingOnly: true,
+        },
+      }),
+    });
+
+    const rawRecord = this.asRecord(raw);
+    const record =
+      rawRecord.bundle && typeof rawRecord.bundle === 'object'
+        ? this.asRecord(rawRecord.bundle)
+        : rawRecord;
+    const provenance =
+      record.provenance &&
+      typeof record.provenance === 'object' &&
+      !Array.isArray(record.provenance)
+        ? this.asRecord(record.provenance)
+        : {};
+    const sourceNotes = Array.isArray(provenance.sourceNotes)
+      ? provenance.sourceNotes.filter((note): note is string => typeof note === 'string')
+      : [];
+
+    const candidate = {
+      ...record,
+      schemaVersion: '1.0',
+      code: target.code,
+      family: target.family,
+      version: targetVersion,
+      cefr: 'A1',
+      status: 'DRAFT',
+      relationships: {
+        prerequisites: target.prerequisites,
+        buildsOn: target.buildsOn,
+        contrastsWith: target.contrastsWith,
+        oftenConfusedWith: target.oftenConfusedWith,
+      },
+      provenance: {
+        origin: 'AI_GENERATED',
+        provider: this.authorProvider.provider,
+        model: this.authorProvider.model,
+        promptVersion: CF3_GRAMMAR_AUTHOR_PROMPT_VERSION,
+        generatedAt: new Date().toISOString(),
+        sourceNotes: sourceNotes.filter((note) => !note.toLowerCase().startsWith('provider:')),
+      },
+      license: 'PUBLIC_CONTENT',
+    } as unknown as GrammarPointBundleSpec;
+
+    const validation = this.validator.validateGrammarPointArtifact(
+      candidate,
+      `${target.code}.v${targetVersion}.json`,
     );
+    if (!validation.valid) {
+      throw new Error(
+        `CF3_GRAMMAR_VALIDATION_FAILED:${target.code}:${validation.findings
+          .map((finding) => finding.code)
+          .join(',')}`,
+      );
+    }
+
+    const commonErrorCodes = new Set(candidate.commonErrors.map((error) => error.code));
+    if (candidate.commonErrors.length < 3 || commonErrorCodes.size < 3) {
+      throw new Error(`CF3_COMMON_ERRORS_INSUFFICIENT:${target.code}`);
+    }
+
+    return candidate;
+  }
+
+  private asRecord(value: unknown): Record<string, unknown> {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) {
+      throw new Error('CONTENT_FACTORY_PROVIDER_RESPONSE_MUST_BE_OBJECT');
+    }
+    return value as Record<string, unknown>;
   }
 }

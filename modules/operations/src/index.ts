@@ -19,7 +19,12 @@ export * from './content-factory/idempotency-lease-manager.js';
 export * from './content-factory/storage-repository.js';
 export * from './content-factory/coverage-matrix.js';
 export * from './content-factory/manifest-planner.js';
+export * from './content-factory/ai-content-provider.js';
 export * from './content-factory/lesson-generator.js';
+export * from './content-factory/independent-reviewer.js';
+export * from './content-factory/review-run-repository.js';
+export * from './content-factory/validation-run-repository.js';
+export * from './content-factory/exercise-factory.js';
+export * from './content-factory/cf3-manifest-approval-gate.js';
+export * from './content-factory/cf3-pilot.service.js';
 export * from './content-factory/content-factory-orchestrator.service.js';
-
-

@@ -81,6 +81,7 @@
       "required": ["origin", "model", "promptVersion", "generatedAt"],
       "properties": {
         "origin": { "const": "AI_GENERATED" },
+        "provider": { "type": "string", "minLength": 1 },
         "model": { "type": "string", "minLength": 1 },
         "promptVersion": { "type": "string", "minLength": 1 },
         "generatedAt": { "type": "string", "format": "date-time" },

@@ -6,6 +6,7 @@ export interface StoredArtifactRef {
   artifactPath: string;
   storageUri: string;
   contentHash: string;
+  created: boolean;
 }
 
 export class ContentFactoryStorageRepository {
@@ -15,6 +16,10 @@ export class ContentFactoryStorageRepository {
     this.baseDir = baseDir ?? path.resolve(process.cwd(), 'var', 'content-factory');
   }
 
+  /**
+   * Persists an immutable artifact. Re-delivery of identical bytes is idempotent;
+   * attempting to overwrite the same path with different bytes fails closed.
+   */
   public saveArtifact(runId: string, filename: string, content: string): StoredArtifactRef {
     const runDir = path.join(this.baseDir, runId);
     if (!fs.existsSync(runDir)) {
@@ -26,16 +31,34 @@ export class ContentFactoryStorageRepository {
     if (!fs.existsSync(parentDir)) {
       fs.mkdirSync(parentDir, { recursive: true });
     }
-    fs.writeFileSync(filePath, content, 'utf8');
 
     const contentHash = computeSha256(content);
+    let created = true;
+    if (fs.existsSync(filePath)) {
+      const existingContent = fs.readFileSync(filePath, 'utf8');
+      const existingHash = computeSha256(existingContent);
+      if (existingHash !== contentHash) {
+        throw new Error(`ARTIFACT_IMMUTABILITY_VIOLATION:${filename}`);
+      }
+      created = false;
+    } else {
+      fs.writeFileSync(filePath, content, 'utf8');
+    }
+
     const storageUri = `file://${filePath.replace(/\\/g, '/')}`;
 
     return {
       artifactPath: path.relative(process.cwd(), filePath).replace(/\\/g, '/'),
       storageUri,
       contentHash,
+      created,
     };
+  }
+
+  /** Removes only a newly-created file when the surrounding DB transaction rolls back. */
+  public removeArtifact(runId: string, filename: string): void {
+    const filePath = path.join(this.baseDir, runId, filename);
+    if (fs.existsSync(filePath)) fs.rmSync(filePath, { force: true });
   }
 
   public readArtifact(runId: string, filename: string): string | null {

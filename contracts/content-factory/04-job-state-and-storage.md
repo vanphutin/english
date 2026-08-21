@@ -18,7 +18,7 @@ Failure states: `CHANGES_REQUESTED`, `RETRY_WAIT`, `QUARANTINED`, `REJECTED`, `C
 
 ## Idempotency
 
-Job identity is derived from purpose, approved input hash, target code/version, policy/schema/prompt versions, and attempt. Re-delivery with the same identity returns the existing result. Changed intent requires a new job. Provider retries cannot create duplicate artifacts, reviews, approvals, or publications.
+Within a `ContentFactoryRun`, job identity is derived from purpose, approved input hash, target code/version, policy/schema/prompt versions, and attempt. The run ID namespaces that semantic identity so separate runs keep independent budgets, state, and audit evidence. Re-delivery with the same identity in the same run returns the existing result. Changed intent requires a new job. Provider retries cannot create duplicate artifacts, reviews, approvals, or publications.
 
 ## Budgets and resilience
 
