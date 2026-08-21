@@ -17,7 +17,8 @@ export interface Cf4ManifestApprovalGate {
 /**
  * CF4 production gate. A level batch is authorable only when it is exactly one
  * deterministic batch derived from the immutable owner-approved CF2 manifest.
- * The caller cannot swap points, levels, review profiles, or exercise targets.
+ * The caller cannot swap points, levels, review profiles, exercise targets, or
+ * the batch partitioning parameter after approval.
  */
 export class PrismaCf4ManifestApprovalGate implements Cf4ManifestApprovalGate {
   private readonly planner = new Cf4LevelBatchPlanner();
@@ -60,7 +61,7 @@ export class PrismaCf4ManifestApprovalGate implements Cf4ManifestApprovalGate {
     if (!content) throw new Error('CF4_APPROVED_MANIFEST_BYTES_MISSING');
 
     const manifest = JSON.parse(content) as AutonomousManifest;
-    const expectedPlan = this.planner.plan(manifest);
+    const expectedPlan = this.planner.plan(manifest, params.batch.plannedMaximumBatchSize);
     const expectedBatch = expectedPlan.levels
       .flatMap((level) => level.batches)
       .find((batch) => batch.batchCode === params.batch.batchCode);
@@ -76,6 +77,7 @@ export class PrismaCf4ManifestApprovalGate implements Cf4ManifestApprovalGate {
       actual.batchCode !== expected.batchCode ||
       actual.cefr !== expected.cefr ||
       actual.batchIndex !== expected.batchIndex ||
+      actual.plannedMaximumBatchSize !== expected.plannedMaximumBatchSize ||
       actual.reviewProfile !== expected.reviewProfile ||
       actual.exerciseTargetPerPoint !== expected.exerciseTargetPerPoint ||
       actual.requiresRegressionAfterBatch !== expected.requiresRegressionAfterBatch ||
