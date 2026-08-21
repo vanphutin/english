@@ -118,6 +118,7 @@ describe('IndependentContentReviewer', () => {
     expect(result.report.reviewer.provider).toBe('SECONDARY_OPENAI_COMPATIBLE');
     expect(result.report.reviewer.model).toBe('reviewer-model');
     expect(result.report.reviewer.promptVersion).toBe('cf3-independent-review-v1');
+    expect(result.reviewProfile).toBe('STANDARD');
     expect(result.readyForOwnerApproval).toBe(true);
   });
 
@@ -131,6 +132,26 @@ describe('IndependentContentReviewer', () => {
     });
 
     expect(result.report.decision).toBe('PASS');
+    expect(result.readyForOwnerApproval).toBe(false);
+  });
+
+  it('automatically escalates C1/C2 to stricter CF4 review thresholds', async () => {
+    const reviewer = new IndependentContentReviewer(new FakeReviewer(90));
+    const advancedArtifact: GrammarPointBundleSpec = {
+      ...artifact,
+      code: 'C1_REVIEW_POINT',
+      cefr: 'C1',
+    };
+    const result = await reviewer.reviewGrammarPoint({
+      runId: '11111111-1111-4111-8111-111111111111',
+      artifact: advancedArtifact,
+      authorProvider: 'OPENAI',
+      authorModel: 'author-model',
+      reviewProfile: 'STANDARD',
+    });
+
+    expect(result.reviewProfile).toBe('ADVANCED');
+    expect(result.report.reviewer.promptVersion).toBe('cf4-independent-review-advanced-v1');
     expect(result.readyForOwnerApproval).toBe(false);
   });
 
