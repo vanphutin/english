@@ -63,9 +63,9 @@ export type PilotGrammarTarget = GrammarTarget & { cefr: 'A1' };
 
 export interface GrammarRevisionContext {
   attempt: 2 | 3;
-  previousArtifactHash?: string;
-  reviewerFindings?: unknown[];
-  reasonCodes?: string[];
+  previousArtifactHash?: string | undefined;
+  reviewerFindings?: unknown[] | undefined;
+  reasonCodes?: string[] | undefined;
 }
 
 export const CF3_GRAMMAR_AUTHOR_PROMPT_VERSION = 'cf3-grammar-author-v1';
